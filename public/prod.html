@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic OG Image</title>
+
+    <!-- Default Open Graph meta tags -->
+    <meta property="og:title" content="My Page">
+    <meta property="og:description" content="Check out this image!">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const imgValue = sessionStorage.getItem("imgg"); // Retrieve from sessionStorage
+
+            if (imgValue) {
+                // Update the OG meta tag with the stored image
+                const ogImageMeta = document.querySelector('meta[property="og:image"]');
+                if (ogImageMeta) {
+                    ogImageMeta.setAttribute("content", imgValue);
+                }
+
+                // Optional: Update og:url dynamically
+                const ogUrlMeta = document.querySelector('meta[property="og:url"]');
+                if (ogUrlMeta) {
+                    ogUrlMeta.setAttribute("content", window.location.href);
+                }
+
+                console.log("OG Image Updated:", imgValue);
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Dynamic Open Graph Image</h1>
+    <p>Image will be set dynamically.</p>
+</body>
+</html>
