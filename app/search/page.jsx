@@ -101,13 +101,7 @@ const Body = () => {
 
             <div className="br_min-h-screen br_relative mt-5">
 
-                <header className="br_text-white  br_p-3 br_pt-11 md:br_py-20 br_flex md:br_justify-center">
-                    <div className="br_text-left md:br_max-w-[600px] lg:br_max-w-[800px] md:br_text-center br_flex br_flex-col br_gap-2  md:br_gap-4 md:br_items-center">
-                        <h1 className="myBB br_text-3xl-serif md:br_text-4xl-serif initial:br_text-white">
-                            Are you looking for one of these?
-                        </h1>
-                    </div>
-                </header>
+        
                 <div className="br_flex">
 
 
