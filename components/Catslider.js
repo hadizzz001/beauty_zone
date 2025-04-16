@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import CatSlider1 from './CatSlider1'; // 👈 import your new component
+import CatSlider1 from '../components/Catslider1'
 
 const YourComponent = () => {
   const [allTemp2, setAllTemps2] = useState([]);
