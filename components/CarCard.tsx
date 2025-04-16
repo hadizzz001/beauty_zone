@@ -1,98 +1,75 @@
 "use client";
 
-import Image from "next/image";
 import { TempProps } from "../types";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 interface CarCardProps {
-  temp: TempProps;
+    temp: TempProps;
 }
 
 const CarCard = ({ temp }: CarCardProps) => {
-  const { _id, title, price, img, category } = temp;
+    const { _id, title, price, discount, img, category } = temp;
 
-  const [isCodeValid, setIsCodeValid] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    return (
+        <a href={`/product?id=${_id}`} >
+            <div className="br_grid br_grid-cols-1 supports-subgrid:br_row-span-4 supports-subgrid:br_grid-rows-[subgrid]">
+                <div className="Layout br_contents">
+                    <center>
+                        <span className="br_contents br_edition-">
+                            <div className="">
+                                <div className="initial:br_row-span-1 br_col-start-1 br_row-start-1 br_relative">
+                                    <div className="br_aspect-[1/1] sm:br_aspect-square">
+                                        <div className="br_w-full br_h-full br_relative br_flex br_items-center br_justify-center">
+                                            <div className="w-[300px] h-[350px] relative rounded-[20px] overflow-hidden">
+                                                {/* Default Image */}
+                                                <motion.img
+                                                    src={img[0]}
+                                                    className="absolute w-full h-full object-cover"
+                                                    style={{ borderRadius: "20px" }}
+                                                    initial={{ opacity: 1 }}
+                                                    whileHover={{ opacity: 0 }}
+                                                    whileTap={{ opacity: 0 }}
+                                                    transition={{ duration: 0.5 }}
+                                                />
+                                                {/* Hover Image */}
+                                                <motion.img
+                                                    src={img[1]}
+                                                    className="absolute w-full h-full object-cover"
+                                                    style={{ borderRadius: "20px" }}
+                                                    initial={{ opacity: 0 }}
+                                                    whileHover={{ opacity: 1 }}
+                                                    whileTap={{ opacity: 1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                />
+                                            </div>
+                                        </div>
 
-  useEffect(() => {
-    // Check localStorage for the code
-    const storedCode = localStorage.getItem("accessCode");
-    if (storedCode === "abcd12345") {
-      setIsCodeValid(true);
-    }
+                                    </div>
+                                </div>
+                                <div className="ml-2 text-left initial:br_row-span-1 br_col-start-1 br_row-start-2 br_px-3 group-[.centered]/tile:br_justify-center group-[.centered]/tile:br_text-center">
+                                    <h3 style={{ height: "100px" }} className="br_text-base-sans-spaced br_line-clamp-2 sm:br_line-clamp-none edition:br_text-grey-500 edition:br_hidden first:edition:br_inline edition:before:br_content-['_–_'] apex:edition:br_text-grey-300">
+                                        <a
+                                            href={`/product?id=${_id}`}
+                                            className="br_text-current br_no-underline"
+                                        >
+                                            <h2 className="text-sm font-bold myBB  py-1">{title}</h2>
+                                            <h2 className="text-sm font-bold myBB  py-1">{category}</h2>
+                                            <div className="price-container br_inline-flex br_flex-wrap br_gap-x-2 br_items-baseline apex:br_text-white group-[.centered]/tile:br_justify-center">
+                                                <span className="old-price text-left text-sm   py-1   br_line-through myBB">${price} USD</span>
+                                                <span className="old-price text-left text-sm bg-gray-500 py-1 rounded br_text-gray-500 p-[4px]">${discount} USD</span>
+                                            </div>
 
-    // Auto-slide images every 3 seconds
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === img.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
 
-    // Cleanup the interval on component unmount
-    return () => clearInterval(interval);
-  }, [img.length]);
-
-  const modifiedUrl = img[currentImageIndex].replace(
-    "/upload/",
-    "/upload/w_500/q_30/f_auto/"
-  );
-
-  return (
-    <div className="br_grid br_grid-cols-1 supports-subgrid:br_row-span-4 supports-subgrid:br_grid-rows-[subgrid]">
-      <div className="Layout br_contents">
-        <center>
-          <span className="br_contents br_edition-">
-            <div className="">
-              <div className="initial:br_row-span-1 br_col-start-1 br_row-start-1 br_relative">
-                <div className="br_aspect-[4/5] sm:br_aspect-square">
-                  <div className="br_w-full br_h-full br_relative br_flex br_items-center br_justify-center">
-                    <div className="relative br_w-full br_h-full br_flex br_justify-center br_items-center">
-                      {category === "Hot Sale" && (
-                        <img
-                          src="https://res.cloudinary.com/drupytlml/image/upload/v1740521061/m5fzgzf1a4p6xn3bj1mn.png"
-                          alt="Hot Sale Badge"
-                          className="absolute left-0 w-44 h-44 sm:w-44 sm:h-44"
-                          style={{ top: "-20px" }}
-                        />
-                      )}
-                      <img
-                        className="br_w-full br_h-full br_object-center br_object-contain br_mx-auto br_max-h-64 sm:br_max-h-72 sm:br_px-4"
-                        alt="Car Image"
-                        loading="lazy"
-                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 50vw"
-                        src={modifiedUrl}
-                      />
-                    </div>
-                  </div>
+                                        </a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </span>
+                    </center>
                 </div>
-              </div>
-              <div className="initial:br_row-span-1 br_col-start-1 br_row-start-2 br_px-3 group-[.centered]/tile:br_justify-center group-[.centered]/tile:br_text-center">
-                <h3
-                  style={{ height: "100px" }}
-                  className="br_text-base-sans-spaced br_line-clamp-2 sm:br_line-clamp-none edition:br_text-grey-500 edition:br_hidden first:edition:br_inline edition:before:br_content-['_–_'] apex:edition:br_text-grey-300"
-                >
-                  <a
-                    href={`/product?id=${_id}&&imgg=${modifiedUrl}`}
-                    className="br_text-current br_no-underline"
-                  >
-                    {title}
-                    <br />
-                    {!isCodeValid ? (
-                      <span></span>
-                    ) : (
-                      <span>${price}</span>
-                    )}
-                    <span className="br_absolute br_inset-0 br_z-10" />
-                  </a>
-                </h3>
-              </div>
             </div>
-          </span>
-        </center>
-      </div>
-    </div>
-  );
-};
+        </a>
+    );
+}
 
 export default CarCard;

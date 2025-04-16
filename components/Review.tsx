@@ -51,12 +51,8 @@ const Review =   () => {
                                     <div className="flex items-center mb-4" style={{ display: "inline" }}>
                                         <img className="w-20 h-20 rounded-full" src="https://www.svgrepo.com/show/527946/user-circle.svg" alt="" />
                                         <div className="font-medium dark:text-white">
-                                            <p>{post.name}</p>
-                                            <p>{
-                                                
-                                            post.date.split('T')[0]
+                                            <p style={{color:'#222'}}>{post.name}</p>
                                             
-                                            }</p>
                                         </div>
                                     </div>
 

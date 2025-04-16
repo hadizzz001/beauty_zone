@@ -2,19 +2,12 @@
 import { useState, useEffect } from "react";
 import ProductList from './ProductList'; 
 import ProductList1 from './ProductList1'; 
-import ProductArrival from './ProductArrival'; 
-import ProductList2 from './ProductList2'; 
+import ProductArrival from './ProductArrival';  
 import Contact from './Contact'; 
 import Design from './Design';
 import Review from './Review';
-import Rate from './Rate';
-import Carousel from './Carousel';
-import BrandCarousel from './BrandCarousel';
-import Image from 'next/image';
-import Catslider from './Catslider';
-import TikTokEmbed from './TikTokEmbed';
-import FacebookEmbed from './FacebookEmbed';
-import InstagramPost from './InstagramPost'; 
+import Rate from './Rate';  
+import Catslider from './Catslider'; 
 
 
 
@@ -152,18 +145,14 @@ const Body = () => {
 
         <div id="usp-scroll-to"></div>
 
-        <Carousel />
+       
         <Catslider />
-        <BrandCarousel />
-        {/* <ProductList2 /> */}
+        
         <ProductArrival />
         <ProductList />
         <ProductList1 />
         <Design />
-        
-        <TikTokEmbed />
-        <FacebookEmbed />
-        <InstagramPost />
+ 
 
         <style
           type="text/css"

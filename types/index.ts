@@ -14,6 +14,7 @@ export interface TempProps{
     category:string;
     price:string;
     img: string;
+    discount: string
 }
 
 export interface TempProps1{ 

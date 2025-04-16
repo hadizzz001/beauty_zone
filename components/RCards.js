@@ -124,7 +124,7 @@ export default function Test() {
      >
        <a
          className="product-link"
-         href={`/product?id=${item.id}&&imgg=${item.img[0]}`}
+         href={`/product?id=${item.id}`}
          aria-label="Brothers Dopp Kit Duo . Brownish"
          data-grid-link="/products/brothers-dopp-kit-duo-brownish"
        >
@@ -152,7 +152,7 @@ export default function Test() {
      >
        <a
          className="product-link product-link--info"
-         href={`/product?id=${item.id}&&imgg=${item.img[0]}`}
+         href={`/product?id=${item.id}`}
          aria-label="Brothers Dopp Kit Duo . Brownish"
          data-grid-link="/products/brothers-dopp-kit-duo-brownish"
        >

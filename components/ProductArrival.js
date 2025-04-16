@@ -83,7 +83,7 @@ const YourComponent = () => {
                                         <section className=' mb-5' style={{ maxWidth: "100%" }}>
                                             <Swiper spaceBetween={5} loop breakpoints={{
                                                 150: {
-                                                    slidesPerView: 3,
+                                                    slidesPerView: 2,
                                                 },
                                                 768: {
                                                     slidesPerView: 6,
