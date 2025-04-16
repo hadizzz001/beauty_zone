@@ -342,8 +342,8 @@ const Page = () => {
                                         type="button"
                                         onClick={() => setSelectedSize(sz)}
                                         className={`px-4 py-2 border rounded-md ${selectedSize === sz
-                                            ? 'bg-black text-white'
-                                            : 'bg-white text-black border-gray-300'
+                                          ? 'bg-black text-white'
+                                          : 'bg-white text-black border-gray-300'
                                           }`}
                                       >
                                         {sz}
@@ -367,9 +367,23 @@ const Page = () => {
                             <div className="">
                               <span className="ProvidersSingleProduct--selected">
                                 {stock === undefined ? (
-                                  <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
-                                    <span>ADD TO CART</span>
-                                  </button>
+                                  allTemp1 && allTemp1.colors && allTemp1.colors.length > 0 ? (
+                                    allTemp1.colors.every(color => parseInt(color.qty) === 0) ? (
+                                      <p className="mt-10" style={{ color: "#222", fontSize: "24px" }}>
+                                      Out of Stock
+                                    </p>
+                                    ) : (
+                                      <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
+                                        <span>ADD TO CART</span>
+                                      </button>
+                                    )
+                                  ) : (
+                                    // fallback or loading button if alltemp1 is not yet loaded
+                                    <button disabled className="AddToCart HtmlProductAddToCart bg-gray-300 text-gray-600" style={{ borderRadius: "0" }}>
+                                      <span>Loading...</span>
+                                    </button>
+                                  )
+
                                 ) : stock > 0 ? (
                                   <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
                                     <span>ADD TO CART</span>
