@@ -38,11 +38,7 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
                     });
                 }
     
-                const result = await response.json();
-    
-                if (!response.ok) {
-                    throw new Error(result.error || "Failed to update stock");
-                }
+                
             }
     
             // Step 2: If stock update is successful, create the order

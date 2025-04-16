@@ -1,4 +1,4 @@
-import clientPromise from '../../../lib/mongodb'; // Adjust if needed
+import clientPromise from '../../../lib/mongodb'; // Adjust path if needed
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
@@ -15,12 +15,14 @@ export async function PATCH(request, { params }) {
     const product = await collection.findOne({ _id: new ObjectId(productId) });
 
     if (!product) {
+      console.log('❌ Product not found for ID:', productId);
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
     const colorIndex = product.colors.findIndex(color => color.code === id);
 
     if (colorIndex === -1) {
+      console.log('❌ Color code not found:', id);
       return NextResponse.json({ error: 'Color not found' }, { status: 404 });
     }
 
@@ -28,29 +30,40 @@ export async function PATCH(request, { params }) {
     const decreaseQty = parseInt(qty, 10);
 
     if (isNaN(currentQty) || isNaN(decreaseQty)) {
+      console.log('❌ Invalid quantity values:', currentQty, decreaseQty);
       return NextResponse.json({ error: 'Invalid quantity' }, { status: 400 });
     }
 
     if (currentQty < decreaseQty) {
+      console.log(`❌ Insufficient quantity: have ${currentQty}, need ${decreaseQty}`);
       return NextResponse.json({ error: 'Insufficient color quantity' }, { status: 400 });
     }
 
-    // Update the specific color.qty
+    const newQty = (currentQty - decreaseQty).toString();
     const updateQuery = {};
-    updateQuery[`colors.${colorIndex}.qty`] = (currentQty - decreaseQty).toString();
+    updateQuery[`colors.${colorIndex}.qty`] = newQty;
+
+    console.log('🔧 Update Query:', updateQuery);
 
     const updated = await collection.findOneAndUpdate(
       { _id: new ObjectId(productId) },
       { $set: updateQuery },
-      { returnDocument: 'after' }
+      { returnDocument: "after" }
     );
 
+    if (!updated.value) {
+      console.log('❌ Update succeeded but value is null');
+      return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });
+    }
+
+    console.log('✅ Color stock updated:', updated.value.colors[colorIndex]);
+
     return NextResponse.json({
-      success: true,
-      updatedColor: updated.value.colors[colorIndex]
+      success: true, 
     });
+
   } catch (error) {
-    console.error('Error updating color stock:', error);
+    console.error('❌ Error updating color stock:', error);
     return NextResponse.json({ error: 'Failed to update color stock' }, { status: 500 });
   }
 }
@@ -88,7 +101,7 @@ export async function GET(request, { params }) {
 
     return NextResponse.json({ code: id, stock });
   } catch (error) {
-    console.error('Error fetching color stock:', error);
+    console.error('❌ Error fetching color stock:', error);
     return NextResponse.json({ error: 'Failed to fetch color stock' }, { status: 500 });
   }
 }
