@@ -36,7 +36,7 @@ const YourComponent = () => {
 
   return (
     <div className="ProvidersIfSelectedProductMatchesFilter mt-4">
-      {Object.keys(groupedProducts).length > 0 ? (
+      {Object.keys(groupedProducts)?.length > 0 ? (
         Object.keys(groupedProducts).map((category) => (
           <div key={category}>
             <style
@@ -79,7 +79,7 @@ const YourComponent = () => {
                 </span>
               </div>
 
-              {groupedProducts[category].length > 0 ? (
+              {groupedProducts[category]?.length > 0 ? (
                 <section className="mb-5" style={{ maxWidth: "100%" }}>
                   <Swiper
                     spaceBetween={5}

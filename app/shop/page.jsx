@@ -85,9 +85,9 @@ const fetchProducts = async () => {
 
       // Apply filtering based on checked categories, subcategories, and brands
       const filteredData = data.filter(product => {
-        const categoryMatch = checkedCategories.length > 0 ? checkedCategories.includes(product.category) : true;
-        const subcategoryMatch = checkedCategories1.length > 0 ? checkedCategories1.includes(product.subcategory) : true;
-        const brandMatch = checkedCategories2.length > 0 ? checkedCategories2.includes(product.brand) : true;
+        const categoryMatch = checkedCategories?.length > 0 ? checkedCategories.includes(product.category) : true;
+        const subcategoryMatch = checkedCategories1?.length > 0 ? checkedCategories1.includes(product.subcategory) : true;
+        const brandMatch = checkedCategories2?.length > 0 ? checkedCategories2.includes(product.brand) : true;
 
         return categoryMatch && subcategoryMatch && brandMatch;
       });

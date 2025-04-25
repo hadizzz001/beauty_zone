@@ -134,7 +134,7 @@ console.log("allTemp ", allTemp);
 
 
 
-{allTemp && allTemp.length > 0 ? (
+{allTemp && allTemp?.length > 0 ? (
         allTemp.map((item, index) => (
           <div
             key={item._id}

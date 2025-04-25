@@ -39,8 +39,8 @@ export default function SpinGame() {
     if (hasPlayed || isSpinning) return;
 
     setIsSpinning(true);
-    const segmentAngle = 360 / prizes.length;
-    const randomIndex = Math.floor(Math.random() * prizes.length);
+    const segmentAngle = 360 / prizes?.length;
+    const randomIndex = Math.floor(Math.random() * prizes?.length);
     const fullRotations = 5;
     const newRotation = fullRotations * 360 + randomIndex * segmentAngle + (Math.random() * segmentAngle);
 

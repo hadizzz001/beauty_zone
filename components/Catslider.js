@@ -43,7 +43,7 @@ const YourComponent = () => {
 
   // Chunk categories into rows of 2
   const chunkedCategories = [];
-  for (let i = 0; i < allTemp2.length; i += 2) {
+  for (let i = 0; i < allTemp2?.length; i += 2) {
     chunkedCategories.push(allTemp2.slice(i, i + 2));
   }
 
@@ -82,7 +82,7 @@ const YourComponent = () => {
         }}
       />
 
-      {chunkedCategories.length > 0 ? (
+      {chunkedCategories?.length > 0 ? (
         <>
           {chunkedCategories.map((row, rowIndex) => (
             <div key={rowIndex}>
@@ -100,7 +100,7 @@ const YourComponent = () => {
               </div>
 
               {/* Inject subcategories after the selected row */}
-              {activeRowIndex === rowIndex && filteredSubs.length > 0 && (
+              {activeRowIndex === rowIndex && filteredSubs?.length > 0 && (
                 <div className="mb-4">
                   <CatSlider1 subcategories={filteredSubs} />
                 </div>

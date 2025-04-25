@@ -45,7 +45,7 @@ const YourComponent = () => {
         <div className="ProvidersIfSelectedProductMatchesFilter mt-4">
             <content-block slug="product-page-wssb">
                 <div className="ProductTile-SliderContainer ProductTile-SliderContainer--YMAL">
-                    {hotSaleItems.length > 0 ? (
+                    {hotSaleItems?.length > 0 ? (
                         <>
                             <style dangerouslySetInnerHTML={{
                                 __html: ".ProductTile-SliderContainer--YMAL .ProductTile-SliderContainer-Title{height:auto;text-align:center; }"

@@ -59,7 +59,7 @@ export default function ChatWidget() {
       if (hasValidColors) {
         setStep("color");
         return setMessages((m) => [...m, { from: "bot", text: "🎨 Choose a color:" }]);
-      } else if (validSizes.length > 0) {
+      } else if (validSizes?.length > 0) {
         setStep("size");
         return setMessages((m) => [...m, { from: "bot", text: "📏 Choose a size:" }]);
       } else {
@@ -84,7 +84,7 @@ export default function ChatWidget() {
         (s) => s && s.trim() !== ""
       );
 
-      if (validSizes.length > 0) {
+      if (validSizes?.length > 0) {
         setStep("size");
         setMessages((m) => [...m, { from: "bot", text: "📏 Choose a size:" }]);
       } else {
@@ -252,9 +252,9 @@ if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
                       const validSizes = currentProduct.product.sizes?.filter(
                         (s) => s && s.trim() !== ""
                       );
-                      console.log("validSizes: ", validSizes.length);
+                      console.log("validSizes: ", validSizes?.length);
 
-                      if (validSizes.length > 0) {
+                      if (validSizes?.length > 0) {
                         console.log("Entered cuz valid size");
                         setStep("size");
                         setMessages((m) => [...m, { from: "bot", text: "📏 Choose a size:" }]);
@@ -384,7 +384,7 @@ if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
             )}
 
 
-            {products.length > 0 && products.map((p, i) => (
+            {products?.length > 0 && products.map((p, i) => (
               <div key={i} onClick={() => selectProduct(p)} className="p-2 border rounded mb-2 cursor-pointer">
                 <img src={p.img[0]} className="w-full h-24 object-cover rounded" />
                 <p className="font-bold">{p.title}</p>

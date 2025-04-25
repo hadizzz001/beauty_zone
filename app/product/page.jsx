@@ -131,7 +131,7 @@ const Page = () => {
 
 
     if (!stock) {
-      if (selectedColor.length === 0) {
+      if (selectedColor?.length === 0) {
         alert("Please select at least one color.");
         return;
       }
@@ -193,7 +193,7 @@ const Page = () => {
                           }} />
                           <div className="HtmlProductInfiniteGallery__Wrapper">
                             <div className="HtmlProductInfiniteGallery__Slides" style={{ transform: `translateX(${translateXValue}%)` }}>
-                              {imgs && imgs.length > 0 ? (
+                              {imgs && imgs?.length > 0 ? (
                                 imgs.map((item, index) => (
                                   <div key={index} onClick={() => setZoomedImg(item)} style={{ cursor: "zoom-in" }}>
                                     <div className="HtmlProductInfiniteGallery__Slides_Slide">
@@ -316,7 +316,7 @@ const Page = () => {
 
 
 
-                            {allTemp1?.colors && allTemp1.colors.length > 0 && (
+                            {allTemp1?.colors && allTemp1.colors?.length > 0 && (
                               <div className="my-4">
                                 <h2 className="font-semibold text-md mb-2">Select Colors:</h2>
                                 <div className="flex space-x-4 flex-wrap">
@@ -354,8 +354,8 @@ const Page = () => {
 
 
                             {allTemp1?.sizes &&
-                              allTemp1.sizes.length > 0 &&
-                              !(allTemp1.sizes.length === 1 && allTemp1.sizes[0] === "") && (
+                              allTemp1.sizes?.length > 0 &&
+                              !(allTemp1.sizes?.length === 1 && allTemp1.sizes[0] === "") && (
                                 <div className="my-4">
                                   <h2 className="font-semibold text-md mb-2">Select Sizes:</h2>
                                   <div className="flex flex-wrap gap-2">
@@ -390,7 +390,7 @@ const Page = () => {
                             <div className="">
                               <span className="ProvidersSingleProduct--selected">
                                 {!stock ? (
-                                  allTemp1 && allTemp1.colors && allTemp1.colors.length > 0 ? (
+                                  allTemp1 && allTemp1.colors && allTemp1.colors?.length > 0 ? (
                                     allTemp1.colors.every(color => parseInt(color.qty) === 0) ? (
                                       <p className="mt-10" style={{ color: "#222", fontSize: "24px" }}>
                                         Out of Stock

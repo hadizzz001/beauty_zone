@@ -35,7 +35,7 @@ const YourComponent = () => {
             <content-block slug="product-page-wssb">
                 <div className="ProductTile-SliderContainer ProductTile-SliderContainer--YMAL">
 
-                    {allTemps && Object.keys(allTemps).length > 0 ? (
+                    {allTemps && Object.keys(allTemps)?.length > 0 ? (
                         
                             <>
 
@@ -79,7 +79,7 @@ const YourComponent = () => {
                                         </span>
                                     </div>
 
-                                    {allTemps.length > 0 ? (
+                                    {allTemps?.length > 0 ? (
                                         <section className=' mb-5' style={{ maxWidth: "100%" }}>
                                             <Swiper spaceBetween={5} loop breakpoints={{
                                                 150: {

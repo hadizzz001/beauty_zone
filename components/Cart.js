@@ -144,7 +144,7 @@ const Cart = () => {
                                 <span className="Checkout_Cart_TableHeading_Total">Total price</span>
                             </div>
                             <div className="Checkout_Cart_LineItems">
-                                {cart && cart.length > 0 ? (
+                                {cart && cart?.length > 0 ? (
                                     cart.map((obj) => (
                                         <div key={obj._id}>
                                             <div className="Checkout_Cart_LineItems_LineItem">

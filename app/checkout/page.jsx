@@ -72,7 +72,7 @@ const page = () => {
 
 
   useEffect(() => {
-    if (cart.length > 0) {
+    if (cart?.length > 0) {
       const highestFee = Math.max(
         ...cart.map(item => parseFloat(item.delivery || "0"))
       );
@@ -87,8 +87,7 @@ const page = () => {
  
 
 
-  useEffect(() => {
-    // Update total whenever subtotal or delivery fee changes
+  useEffect(() => { 
     setTotal((subtotal + deliveryFee).toFixed(2));
   }, [subtotal, deliveryFee]);
 
@@ -194,7 +193,7 @@ const page = () => {
         media=""
       />
 
-      {cart && cart.length > 0 ? (
+      {cart && cart?.length > 0 ? (
         <div className="wfacp-template-container">
 
 

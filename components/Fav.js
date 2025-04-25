@@ -69,7 +69,7 @@ const Cart = () => {
                                 <span className="Checkout_Cart_TableHeading_Total">Total price</span>
                             </div>
                             <div className="Checkout_Cart_LineItems">
-                                {favorites && favorites.length > 0 ? (
+                                {favorites && favorites?.length > 0 ? (
                                     favorites.map((obj) => (
                                         <div key={obj._id}>
                                             <div className="Checkout_Cart_LineItems_LineItem">
