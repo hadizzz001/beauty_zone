@@ -51,7 +51,7 @@ const YourComponent = () => {
                                 <div className="  ProductTile-SliderContainer ProductTile-SliderContainer--YMAL px-3" data-product-list-category="ymal-slider">
 
                                     <div className="ProductTile-SliderContainer-Title br_text-3xl-serif br_text-[#333] " style={{ textAlign: "left", textAlign: "left", fontSize: "1.3em", fontWeight: "bold", fontFamily: 'Manrope' }}>  
-                                    <a href={`/search?cat=yes`}>New Arrivals</a>
+                                    <a href={`/search?cat=yes`}>Best Seller</a>
                                         <span style={{ position: "absolute", right: "1em" }}><svg
                                             fill="#000000"
                                             viewBox="0 0 24 24"

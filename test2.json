@@ -1,0 +1,45 @@
+[
+  {
+    "id": "680bf61d74f105a4228a9632",
+    "userInfo": [
+      {
+        "title": "tester123",
+        "discount": "6",
+        "quantity": 4,
+        "img": [
+          "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745413381/970487901-ECOM_nmod0r.webp"
+        ],
+        "category": "Nails",
+        "subcategory": "uv gel catalogs",
+        "brand": "Perma Blend",
+        "selectedColor": "new111",
+        "selectedSize": null
+      },
+      {
+        "title": "tst1",
+        "discount": "5",
+        "quantity": 2,
+        "img": [
+          "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745410292/41vMDozIHGL._SL1500__igevd7.jpg"
+        ],
+        "category": "Nails",
+        "subcategory": "machines",
+        "brand": "Perma Blend",
+        "selectedSize": null
+      }
+    ],
+    "cartItems": {
+      "fname": "aaaa",
+      "lname": "",
+      "phone": "3242",
+      "address": "bbb",
+      "deliveryType": "delivery"
+    },
+    "total": "56",
+    "delivery": "20",
+    "paid": false,
+    "num": null,
+    "remark": null,
+    "date": "25/April/2025"
+  }
+]

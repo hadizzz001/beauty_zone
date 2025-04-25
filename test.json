@@ -1,0 +1,83 @@
+[
+    {
+      "id": "680a802113e39f2f7da0d7d0",
+      "userInfo": [
+        {
+          "_id": "6808e517418ca7e90f5fc859",
+          "title": "tester123",
+          "description": "\u003Cp\u003Easdsda\u003C/p\u003E",
+          "price": "15",
+          "discount": "6",
+          "img": [
+            "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745413381/970487901-ECOM_nmod0r.webp"
+          ],
+          "category": "Nails",
+          "subcategory": "uv gel catalogs",
+          "brand": "Perma Blend",
+          "colors": [
+            {
+              "code": "color1",
+              "img": [
+                "https://res.cloudinary.com/dqzzfskhw/image/upload/v1744628122/Green_ia8pgk.webp"
+              ],
+              "qty": "15"
+            },
+            {
+              "code": "color2",
+              "img": [
+                "https://res.cloudinary.com/dqzzfskhw/image/upload/v1744628131/images_zwvvqb.png"
+              ],
+              "qty": "999"
+            },
+            {
+              "code": "new123",
+              "img": [
+                "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745429936/images_1_ee_dk3aar.png"
+              ],
+              "qty": "50"
+            },
+            {
+              "code": "new55",
+              "img": [
+                "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745429954/images_1_zz_a0fssa.png"
+              ],
+              "qty": "99"
+            },
+            {
+              "code": "new111",
+              "img": [
+                "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745429963/light-yellow-matt-suede-fabric-closeup-velvet-texture-felt-matte-background-seamless-golden-woolen-131059111_u2arj1.webp"
+              ],
+              "qty": "999"
+            }
+          ],
+          "sizes": [
+            ""
+          ],
+          "points": "555",
+          "delivery": "20",
+          "arrival": "yes",
+          "stock": null,
+          "quantity": 1,
+          "selectedColor": "new123",
+          "selectedSize": ""
+        }
+      ],
+      "cartItems": {
+        "fname": "ff",
+        "lname": "ee",
+        "phone": "123",
+        "address": "ad",
+        "email": "",
+        "note": "dasdsa",
+        "deliveryType": "delivery"
+      },
+      "total": "26.00",
+      "delivery": "20",
+      "paid": false,
+      "num": null,
+      "remark": null,
+      "date": "24/April/2025"
+    }
+ 
+  ]

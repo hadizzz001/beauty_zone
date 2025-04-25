@@ -54,7 +54,7 @@ const YourComponent = () => {
                   fontFamily: 'Manrope'
                 }}
               >
-                <a href={`/search?cat=${category}`}>{category}</a>
+                <a href={`/search?cat=${encodeURIComponent(category)}`}>{category}</a>
                 <span style={{ position: "absolute", right: "1em" }}>
                   <svg
                     fill="#000000"

@@ -1,11 +1,8 @@
 "use client"
 
-
-
-import { useState, useEffect } from "react";  
+import { useState, useEffect } from "react";
 import { useCart } from '../context/CartContext';
 import WhatsAppButton from "../../components/WhatsAppButton";
-
 
 const page = () => {
 
@@ -13,11 +10,30 @@ const page = () => {
   const [localQuantities, setLocalQuantities] = useState(quantities);
   const [phone, setPhone] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  
   const [deliveryFee, setDeliveryFee] = useState(4);
   const [total, setTotal] = useState((subtotal + deliveryFee).toFixed(2));
+  const [promoCode, setPromoCode] = useState("");
+  const [discountApplied, setDiscountApplied] = useState(false);
+  const [deliveryType, setDeliveryType] = useState('delivery'); // default is delivery
 
-
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setDeliveryType(value);
+  
+    if (value === 'onstore') {
+      setDeliveryFee(0);
+    } else {
+      // Set to highest delivery fee from cart items
+      const highestFee = Math.max(...cart.map(item => parseFloat(item.delivery || "0")));
+      setDeliveryFee(highestFee);
+    }
+  
+    setInputs((prev) => ({
+      ...prev,
+      deliveryType: value,
+    }));
+  };
+  
 
   const [inputs, setInputs] = useState({
     fname: "",
@@ -25,6 +41,8 @@ const page = () => {
     phone: "",
     address: '',
     email: '',
+    note: '',
+    deliveryType: 'delivery',
   });
 
 
@@ -53,23 +71,69 @@ const page = () => {
 
 
 
-
-
-
-
-
-
+  useEffect(() => {
+    if (cart.length > 0) {
+      const highestFee = Math.max(
+        ...cart.map(item => parseFloat(item.delivery || "0"))
+      );
+      setDeliveryFee(highestFee);
+    } else {
+      setDeliveryFee(4);
+    }
+  }, [cart]);
 
 
 
  
+
 
   useEffect(() => {
     // Update total whenever subtotal or delivery fee changes
     setTotal((subtotal + deliveryFee).toFixed(2));
   }, [subtotal, deliveryFee]);
 
- 
+
+  const applyPromo = (event) => {
+    event.preventDefault();
+  
+    if (discountApplied) {
+      alert("Promo code already applied.");
+      return;
+    }
+  
+    const usedPromos = JSON.parse(localStorage.getItem("usedPromos") || "[]");
+    if (usedPromos.includes(promoCode)) {
+      alert("You’ve already used this promo code.");
+      return;
+    }
+  
+    let newTotal = subtotal + deliveryFee;
+    let discount = 0;
+  
+    if (promoCode === "xyz123") {
+      discount = subtotal * 0.05;
+      newTotal = newTotal - discount;
+    } else if (promoCode === "abcd12345") {
+      discount = subtotal * 0.10;
+      newTotal = newTotal - discount;
+    } else if (promoCode === "uuu2025") {
+      newTotal = subtotal; // free delivery
+      setDeliveryFee(0);
+    } else {
+      alert("Invalid promo code.");
+      return;
+    }
+  
+    // Save promo as used in localStorage
+    localStorage.setItem("usedPromos", JSON.stringify([...usedPromos, promoCode]));
+  
+    setTotal(newTotal.toFixed(2));
+    setDiscountApplied(true);
+    alert("Promo code applied!");
+  };
+  
+
+
 
 
 
@@ -235,7 +299,7 @@ const page = () => {
 
 
 
-                        
+
                         {/* <div style={{
                           display: "flex",
                           alignItems: "center",
@@ -269,7 +333,7 @@ const page = () => {
                             }}
                             disabled={discountApplied} // Disable button when discount is applied
                           >
-                            {discountApplied ? "Done!" : "Apply"}  
+                            {discountApplied ? "Done!" : "Apply"}
                           </button>
                         </div> */}
 
@@ -482,13 +546,7 @@ const page = () => {
                                               htmlFor="billing_email"
                                               className="wfacp-form-control-label"
                                             >
-                                              Email&nbsp;
-                                              <abbr
-                                                className="required"
-                                                title="required"
-                                              >
-                                                *
-                                              </abbr>
+                                              Email
                                             </label>
                                             <span className="woocommerce-input-wrapper">
                                               <input
@@ -496,12 +554,12 @@ const page = () => {
                                                 className="input-text wfacp-form-control"
                                                 name="billing_email"
                                                 id="billing_email"
-                                                placeholder="Email *"
+                                                placeholder="Email"
                                                 defaultValue=""
                                                 autoComplete="email"
                                                 value={inputs.email}
                                                 onChange={handleTextboxChange('email')}
-                                                required
+
                                               />
                                             </span>{" "}
                                             <span
@@ -653,13 +711,39 @@ const page = () => {
                                               data-key="billing_email_field"
                                             />
                                           </p>
-
-
-                                          {" "}
-                                          <span
-                                            className="wfacp_inline_error"
-                                            data-key="billing_phone_field"
-                                          />
+                                          <p
+                                            className="form-row form-row-wide wfacp-form-control-wrapper wfacp-col-full  wfacp_field_required validate-required validate-email validate-email"
+                                            id="note_field"
+                                            data-priority={110}
+                                          >
+                                            <label
+                                              htmlFor="note"
+                                              className="wfacp-form-control-label"
+                                            >
+                                              Note&nbsp;
+                                              <abbr
+                                                className="required"
+                                                title="required"
+                                              >
+                                                *
+                                              </abbr>
+                                            </label>
+                                            <span className="woocommerce-input-wrapper">
+                                              <textarea
+                                                type="text"
+                                                className="input-text wfacp-form-control"
+                                                name="note"
+                                                id="note"
+                                                placeholder="note"
+                                                defaultValue=""
+                                                autoComplete="note"
+                                                value={inputs.note}
+                                                onChange={handleTextboxChange('note')} 
+                                              />
+                                            </span>{" "}
+                                          
+                                          </p>
+ 
                                           <p />{" "}
                                         </div>
                                       </div>
@@ -765,11 +849,7 @@ const page = () => {
                                                   }
                                                 </tbody>
 
-
-
-
-                                                
-                                                {/* <div style={{
+                                                <div style={{
                                                   display: "flex",
                                                   alignItems: "center",
                                                   gap: "5px",
@@ -800,11 +880,44 @@ const page = () => {
                                                       cursor: discountApplied ? "not-allowed" : "pointer",
                                                       background: discountApplied ? "green" : "#222",
                                                     }}
-                                                    disabled={discountApplied}  
+                                                    disabled={discountApplied}
                                                   >
-                                                    {discountApplied ? "Done!" : "Apply"}  
+                                                    {discountApplied ? "Done!" : "Apply"}
                                                   </button>
-                                                </div> */}
+                                                </div>
+
+
+
+                                                <h2 className="text-lg font-semibold mb-3">Select Delivery Option</h2>
+
+                                                <div className="space-y-2">
+                                                  <label className="flex items-center space-x-2 cursor-pointer">
+                                                    <input
+                                                      type="radio"
+                                                      name="delivery"
+                                                      value="delivery"
+                                                      checked={deliveryType === 'delivery'}
+                                                      onChange={handleChange}
+                                                    />
+                                                    <span>
+                                                      Delivery {deliveryType === 'delivery' && <span className="ml-1 text-black">✔</span>}
+                                                    </span>
+                                                  </label>
+                                                  <br />
+
+                                                  <label className="flex items-center space-x-2 cursor-pointer">
+                                                    <input
+                                                      type="radio"
+                                                      name="delivery"
+                                                      value="onstore"
+                                                      checked={deliveryType === 'onstore'}
+                                                      onChange={handleChange}
+                                                    />
+                                                    <span>
+                                                      On Store {deliveryType === 'onstore' && <span className="ml-1 text-black">✔</span>}
+                                                    </span>
+                                                  </label>
+                                                </div>
 
                                                 <tfoot>
                                                   <tr className="cart-subtotal">

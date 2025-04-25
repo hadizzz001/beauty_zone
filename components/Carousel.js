@@ -1,54 +1,34 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react"; 
 
 const MyComponent = () => {
-  const [bannerUrl, setBannerUrl] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchBanner = async () => {
-      try {
-        const response = await fetch("/api/banner");
-        const data = await response.json();
-
-        if (data[0]?.img && data[0].img.length > 0) {
-          setBannerUrl(data[0].img[0]);
-        } else {
-          setError("No banner image available");
-        }
-      } catch (error) {
-        console.error("Failed to fetch banner:", error);
-        setError("Failed to fetch banner");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBanner();
-  }, []);
-
-  console.log("bannerUrl:", bannerUrl);
-
   return (
-    <div className=" mt-1">
-      <div className=" ">
-        {loading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
-        {bannerUrl ? (
-          <img
-  src={bannerUrl}
-  alt="Banner"
-  id="bannerid"
-  style={{ width: "100%", height: "25vh", objectFit: "cover" }}
-/>
+    <div className="mt-1 relative">
+      <div className="relative w-full">
+        <video
+          className="w-full h-[80vh] object-contain md:object-cover md:h-screen"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source
+            src="https://res.cloudinary.com/dqzzfskhw/video/upload/v1745162997/WhatsApp_Video_2025-04-20_at_16.45.28_aqhgk7.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
-
-
-        ) : (
-          !loading && !error && <p>No banner available</p>
-        )}
+      <div className="absolute bottom-48 w-full flex justify-center">
+        <a
+          href="/shop"
+          className="px-12 py-6 text-white font-bold text-lg rounded-full"
+          style={{ backgroundColor: "#5bbccd" , fontSize:"20px"}}
+        >
+          Shop Now
+        </a>
       </div>
     </div>
   );

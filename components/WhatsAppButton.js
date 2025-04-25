@@ -4,62 +4,54 @@ import { useState } from 'react';
 
 const WhatsAppButton = ({ inputs, items, total, delivery }) => {
     const { cart, removeFromCart, updateQuantity, clearCart, isModalOpen, toggleModal ,subtotal} = useCart();
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(null); 
  
     const createOrder = async () => {
         try {
-            // Step 1: Decrease stock for each product in the order
+            let earnedPoints = 0;
+    
             for (const item of items) {
-                const quantityToDecrease = parseInt(item.quantity, 10); // Convert quantity to integer
+                const quantityToDecrease = parseInt(item.quantity, 10);
+                earnedPoints += parseInt(item.points || 0) * quantityToDecrease;
     
                 let response;
                 if (item.stock === undefined) {
-                    console.log("entered stock1");
-                    
-                    // Use color-based PATCH API
                     response = await fetch(`/api/stock1/${item.selectedColor}`, {
                         method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             productId: item._id,
                             qty: quantityToDecrease,
                         }),
                     });
                 } else {
-                    console.log("entered stock");
                     response = await fetch(`/api/stock/${item._id}`, {
                         method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ qty: quantityToDecrease }),
                     });
                 }
-    
-                
             }
     
-            // Step 2: If stock update is successful, create the order
             const orderResponse = await fetch("/api/sendOrder", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     items,
                     inputs,
                     total,
-                    delivery, 
+                    delivery,
                 }),
             });
     
-            if (!orderResponse.ok) {
-                throw new Error("Failed to create order");
-            }
+            if (!orderResponse.ok) throw new Error("Failed to create order");
     
             console.log("Order created successfully!");
+    
+            // === Handle Points & VIP status ===
+            const currentPoints = parseInt(localStorage.getItem("userPoints") || "0");
+            const newTotalPoints = currentPoints + earnedPoints;
+            localStorage.setItem("userPoints", newTotalPoints); 
             alert("Order placed successfully!");
     
         } catch (error) {
@@ -70,10 +62,11 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
     
     
     
+    
 
     const handleClick = async () => {
         if (!validateInputs(inputs)) {
-            setError('All fields are required.');
+            setError('Please filll the required fields.');
             return;
         }
 
@@ -85,8 +78,8 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
     };
 
     const validateInputs = (inputs) => {
-        const { address, fname, lname, phone, email } = inputs;
-        return address && fname && lname && phone && email;
+        const { address, fname, lname, phone } = inputs;
+        return address && fname && lname && phone ;
     };
 
     return (
@@ -104,7 +97,7 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
 export default WhatsAppButton;
 
 const createWhatsAppURL = (inputs, items, total, delivery) => { 
-    const { address, fname, lname, phone , email} = inputs;
+    const { address, fname, lname, phone , email, note, deliveryType} = inputs;
 
     // Calculate the total amount
     const totalAmount = items.reduce((sum, item) => sum + item.discount * item.quantity, 0);
@@ -118,6 +111,7 @@ const createWhatsAppURL = (inputs, items, total, delivery) => {
     Name: ${fname} ${lname} 
     Phone: ${phone}
     Address: ${address}
+    Note: ${note}
 
     *Order Details:*
     ${items.map((item, index) => `
@@ -131,6 +125,7 @@ const createWhatsAppURL = (inputs, items, total, delivery) => {
     `).join('\n')}
 
     Subtotal: $${totalAmount.toFixed(2)}
+    Delivery Type: ${deliveryType}
     Delivery fee: $${delivery}
     *Total Amount:* $${total}
   `;

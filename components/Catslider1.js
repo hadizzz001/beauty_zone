@@ -71,7 +71,7 @@ const CatSlider1 = ({ subcategories }) => {
         <div className="embla__container flex">
           {subcategories.map((sub) => (
             <div className="embla__slide" key={sub.id}>
-              <a href={`/search?sub=${sub.name}`}>
+              <a href={`/search?sub=${encodeURIComponent(sub.name)}`}>
                 <div className="subcategory-card">
                   <img src={sub.img[0]} alt={sub.name} className="subcategory-image" />
                   <div className="subcategory-overlay">

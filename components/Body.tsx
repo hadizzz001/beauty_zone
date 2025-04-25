@@ -4,10 +4,14 @@ import ProductList from './ProductList';
 import ProductList1 from './ProductList1'; 
 import ProductArrival from './ProductArrival';  
 import Contact from './Contact'; 
+import Contact1 from './Contact1'; 
 import Design from './Design';
 import Review from './Review';
 import Rate from './Rate';  
 import Catslider from './Catslider'; 
+import Carousel from './Carousel'; 
+import Features from './Features'; 
+import BrandCarousel from './BrandCarousel'; 
 
 
 
@@ -146,7 +150,10 @@ const Body = () => {
         <div id="usp-scroll-to"></div>
 
        
+        <Features />
+        <Carousel />
         <Catslider />
+        <BrandCarousel />
         
         <ProductArrival />
         <ProductList />
@@ -167,6 +174,7 @@ const Body = () => {
 
  
         <Contact />
+        
          
 
         <Review />
@@ -198,7 +206,7 @@ const Body = () => {
 
 
 
-
+<Contact1 />
 
 
 

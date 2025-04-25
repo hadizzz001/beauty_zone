@@ -1,9 +1,16 @@
 "use client"
 import { useState, useEffect } from "react";
 import Cart from "../components/Cart"
+import Fav from "../components/Fav"
 import { useBooleanValue } from '../app/context/CartBoolContext';
 import { useCart } from '../app/context/CartContext';
+import { useFavorites } from '../app/context/FavContext';
 
+interface Category {
+  _id: string;
+  name: string;
+  slug?: string;
+}
 
 
 
@@ -15,6 +22,22 @@ function NavBar() {
   const [isActive2, setIsActive2] = useState(true);
   const { cart } = useCart();
   const [isHovered, setIsHovered] = useState(true);
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/category');
+        const data: Category[] = await res.json();
+        setCategories(data.slice(0, 5));
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // Function to handle hover
   const handleHover = () => {
@@ -91,6 +114,22 @@ function NavBar() {
 
 
 
+  const handleClickf = () => {
+    var cartb = document.getElementById("favid");
+    var cartb2 = document.getElementById("favid2");
+    setBooleanValue(!isBooleanValue);
+    if (cartb && cartb2) {
+      if (isBooleanValue) {
+        cartb2.className += " MiniCart_Cart-visible";
+      }
+      else {
+        cartb2.classList.remove("MiniCart_Cart-visible");
+      }
+    }
+  };
+
+
+
 
 
 
@@ -145,6 +184,7 @@ function NavBar() {
 
 
       <Cart />
+      <Fav />
 
 
 
@@ -240,13 +280,12 @@ function NavBar() {
               id="page-header-newsletter-1"
               onClick={handleClickc}
             >
-              <span className="menuicon">
+              <span className="menuicon relative">
+                {cart.length > 0 && (
+                  <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 z-10"></span>
+                )}
                 <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#999999"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#00055" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                {cart && cart.length > 0 ? (
-                  <span className="MiniCart_CartIndicator_Badge1"></span>
-                ) :
-                  (<div></div>)
-                }
+
               </span>
             </a>
           </div>
@@ -258,13 +297,12 @@ function NavBar() {
                   data-auto-id="true"
                   onClick={handleClickc}
                 >
-                  <span className="menuicon">
+                  <span className="menuicon relative">
+                    {cart.length > 0 && (
+                      <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 z-10"></span>
+                    )}
                     <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#999999"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#00055" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                    {cart && cart.length > 0 ? (
-                      <span className="MiniCart_CartIndicator_Badge1"></span>
-                    ) :
-                      (<div></div>)
-                    }
+
                   </span>
                 </a>
               </li>
@@ -279,6 +317,36 @@ function NavBar() {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 27">
                       <circle cx="13.7" cy="11.1" r={9} />
                       <path d="M20.1 17.5l6.8 6.8" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={handleClickf}
+                  className="js-open-search secondaryLevel_Item"
+                  data-auto-id="true"
+                  id="page-header-search-1"
+                >
+                  <span className="menuicon relative">
+                    {favorites.length > 0 && (
+                      <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 z-10"></span>
+                    )}
+
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" strokeWidth={0} />
+                      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
+                          stroke="#999"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
                     </svg>
                   </span>
                 </a>
@@ -298,7 +366,7 @@ function NavBar() {
 
 
 
-              <li className="br_group/item">
+              <li className="br_group/item" id="yourDivId">
                 <a
                   className="br_flex br_items-center br_justify-between br_px-8 br_py-4  br_border-solid br_border-0 br_border-b  br_text-grey-600 br_text-lg-sans-bold-stretched br_no-underline xl:pointer-fine: xl:pointer-fine:br_text-base-sans-bold-stretched xl:pointer-fine:group-hover/item: xl:pointer-fine:focus:"
                   href="/"
@@ -311,12 +379,25 @@ function NavBar() {
                 </a>
 
               </li>
-              <li className="br_group/item" 
-                id="yourDivId" 
+              {categories.map((category) => (
+        <li className="br_group/item" key={category._id}>
+          <a
+            className="br_flex br_items-center br_justify-between br_px-8 br_py-4 br_border-solid br_border-0 br_border-b br_text-grey-600 br_text-lg-sans-bold-stretched br_no-underline xl:pointer-fine: xl:pointer-fine:br_text-base-sans-bold-stretched xl:pointer-fine:group-hover/item: xl:pointer-fine:focus:"
+            href={`/search?cat=${encodeURIComponent(category.name)}`}
+            id={`category_${category.name}`}
+          >
+            <div className="br_flex br_items-center br_gap-2">
+              {category.name}
+            </div>
+          </a>
+        </li>
+      ))}
+              <li className="br_group/item"
+                
               >
                 <a
                   className="br_flex br_items-center br_justify-between br_px-8 br_py-4  br_border-solid br_border-0 br_border-b  br_text-grey-600 br_text-lg-sans-bold-stretched br_no-underline xl:pointer-fine: xl:pointer-fine:br_text-base-sans-bold-stretched xl:pointer-fine:group-hover/item: xl:pointer-fine:focus:"
-href="/shop"
+                  href="/shop"
                 >
                   <div className="br_flex br_items-center br_gap-2">
                     Shop
@@ -325,7 +406,7 @@ href="/shop"
 
 
 
- 
+
 
 
 
@@ -350,13 +431,13 @@ href="/shop"
                 >
                   <div className="br_flex br_items-center br_gap-2">Contact Us</div>
                 </a>
-              </li> 
+              </li>
             </ul>
           </nav>
         </div>
       </div>
 
- 
+
 
     </>
   );

@@ -26,7 +26,7 @@ const WhatsAppIcon = () => {
       style={{
         position: 'fixed',
         bottom: '30px',
-        right: '20px',
+        left: '20px',
         backgroundColor: '#fff',
         color: '#fff',
         borderRadius: '50%',

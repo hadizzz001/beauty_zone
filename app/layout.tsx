@@ -1,4 +1,7 @@
+ 
 "use client"
+
+import { useState, useEffect } from "react";
 import {  Footer,Navbar2 } from '../components'
 import './globals.css'
 import './custom.css'
@@ -7,6 +10,7 @@ import './bs-select.css'
 import './slick.css'
 import { useSearchParams } from 'next/navigation'
 import { CartProvider } from './context/CartContext';
+import { FavoriteProvider } from './context/FavContext';
 import { BooleanProvider } from './context/CartBoolContext'; 
 import GifLoader from '../components/GifLoader'
 import WhatsAppIcon from '../components/WhatsAppIcon';
@@ -14,7 +18,9 @@ import Offer from '../components/Offer';
 import StickyMapButton from '../components/StickyMapButton';
 import Script from "next/script";
 import { GoogleAnalytics } from '@next/third-parties/google'
-
+import PointsWatcher from "../components/PointsWatcher";
+import SpinGame  from "../components/SpinGame";
+import ChatWidget from "../components/ChatWidget";
  
 
  
@@ -24,6 +30,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+
 
  
 
@@ -90,19 +98,23 @@ export default function RootLayout({
 </>
 
       <body>
-
- 
+      <ChatWidget />
+      <SpinGame />
+      <PointsWatcher />
       <GifLoader />
 
       <Offer /> 
         <BooleanProvider>
         <CartProvider>
+        <FavoriteProvider>
           <Navbar2 />
           <WhatsAppIcon />
           <StickyMapButton />
           {children}
           {/* <GoogleAnalytics gaId="G-GKVJEXB18C" /> */}
+          
           <Footer />
+          </FavoriteProvider>
         </CartProvider>
         </BooleanProvider>
         

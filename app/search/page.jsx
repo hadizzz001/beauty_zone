@@ -9,7 +9,8 @@ const Body = () => {
     const searchParams = useSearchParams()
     const search = searchParams.get('q')
     const search2 = searchParams.get('cat')
-    const search3 = searchParams.get('subcat')
+    const search3 = searchParams.get('sub')
+    const search4 = searchParams.get('brnd')
     const [touchedIndex, setTouchedIndex] = useState(null); // Track which image is touched
 
     const handleTouchStart = (index) => {
@@ -64,6 +65,9 @@ const Body = () => {
                 if (search3) {
                     filteredData = filteredData.filter(item => item.subcategory && item.subcategory.toLowerCase() === search3.toLowerCase());
                 }
+                if (search4) {
+                    filteredData = filteredData.filter(item => item.brand && item.brand.toLowerCase() === search4.toLowerCase());
+                }
 
                 // Set the filtered data to state
                 setTemp(filteredData);
@@ -78,7 +82,9 @@ const Body = () => {
 
 
 
+console.log(search2);
 
+console.log("allTemp ", allTemp);
 
 
 
@@ -184,7 +190,7 @@ const Body = () => {
         ))
       ) : (
         <div className="home___error-container">
-          <h2 className="text-black text-xl dont-bold">...</h2>
+          <h2 className="text-black text-xl dont-bold">Nothing Found</h2>
         </div>
       )}
 

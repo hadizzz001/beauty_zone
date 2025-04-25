@@ -17,13 +17,13 @@ export default function Features() {
 
   <div className="relative flex py-5 items-center">
   <div className="flex-grow border-t border-gray-400" />
-  <span className="flex-shrink mx-4  "><h2 className="br_text-2xl-serif md:br_text-3xl-serif">Looking for a special product?</h2></span>
+  <span className="flex-shrink mx-4  "><h2 className="br_text-2xl-serif md:br_text-3xl-serif">Do you want to compare products?</h2></span>
   <div className="flex-grow border-t border-gray-400" />
 </div>
 
  
- <a href="quiz">
- <button type="submit" class="klaviyo_submit_button" style={{padding: "1em",minWidth: "10%",  marginBottom: "3em"}}>Take a quiz now!</button>
+ <a href="specs">
+ <button type="submit" class="klaviyo_submit_button" style={{padding: "1em",minWidth: "10%",  marginBottom: "3em"}}>Try it now!</button>
  </a>
 </div>
 

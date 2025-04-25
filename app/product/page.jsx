@@ -10,6 +10,8 @@ import QuantitySelector from '../../components/QuantitySelector';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
+import { useFavorites } from '../context/FavContext';
+import { Heart, HeartFilled } from 'lucide-react';
 
 const Page = () => {
   const [translateXValue, setTranslateXValue] = useState(0);
@@ -25,6 +27,16 @@ const Page = () => {
   const [allTemp2, setAllTemps2] = useState();
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+  const isFavorite = favorites.some((fav) => fav._id === search);
+  const [zoomedImg, setZoomedImg] = useState(null);
+
+
+  const toggleFavorite = () => {
+    isFavorite
+      ? removeFromFavorites(allTemp1._id)
+      : addToFavorites(allTemp1);
+  };
 
 
 
@@ -118,7 +130,7 @@ const Page = () => {
     e.preventDefault();
 
 
-    if (stock === undefined) {
+    if (!stock) {
       if (selectedColor.length === 0) {
         alert("Please select at least one color.");
         return;
@@ -144,6 +156,8 @@ const Page = () => {
     setQuantity(1);
 
   }, [selectedColor]);
+
+
 
 
 
@@ -178,23 +192,32 @@ const Page = () => {
                             __html: "#InfiniteGallery0 .HtmlProductInfiniteGallery { }#InfiniteGallery0 .HtmlProductInfiniteGallery__Wrapper { position:relative;overflow:hidden;width:100%;height:100%}#InfiniteGallery0 .HtmlProductInfiniteGallery__Slides { position:absolute;top:0;width:1200%;height:100%;display:grid;grid-template-columns:repeat(12, 1fr);transition:transform 300ms ease;cursor:grab}#InfiniteGallery0 .HtmlProductInfiniteGallery__Slides--dragging { transition:none}#InfiniteGallery0 .HtmlProductInfiniteGallery__Slides_Slide { max-width:100%;max-height:100%;overflow:hidden;position:relative;user-drag:none;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}"
                           }} />
                           <div className="HtmlProductInfiniteGallery__Wrapper">
-                            <div className="HtmlProductInfiniteGallery__Slides " style={{ transform: `translateX(${translateXValue}%)` }}>
-                              {imgs && imgs?.length > 0 ? (
-                                imgs.map((item) => (
-                                  <div>
+                            <div className="HtmlProductInfiniteGallery__Slides" style={{ transform: `translateX(${translateXValue}%)` }}>
+                              {imgs && imgs.length > 0 ? (
+                                imgs.map((item, index) => (
+                                  <div key={index} onClick={() => setZoomedImg(item)} style={{ cursor: "zoom-in" }}>
                                     <div className="HtmlProductInfiniteGallery__Slides_Slide">
                                       <div className="Slide Slide--image">
-                                        <img src={"" + item} style={{ maxWidth: "100%", height: "auto" }} />
+                                        <img src={item} style={{ maxWidth: "100%", height: "auto" }} />
                                       </div>
                                     </div>
                                   </div>
                                 ))
                               ) : (
-                                <div className='container'>
-                                  <h2 className='text-black text-xl dont-bold'>...</h2>
+                                <div className="container">
+                                  <h2 className="text-black text-xl font-bold">...</h2>
                                 </div>
                               )}
                             </div>
+
+                            {zoomedImg && (
+                              <div
+                                onClick={() => setZoomedImg(null)}
+                                className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+                              >
+                                <img src={zoomedImg} className="max-w-full max-h-full object-contain" />
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -366,16 +389,29 @@ const Page = () => {
 
                             <div className="">
                               <span className="ProvidersSingleProduct--selected">
-                                {stock === undefined ? (
+                                {!stock ? (
                                   allTemp1 && allTemp1.colors && allTemp1.colors.length > 0 ? (
                                     allTemp1.colors.every(color => parseInt(color.qty) === 0) ? (
                                       <p className="mt-10" style={{ color: "#222", fontSize: "24px" }}>
-                                      Out of Stock
-                                    </p>
+                                        Out of Stock
+                                      </p>
                                     ) : (
-                                      <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
-                                        <span>ADD TO CART</span>
-                                      </button>
+                                      <div className='flex'>
+                                        <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
+                                          <span>ADD TO CART</span>
+                                        </button>
+                                        <a
+                                          onClick={toggleFavorite}
+                                          className="AddToCart m-4   "
+                                          aria-label="Toggle Favorite"
+                                        >
+                                          <Heart
+                                            size={24}
+                                            className={`transition-all duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
+                                              }`}
+                                          />
+                                        </a>
+                                      </div>
                                     )
                                   ) : (
                                     // fallback or loading button if alltemp1 is not yet loaded
@@ -385,9 +421,22 @@ const Page = () => {
                                   )
 
                                 ) : stock > 0 ? (
-                                  <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
-                                    <span>ADD TO CART</span>
-                                  </button>
+                                  <div className='flex'>
+                                    <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
+                                      <span>ADD TO CART</span>
+                                    </button>
+                                    <a
+                                      onClick={toggleFavorite}
+                                      className="AddToCart m-4   "
+                                      aria-label="Toggle Favorite"
+                                    >
+                                      <Heart
+                                        size={24}
+                                        className={`transition-all duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
+                                          }`}
+                                      />
+                                    </a>
+                                  </div>
                                 ) : (
                                   <p className="mt-10" style={{ color: "#222", fontSize: "24px" }}>
                                     Out of Stock
@@ -409,6 +458,41 @@ const Page = () => {
 
                 </section>
               </div>
+
+
+
+
+              <span className="ProvidersIfSelectedProductMatchesFilter">
+                <content-block slug="product-page-wssb">
+                  <style dangerouslySetInnerHTML={{
+                    __html: ".bagsFeaturesGrid{margin:0 auto;padding:30px 5%;background:#111622}.bagsFeaturesGrid__gridWrapper{max-width:1150px;margin:0 auto}.bagsFeaturesGrid__title{-webkit-font-smoothing:antialiased;text-align:center;padding:0 0 25px;margin:0 auto;color:#fff}.bagsFeaturesGrid__feature{background:inherit;display:grid;grid-template-s:auto;align-items:center;padding:5px 0}.bagsFeaturesGrid__feature--text{-webkit-font-smoothing:antialiased;text-align:center;padding:15px 0 20px;grid-:2}.bagsFeaturesGrid__feature--text a{color:inherit}.bagsFeaturesGrid__feature--text h3{color:#fff;padding-bottom:10px}.bagsFeaturesGrid__feature--text p{color:#eee}.bagsFeaturesGrid__feature--image{position:relative;width:100%;min-height:62vw}@media (min-width: 811px){.bagsFeaturesGrid__feature--image{min-height:28vw}}@media (min-width: 1460px){.bagsFeaturesGrid__feature--image{min-height:409px}}.bagsFeaturesGrid__feature--image img{width:100%;display:block}.bagsFeaturesGrid__feature--image--logo{position:absolute;bottom:3.5%;right:8%;width:15vw}.bagsFeaturesGrid__feature--image--logo img{width:100%}.bagsFeaturesGrid__feature--text--logo{width:100px;padding-top:30px}.bagsFeaturesGrid__feature--text--logo img{width:100%}@media (min-width: 811px){.bagsFeaturesGrid{padding:75px 10%}.bagsFeaturesGrid__title{padding:0 0 60px}.bagsFeaturesGrid__feature{display:grid;grid-template-columns:1fr 1fr;grid-template-s:auto;padding:30px 0}.bagsFeaturesGrid__feature--image--logo{width:7vw}.bagsFeaturesGrid__feature .left{padding-right:15%}.bagsFeaturesGrid__feature .right{padding-left:15%}.bagsFeaturesGrid__feature--text{-webkit-font-smoothing:antialiased;text-align:left;padding:0;grid-:auto}}"
+                  }} />
+                  <style dangerouslySetInnerHTML={{
+                    __html: ".ProductTile-SliderContainer--YMAL .ProductTile-SliderContainer-Title{height:auto;text-align:center;padding-bottom:10px}.ProductTile-SliderContainer--YMAL.ProductTile-SliderContainer{padding:40px 0 10px;background-color:#ebebd3 ;display:flex;flex-direction:column;align-items:center}.ProductTile-SliderContainer--YMAL .ProductTile-Slider-prev-ar,.ProductTile-SliderContainer--YMAL .ProductTile-Slider-next-ar{height:25px;width:25px;border-top:2px solid #999;border-right:2px solid #999}.ProductTile-SliderContainer--YMAL .ProductTile-Slider-next-ar{transform:rotate(45deg);margin:0 15px 0 0}.ProductTile-SliderContainer--YMAL .ProductTile-Slider-prev-ar{transform:rotate(225deg);margin:0 0 0 15px}.ProductTile-SliderContainer--YMAL .ProductTile-Slider-prev,.ProductTile-SliderContainer--YMAL .ProductTile-Slider-next{height:430px;width:80px;cursor:pointer;background-color:transparent;transition:opacity .3s ease;display:none;border:none;padding:0;appearance:none;-webkit-appearance:none}.ProductTile-SliderContainer--YMAL .ProductTile-Slider-prev[disabled],.ProductTile-SliderContainer--YMAL .ProductTile-Slider-next[disabled]{opacity:0;pointer-events:none}@media (min-width: 700px){.ProductTile-SliderContainer--YMAL .ProductTile-Slider-prev,.ProductTile-SliderContainer--YMAL .ProductTile-Slider-next{display:flex;align-items:center;justify-content:center}}@media (min-width: 811px){.ProductTile-SliderContainer--YMAL .ProductTile-SliderContainer-Title{padding-bottom:30px}}.ProductTile-SliderContainer--YMAL .productRangeSlider{display:flex;align-items:center;max-width:1340px;width:100%;padding:5px;justify-content:space-between;margin:0 auto;min-height:145px}"
+                  }} />
+                  <div className="ProductTile-SliderContainer ProductTile-SliderContainer--YMAL" data-product-list-category="ymal-slider">
+
+                   
+                      <section style={{ maxWidth: "100%" }}>
+                          {allTemp1?.video && allTemp1?.video[0] ? (
+                            <>
+                            <div className="ProductTile-SliderContainer-Title br_text-3xl-serif br_text-gray myNewC">Product Video</div>
+                            <video src={allTemp1.video[0]} controls />
+                            </>
+                          ) : (
+                            <p></p>
+                          )}
+                        </section>
+                      
+                   
+                  </div>
+                </content-block>
+              </span>
+
+
+
+
+
               <span className="ProvidersIfSelectedProductMatchesFilter">
                 <content-block slug="product-page-wssb">
                   <style dangerouslySetInnerHTML={{

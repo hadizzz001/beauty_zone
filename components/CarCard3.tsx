@@ -39,7 +39,7 @@ const CarCard = ({ temp }: CarCardProps) => {
                             <div className="initial:br_row-span-1 br_col-start-1 br_row-start-2 br_px-3 group-[.centered]/tile:br_justify-center group-[.centered]/tile:br_text-center">
                                 <h3 style={{ height: "100px" }} className="br_text-base-sans-spaced br_line-clamp-2 sm:br_line-clamp-none edition:br_text-white edition:br_hidden first:edition:br_inline edition:before:br_content-['_–_'] apex:edition:br_text-white">
                                     <a
-                                        href={`/search?cat=${name}`}
+                                        href={`/search?cat=${encodeURIComponent(name)}`}
                                         className="br_text-current br_no-underline"
                                     >
                                         <h2>{name}</h2><br /> 
