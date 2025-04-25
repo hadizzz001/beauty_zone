@@ -154,7 +154,7 @@ export default function ChatWidget() {
 
 
 
-    if (userText.toLowerCase().includes("product")) {
+    if (userText.toLowerCase().includes("product") || userText.toLowerCase().includes("order")) {
       const res = await fetch("/api/products");
       const data = await res.json();
       setProducts(data);
@@ -164,45 +164,45 @@ export default function ChatWidget() {
 
     const lowerText = userText.toLowerCase().trim();
 
-if (lowerText === "category") {
-  const res = await fetch("/api/category");
-  const data = await res.json();
-  const categories = data?.map((c) => `• ${c.name}`).join("\n") || "No categories found.";
-  return setMessages((m) => [
-    ...m,
-    { from: "bot", text: `📂 Categories:\n${categories}` },
-  ]);
-}
+    if (lowerText === "category") {
+      const res = await fetch("/api/category");
+      const data = await res.json();
+      const categories = data?.map((c) => `• ${c.name}`).join("\n") || "No categories found.";
+      return setMessages((m) => [
+        ...m,
+        { from: "bot", text: `📂 Categories:\n${categories}` },
+      ]);
+    }
 
-if (lowerText === "brand") {
-  const res = await fetch("/api/brand");
-  const data = await res.json();
-  const brands = data?.map((b) => `• ${b.name}`).join("\n") || "No brands found.";
-  return setMessages((m) => [
-    ...m,
-    { from: "bot", text: `🏷️ Brands:\n${brands}` },
-  ]);
-}
+    if (lowerText === "brand") {
+      const res = await fetch("/api/brand");
+      const data = await res.json();
+      const brands = data?.map((b) => `• ${b.name}`).join("\n") || "No brands found.";
+      return setMessages((m) => [
+        ...m,
+        { from: "bot", text: `🏷️ Brands:\n${brands}` },
+      ]);
+    }
 
-if (lowerText === "subcategories") {
-  const res = await fetch("/api/sub");
-  const data = await res.json();
-  const subs = data?.map((s) => `• ${s.name}`).join("\n") || "No subcategories found.";
-  return setMessages((m) => [
-    ...m,
-    { from: "bot", text: `📁 Subcategories:\n${subs}` },
-  ]);
-}
+    if (lowerText === "subcategories") {
+      const res = await fetch("/api/sub");
+      const data = await res.json();
+      const subs = data?.map((s) => `• ${s.name}`).join("\n") || "No subcategories found.";
+      return setMessages((m) => [
+        ...m,
+        { from: "bot", text: `📁 Subcategories:\n${subs}` },
+      ]);
+    }
 
-// If it doesn't match any known keyword, show a fallback
-if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
-  if (!["product", "yes"].some(word => lowerText.includes(word)) && step === "") {
-    return setMessages((m) => [
-      ...m,
-      { from: "bot", text: "❓ Sorry, I didn’t get that. Try 'category', 'brand', or 'subcategories'." },
-    ]);
-  }
-}
+    // If it doesn't match any known keyword, show a fallback
+    if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
+      if (!["product", "yes"].some(word => lowerText.includes(word)) && step === "") {
+        return setMessages((m) => [
+          ...m,
+          { from: "bot", text: "❓ Sorry, I didn’t get that. Try 'product', 'order' , 'category', 'brand', or 'subcategories'." },
+        ]);
+      }
+    }
 
     const aiRes = await fetch("/api/ai", {
       method: "POST",
@@ -342,6 +342,8 @@ if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
                           ? String(Math.max(...cart.map((c) => parseFloat(c.product.delivery || "0"))))
                           : "0";
 
+                     
+
                       const order = {
                         inputs: { ...userInfo, deliveryType },
                         items: cart.map((c) => ({
@@ -361,6 +363,16 @@ if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
                         delivery: highestDelivery,
                       };
 
+                      const totalPoints = cart.reduce((points, c) => {
+                        const productPoints = c.product.points || 0; // Handle case where product might not have points
+                        return points + (productPoints * c.quantity);
+                      }, 0);
+                      
+                      // Update user points in localStorage
+                      const currentPoints = parseInt(localStorage.getItem("userPoints") || "0");
+                      const newTotalPoints = currentPoints + totalPoints;
+                      localStorage.setItem("userPoints", newTotalPoints);
+
                       await fetch("/api/sendOrder", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -373,7 +385,7 @@ if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
                         { from: "bot", text: "✅ Order placed! Thank you." },
                       ]);
                       setStep("");
-                      setCart([]);
+                      setCart([]); 
                     }}
                     className="p-2 border rounded cursor-pointer hover:bg-gray-100"
                   >

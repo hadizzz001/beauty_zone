@@ -3,7 +3,7 @@
 export default function StickyMapButton() {
     return (
       <a
-        href="https://www.google.com/maps/place/Beirut,+Lebanon"
+        href="https://www.google.com/maps?q=33.88216,35.537215&z=17&hl=en"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-[90px] left-3 z-50  p-2  "
