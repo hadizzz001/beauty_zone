@@ -149,9 +149,9 @@ const Body = () => {
 
         <div id="usp-scroll-to"></div>
 
-       
-        <Features />
         <Carousel />
+        <Features />
+       
         <Catslider />
         <BrandCarousel />
         
