@@ -3,36 +3,36 @@ export async function POST(req) {
     const { message } = await req.json();
     console.log("Received message:", message);
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     console.log("API Key exists?", apiKey ? "YES" : "NO");
 
     if (!apiKey) {
-      throw new Error("Missing OPENROUTER_API_KEY");
+      throw new Error("Missing OPENAI_API_KEY");
     }
 
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "openai/gpt-4o",
+        model: "gpt-3.5-turbo", // You can use gpt-4 if you want, but gpt-3.5-turbo is a free version
         messages: [{ role: "user", content: message }],
         max_tokens: 500,
       }),
     });
 
-    console.log("Fetch to OpenRouter completed. Status:", res.status);
+    console.log("Fetch to OpenAI completed. Status:", res.status);
 
     if (!res.ok) {
       const errorText = await res.text();
-      console.error("OpenRouter error response:", errorText);
-      throw new Error("OpenRouter API error: " + errorText);
+      console.error("OpenAI error response:", errorText);
+      throw new Error("OpenAI API error: " + errorText);
     }
 
     const data = await res.json();
-    console.log("Received data from OpenRouter:", data);
+    console.log("Received data from OpenAI:", data);
 
     const reply = data.choices?.[0]?.message?.content || "No reply";
 
