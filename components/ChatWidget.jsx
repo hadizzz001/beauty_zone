@@ -221,6 +221,9 @@ const data = text ? JSON.parse(text) : null;
 
   return (
     <>
+      <div className="fixed bottom-[150px] right-5 bg-white text-gray-700 p-2 rounded shadow z-50 text-sm">
+    How can I assist you today?
+  </div>
       <div onClick={toggleChat} className="fixed bottom-[80px] right-5 bg-[#5bbccd] text-white p-[18px] rounded-full cursor-pointer shadow-lg z-50">💬</div>
 
       {isOpen && (
