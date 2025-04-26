@@ -152,7 +152,7 @@ export default function ChatWidget() {
     }
 
 
-
+    const lowerText = userText.toLowerCase().trim();
 
     if (userText.toLowerCase().includes("product") || userText.toLowerCase().includes("order")) {
       const res = await fetch("/api/products");
@@ -162,7 +162,7 @@ export default function ChatWidget() {
       return;
     }
 
-    const lowerText = userText.toLowerCase().trim();
+
 
     if (lowerText === "category") {
       const res = await fetch("/api/category");
@@ -194,22 +194,18 @@ export default function ChatWidget() {
       ]);
     }
 
-    // If it doesn't match any known keyword, show a fallback
-    if (["category", "brand", "subcategories"].every(k => lowerText !== k)) {
-      if (!["product", "yes"].some(word => lowerText.includes(word)) && step === "") {
-        return setMessages((m) => [
-          ...m,
-          { from: "bot", text: "❓ Sorry, I didn’t get that. Try 'product', 'order' , 'category', 'brand', or 'subcategories'." },
-        ]);
-      }
-    }
-
     const aiRes = await fetch("/api/ai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: userText }),
     });
-    const data = await aiRes.json();
+    if (!aiRes.ok) {
+      // Optional: check HTTP status code
+      console.error("Server returned an error:", aiRes.status);
+      throw new Error("Failed to fetch");
+    }
+    const text = await aiRes.text();
+const data = text ? JSON.parse(text) : null;
     setMessages((m) => [...m, { from: "bot", text: data.message }]);
   };
 
