@@ -25,8 +25,8 @@ const WhatsAppIcon = () => {
       onClick={handleClick}
       style={{
         position: 'fixed',
-        bottom: '30px',
-        left: '20px',
+        bottom: '20px',
+        right: '20px',
         backgroundColor: '#fff',
         color: '#fff',
         borderRadius: '50%',

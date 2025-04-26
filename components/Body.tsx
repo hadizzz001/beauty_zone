@@ -151,9 +151,9 @@ const Body = () => {
 
         <Carousel />
         <Features />
-       
-        <Catslider />
         <BrandCarousel />
+        <Catslider />
+        
         
         <ProductArrival />
         <ProductList />
@@ -175,7 +175,7 @@ const Body = () => {
  
         <Contact />
         
-         
+        <Contact1 />
 
         <Review />
         <Rate />
@@ -206,7 +206,7 @@ const Body = () => {
 
 
 
-<Contact1 />
+
 
 
 

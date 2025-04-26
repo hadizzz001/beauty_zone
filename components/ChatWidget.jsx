@@ -221,10 +221,10 @@ const data = text ? JSON.parse(text) : null;
 
   return (
     <>
-      <div onClick={toggleChat} className="fixed bottom-5 right-5 bg-blue-600 text-white p-3 rounded-full cursor-pointer shadow-lg z-50">💬</div>
+      <div onClick={toggleChat} className="fixed bottom-[80px] right-5 bg-[#5bbccd] text-white p-[18px] rounded-full cursor-pointer shadow-lg z-50">💬</div>
 
       {isOpen && (
-        <div className="fixed bottom-20 right-5 w-80 max-h-[80vh] bg-white border rounded-lg shadow-xl flex flex-col z-50">
+        <div className="fixed bottom-[150px] right-5 w-80 max-h-[80vh] bg-white border rounded-lg shadow-xl flex flex-col z-50">
           <div className="overflow-y-auto flex-1 p-3 space-y-2">
             {messages.map((m, i) => (
               <div
