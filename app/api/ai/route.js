@@ -19,7 +19,7 @@ export async function POST(req) {
       body: JSON.stringify({
         model: "gpt-3.5-turbo", // You can use gpt-4 if you want, but gpt-3.5-turbo is a free version
         messages: [{ role: "user", content: message }],
-        max_tokens: 500,
+        max_tokens: 200,
       }),
     });
 
