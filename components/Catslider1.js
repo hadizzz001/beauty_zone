@@ -52,7 +52,7 @@ const CatSlider1 = ({ subcategories }) => {
             }
 
             .subcategory-title {
-              font-size: 1em;
+              font-size: 11px;
               font-weight: bold;
               text-transform: uppercase;
               margin: 0;
