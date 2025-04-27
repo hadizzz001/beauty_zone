@@ -148,7 +148,7 @@ const handleCheckboxChange2 = (brandId) => {
 
               <div className="br_text-base-sans-bold-stretched br_tracking-cta br_text-grey-600 br_my-4 br_py-2 br_px-0 br_border-none br_bg-transparent"></div>
               <h3 className="br_text-2xl-serif br_text-center br_text-grey-600">Filters</h3>
-              <button onClick={handleClick2} className="br_flex br_justify-end br_border-none br_bg-transparent br_cursor-pointer br_p-0">
+              <button onClick={handleClick2} className="br_flex br_justify-end br_border-none br_bg-transparent br_cursor-pointer br_p-0" id='button111'>
                 <span className="br_w-6 br_h-6 br_rotate-45">
                   <svg
                     width={14}

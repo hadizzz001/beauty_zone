@@ -42,16 +42,17 @@ export default function Quiz() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <div className="max-w-xl mx-auto p-4 mt-20">
       <h2 className="text-2xl font-bold mb-4">Product Quiz</h2>
 
       {step === 1 && (
         <>
-          <label className="block mb-2">Your business area:</label>
+          <label className="block mb-2" id='button111'>Your business area:</label>
           <select
             className="w-full border p-2"
             value={category}
             onChange={e => setCategory(e.target.value)}
+            id='button111'
           >
             <option value="">Select category</option>
             <option value="Beauty & Skin care">Beauty & Skin care</option>
@@ -66,11 +67,12 @@ export default function Quiz() {
 
       {step === 2 && (
         <>
-          <label className="block mb-2 mt-4">Your concern (optional):</label>
+          <label className="block mb-2 mt-4" id='button111'>Your concern (optional):</label>
           <select
             className="w-full border p-2"
             value={concern}
             onChange={e => setConcern(e.target.value)}
+            id='button111'
           >
             <option value="">Select concern</option>
             {/* Example static options, adjust freely */}
@@ -88,12 +90,13 @@ export default function Quiz() {
 
       {step === 3 && (
         <>
-          <label className="block mb-2 mt-4">Your budget ($):</label>
+          <label className="block mb-2 mt-4" id='button111'>Your budget ($):</label>
           <input
             type="number"
             className="w-full border p-2"
             value={budget}
             onChange={e => setBudget(e.target.value)}
+            id='button111'
           />
         </>
       )}
@@ -108,10 +111,10 @@ export default function Quiz() {
       {matchedProduct && (
         <a href={`/product?id=${matchedProduct._id}&&imgg=${encodeURIComponent(matchedProduct.img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || '')}`}>
         <div className="mt-6 p-4 border rounded bg-green-50">
-          <h3 className="text-lg font-semibold mb-2">Recommended Product</h3>
-          <p><strong>{matchedProduct.title}</strong></p>
-          <p>Category: {matchedProduct.category}</p>
-          <p>Price: ${matchedProduct.discount}</p>
+          <h3 className="text-lg font-semibold mb-2" id='button111'>Recommended Product</h3>
+          <p id='button111'><strong>{matchedProduct.title}</strong></p>
+          <p id='button111'>Category: {matchedProduct.category}</p>
+          <p id='button111'>Price: ${matchedProduct.discount}</p>
           <img
             src={matchedProduct.img[0]}
             alt={matchedProduct.title}

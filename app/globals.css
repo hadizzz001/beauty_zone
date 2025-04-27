@@ -15,7 +15,7 @@
 }
 
 body {
-  background-color: #ebebd3 !important;
+  background-color: #eee !important;
 }
 
 /* START: General styles */
@@ -95,25 +95,25 @@ body {
 
 
 .sywVideo {
-  color: #ebebd3 !important;
+  color: #eee !important;
   background-color: transparent !important;
 }
 
 .sywCarousel {
-  color: #ebebd3 !important;
+  color: #eee !important;
 }
 
 .sywProductTabs-title {
-  color: #ebebd3 !important;
+  color: #eee !important;
   background-color: transparent !important;
 }
 
 .sywPaymentOptions {
-  color: #ebebd3 !important;
+  color: #eee !important;
 }
 
 .SiteFooter__wrapper {
-  background: #ebebd3 !important;
+  background: #eee !important;
 }
 
 
@@ -129,7 +129,7 @@ a:hover {
 
 .syw-cta-desktop:hover,
 .syw-cta-desktop:focus {
-  color: #ebebd3 !important;
+  color: #eee !important;
   text-decoration: none;
 }
 
@@ -176,7 +176,7 @@ a:hover {
 
 @media (max-width: 2300px) and (max-height: 900px) {
   #PageMenuPreHeader {
-    background-color: #ebebd3
+    background-color: #eee
   }
 }
 
@@ -240,7 +240,7 @@ a:hover {
 
 
 #anchorNew:hover {
-  color: #ebebd3 !important;
+  color: #eee !important;
 }
 
 .form-control {
@@ -625,11 +625,11 @@ button {
 
 
 header {
-  background-color: #ebebd3 !important;
+  background-color: #eee !important;
 }
 
 #filterId1 {
-  background-color: #ebebd3 !important;
+  background-color: #eee !important;
 }
 
 @media (min-width: 1200px) {
@@ -646,15 +646,15 @@ header {
 }
 
 .MiniCart_Cart_Heading {
-  background-color: #ebebd3 !important;
+  background-color: #eee !important;
 }
 
 #sec-9a83 {
-  background-color: #ebebd3 !important;
+  background-color: #eee !important;
 }
 
 .u-section-1 {
-  background-color: #ebebd3 !important;
+  background-color: #eee !important;
 }
 
 .myBB {

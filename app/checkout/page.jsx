@@ -410,7 +410,7 @@ const page = () => {
               data-id="b92d2c"
               data-element_type="section"
               data-settings='{"background_background":"gradient"}'
-              style={{ backgroundImage: " linear-gradient(90deg, #FFFFFF 50%, #ebebd3 50%)" }}
+              style={{ backgroundImage: " linear-gradient(90deg, #FFFFFF 50%, #eee 50%)" }}
             >
               <div className="elementor-container elementor-column-gap-default">
                 <div

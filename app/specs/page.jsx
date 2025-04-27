@@ -23,14 +23,15 @@ export default function ProductComparison() {
   }, [firstProductId, secondProductId, products]);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6">Compare Products</h2>
+    <div className="p-6 max-w-7xl mx-auto mt-20">
+      <h2 className="text-3xl font-bold mb-6" id='button111'>Compare Products</h2>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         <select
           className="border p-2 rounded"
           value={firstProductId}
           onChange={(e) => setFirstProductId(e.target.value)}
+          id='button111'
         >
           <option value="">Select First Product</option>
           {products.map((product) => (
@@ -44,6 +45,7 @@ export default function ProductComparison() {
           className="border p-2 rounded"
           value={secondProductId}
           onChange={(e) => setSecondProductId(e.target.value)}
+          id='button111'
         >
           <option value="">Select Second Product</option>
           {products
@@ -58,10 +60,10 @@ export default function ProductComparison() {
 
       {firstProduct && secondProduct && (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 text-left">
+          <table className="min-w-full border border-gray-300 text-left" id='button111'>
             <thead className="bg-gray-100">
               <tr>
-                <th className="border border-gray-300 p-3">Attribute</th>
+                <th className="border border-gray-300 p-3 ">Attribute</th>
                 <th className="border border-gray-300 p-3">{firstProduct.title}</th>
                 <th className="border border-gray-300 p-3">{secondProduct.title}</th>
               </tr>
@@ -82,7 +84,7 @@ export default function ProductComparison() {
                   ),
                 },
                 {
-                  label: 'Discount',
+                  label: 'Price',
                   value: (p) => `${p.discount}`,
                 },
                 {
@@ -108,7 +110,7 @@ export default function ProductComparison() {
                             alt={c.code}
                             className="w-8 h-8 rounded-full border"
                           />
-                          <span className="text-sm">{c.code}</span>
+                          <span className="text-sm" id='button111'>{c.code}</span>
                         </div>
                       ))}
                     </div>
@@ -120,7 +122,17 @@ export default function ProductComparison() {
                   value: (p) => (
                     <div className="flex flex-col gap-1">
                       {p.sizes?.map((size, i) => (
-                        <div key={i}>{size}</div>
+                        <div key={i} id='button111'>{size}</div>
+                      ))}
+                    </div>
+                  ),
+                },
+                {
+                  label: 'Names',
+                  value: (p) => (
+                    <div className="flex flex-col gap-1">
+                      {p.names?.map((size, i) => (
+                        <div key={i} id='button111'>{size}</div>
                       ))}
                     </div>
                   ),
