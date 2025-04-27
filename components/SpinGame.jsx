@@ -77,6 +77,7 @@ export default function SpinGame() {
         <button
           className="absolute top-2 right-2 text-gray-600 hover:text-red-500"
           onClick={closeGame}
+          id="button111"
         >
           <X size={20} />
         </button>
@@ -109,13 +110,18 @@ export default function SpinGame() {
           </>
         ) : (
           <>
-<h2 className="text-2xl font-bold mb-2">🎉 You won: {prize.text}!</h2>
+{prize.code ? (
+  <h2 className="text-2xl font-bold mb-2">🎉 You won: {prize.text}!</h2>
+) : (
+  <h2 className="text-2xl font-bold mb-2 text-red-500">{prize.text}</h2>
+)}
+
 
 {prize.code ? (
   <>
     <p className="text-lg mb-3">Use this code:</p>
     <div className="flex items-center justify-center gap-2 relative">
-      <span className="bg-gray-100 px-4 py-2 border rounded text-xl font-mono">{prize.code}</span>
+      <span className="bg-gray-100 px-4 py-2 border rounded text-xl font-mono" id="button111">{prize.code}</span>
       <button
         onClick={copyCode}
         className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition"

@@ -1,7 +1,7 @@
 "use client"
 
 import { Test, CarCard } from '../../components'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef,useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useCart } from '../context/CartContext';
@@ -11,7 +11,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useFavorites } from '../context/FavContext';
-import { Heart, HeartFilled } from 'lucide-react';
+import { Heart, HeartFilled } from 'lucide-react'; 
+import useEmblaCarousel from 'embla-carousel-react';
+ 
 
 const Page = () => {
   const [translateXValue, setTranslateXValue] = useState(0);
@@ -31,6 +33,15 @@ const Page = () => {
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const isFavorite = favorites.some((fav) => fav._id === search);
   const [zoomedImg, setZoomedImg] = useState(null);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false })
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev()
+  }, [emblaApi])
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext()
+  }, [emblaApi])
 
 
   const toggleFavorite = () => {
@@ -375,34 +386,68 @@ const Page = () => {
 
 
 {allTemp1?.names &&
-  allTemp1.names?.length > 0 &&
-  !(allTemp1.names?.length === 1 && allTemp1.names[0] === "") && (
-    <div style={{ margin: '1rem 0' }}>
-      <h2 style={{ fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Select name:</h2>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-        {allTemp1.names.map((sz, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => setSelectedName(sz)}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid',
-              borderRadius: '0.375rem',
-              backgroundColor: selectedName === sz ? 'black' : 'white',
-              color: selectedName === sz ? 'white' : 'black',
-              borderColor: selectedName === sz ? 'black' : '#d1d5db', // gray-300
-              cursor: 'pointer'
-            }}
-            id='button111'
-          >
-            {sz}
-          </button>
-        ))}
-      </div>
-    </div>
-)}
+        allTemp1.names.length > 0 &&
+        !(allTemp1.names.length === 1 && allTemp1.names[0] === "") && (
+          <div style={{ margin: '1rem 0' }}>
+            <h2 style={{ fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>
+              Select name:
+            </h2>
 
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}> 
+
+              <div className="embla" ref={emblaRef} style={{ overflow: 'hidden', width: '80%' }}>
+                <div className="embla__container" style={{ display: 'flex', gap: '0.5rem' }}>
+                  {allTemp1.names.map((sz, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setSelectedName(sz)}
+                      style={{
+                        flex: '0 0 auto',
+                        padding: '0.5rem 1rem',
+                        border: '1px solid',
+                        borderRadius: '0.375rem',
+                        backgroundColor: selectedName === sz ? 'black' : 'white',
+                        color: selectedName === sz ? 'white' : 'black',
+                        borderColor: selectedName === sz ? 'black' : '#d1d5db',
+                        cursor: 'pointer'
+                      }}
+                      id="button111"
+                    >
+                      {sz}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <span style={{ position: "absolute", right: "2em" }}><svg
+                                            fill="#999"
+                                            viewBox="0 0 24 24"
+                                            id="right-arrow"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="icon line"
+                                            width={42}
+                                        >
+                                            <g id="SVGRepo_bgCarrier" strokeWidth={0} />
+                                            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    id="primary"
+                                                    d="M3,12H21m-3,3,3-3L18,9"
+                                                    style={{
+                                                        fill: "none",
+                                                        stroke: "#999",
+                                                        strokeLinecap: "round",
+                                                        strokeLinejoin: "round",
+                                                        strokeWidth: "1.5"
+                                                    }}
+                                                />
+                                            </g>
+                                        </svg>
+                                        </span>
+            </div>
+          </div>
+        )}
 
 
 

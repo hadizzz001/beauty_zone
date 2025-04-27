@@ -43,8 +43,7 @@ const CatSlider1 = ({ subcategories }) => {
             }
 
             .subcategory-overlay {
-              position: absolute;
-              top: 10em;
+              position: absolute; 
               left: 0;
               width: 100%;
               padding: 10px; 
@@ -67,14 +66,14 @@ const CatSlider1 = ({ subcategories }) => {
         }}
       />
       <div className="embla overflow-hidden" ref={emblaRef}>
-        <div className="embla__container flex">
+        <div className="embla__container flex" id='emblaid'>
           {subcategories.map((sub) => (
             <div className="embla__slide" key={sub.id}>
               <a href={`/search?sub=${encodeURIComponent(sub.name)}`}>
                 <div className="subcategory-card">
                   <img src={sub.img[0]} alt={sub.name} className="subcategory-image" />
                   <div className="subcategory-overlay">
-                    <h3 className="subcategory-title">{sub.name}</h3>
+                    <h3 className="subcategory-title" id='button222'>{sub.name}</h3>
                   </div>
                 </div>
               </a>

@@ -1016,6 +1016,19 @@ h1,h2,h3,h4,h5,h6, .br_text-base-sans-stretched{
 
 
 
-#button111 {
+#button111  {
   color: gray !important;
+}
+#button222  {
+  color: gray !important;
+  white-space: nowrap;
+}
+.subcategory-overlay {
+  color: gray !important;
+  top: 9em !important;
+}
+
+
+#emblaid{
+height: 250px !important;
 }
