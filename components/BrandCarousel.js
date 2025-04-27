@@ -67,7 +67,7 @@ const YourComponent = () => {
                 reverseDirection: true
               }} breakpoints={{
                 150: {
-                  slidesPerView: 4,
+                  slidesPerView: 3,
                 },
                 768: {
                   slidesPerView: 6,

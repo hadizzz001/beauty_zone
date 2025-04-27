@@ -7,9 +7,10 @@ const prizes = [
   { text: "5% Discount", code: "xyz123" },
   { text: "10% Discount", code: "abcd12345" },
   { text: "Free Delivery", code: "uuu2025" },
+  { text: "Oops !! Try Again Later", code: null },
 ];
 
-const imageURL = "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745434477/pngtree-spin-wheel-vector-illustration-png-image_6606505_bnuqjd.png";
+const imageURL = "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745690616/images-removebg-preview_2_tqi5jm.png";
 
 export default function SpinGame() {
   const [hasPlayed, setHasPlayed] = useState(false);
@@ -108,22 +109,30 @@ export default function SpinGame() {
           </>
         ) : (
           <>
-            <h2 className="text-2xl font-bold mb-2">🎉 You won: {prize.text}!</h2>
-            <p className="text-lg mb-3">Use this code:</p>
-            <div className="flex items-center justify-center gap-2 relative">
-              <span className="bg-gray-100 px-4 py-2 border rounded text-xl font-mono">{prize.code}</span>
-              <button
-                onClick={copyCode}
-                className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition"
-              >
-                Copy
-              </button>
-              {copied && (
-                <span className="absolute -bottom-6 flex items-center gap-1 text-green-600 text-sm">
-                  <CheckCircle2 size={16} /> Copied!
-                </span>
-              )}
-            </div>
+<h2 className="text-2xl font-bold mb-2">🎉 You won: {prize.text}!</h2>
+
+{prize.code ? (
+  <>
+    <p className="text-lg mb-3">Use this code:</p>
+    <div className="flex items-center justify-center gap-2 relative">
+      <span className="bg-gray-100 px-4 py-2 border rounded text-xl font-mono">{prize.code}</span>
+      <button
+        onClick={copyCode}
+        className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition"
+      >
+        Copy
+      </button>
+      {copied && (
+        <span className="absolute -bottom-6 flex items-center gap-1 text-green-600 text-sm">
+          <CheckCircle2 size={16} /> Copied!
+        </span>
+      )}
+    </div>
+  </>
+) : (
+  <p className="text-lg mb-3 text-red-500">Better luck next time!</p>
+)}
+
           </>
         )}
       </div>

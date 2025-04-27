@@ -116,8 +116,15 @@ const page = () => {
       discount = subtotal * 0.10;
       newTotal = newTotal - discount;
     } else if (promoCode === "uuu2025") {
-      newTotal = subtotal; // free delivery
-      setDeliveryFee(0);
+      if(subtotal > 80){
+        newTotal = subtotal;  
+        setDeliveryFee(0);
+      }
+      else{
+        alert("For free delivery the subtotal should be more than $80");
+        return;
+      }
+
     } else {
       alert("Invalid promo code.");
       return;
@@ -898,7 +905,7 @@ const page = () => {
                                                       checked={deliveryType === 'delivery'}
                                                       onChange={handleChange}
                                                     />
-                                                    <span>
+                                                    <span style={{ color: '#222' }}>
                                                       Delivery {deliveryType === 'delivery' && <span className="ml-1 text-black">✔</span>}
                                                     </span>
                                                   </label>
@@ -912,7 +919,7 @@ const page = () => {
                                                       checked={deliveryType === 'onstore'}
                                                       onChange={handleChange}
                                                     />
-                                                    <span>
+                                                    <span style={{ color: '#222' }}>
                                                       On Store {deliveryType === 'onstore' && <span className="ml-1 text-black">✔</span>}
                                                     </span>
                                                   </label>

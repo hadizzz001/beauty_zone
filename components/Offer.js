@@ -25,21 +25,22 @@ export default function OfferHeadline() {
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true}
       >
-        <SwiperSlide>
-          <div style={{ textAlign: "center" }}>
-          Be aware of fake products spreading all over market delivery all over Lebanon
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div style={{ textAlign: "center" }}>
-          Products are shiped to meet European standards
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div style={{ textAlign: "center" }}>
-          Cash on delivery/ high Quality/ authorized seller
-          </div>
-        </SwiperSlide>
+<SwiperSlide>
+  <div style={{ textAlign: "center" }}>
+    Be Aware Of Fake Products Spreading All Over Market Delivery All Over Lebanon
+  </div>
+</SwiperSlide>
+<SwiperSlide>
+  <div style={{ textAlign: "center" }}>
+    Products Are Shipped To Meet European Standards
+  </div>
+</SwiperSlide>
+<SwiperSlide>
+  <div style={{ textAlign: "center" }}>
+    Cash On Delivery / High Quality / Authorized Seller
+  </div>
+</SwiperSlide>
+
       </Swiper>
     </div>
   );

@@ -7,11 +7,11 @@ export default function ChatWidget() {
     { from: "bot", text: "Hi! Ask me about products or place an order." },
   ]);
   const [input, setInput] = useState("");
-
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [step, setStep] = useState("");
+  const [showChat, setShowChat] = useState(true);
   const [userInfo, setUserInfo] = useState({
     fname: "",
     lname: "",
@@ -23,6 +23,16 @@ export default function ChatWidget() {
   const toggleChat = () => setIsOpen(!isOpen);
   const messagesEndRef = useRef(null);
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowChat(false);
+    }, 6000); // 6 seconds
+
+    return () => clearTimeout(timer); // clean up the timer if the component unmounts
+  }, []);
+ 
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -32,6 +42,8 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, { from: "user", text }]);
     handleMessage(text);
   };
+
+
 
 
 
@@ -205,7 +217,7 @@ export default function ChatWidget() {
       throw new Error("Failed to fetch");
     }
     const text = await aiRes.text();
-const data = text ? JSON.parse(text) : null;
+    const data = text ? JSON.parse(text) : null;
     setMessages((m) => [...m, { from: "bot", text: data.message }]);
   };
 
@@ -221,9 +233,11 @@ const data = text ? JSON.parse(text) : null;
 
   return (
     <>
-      <div className="fixed bottom-[150px] right-5 bg-white text-gray-700 p-2 rounded shadow z-50 text-sm">
-    How can I assist you today?
-  </div>
+      {showChat && (
+        <div className="fixed bottom-[150px] right-5 bg-white text-gray-700 p-2 rounded shadow z-50 text-sm" id="chat123">
+          How can I assist you today?
+        </div>
+      )}
       <div onClick={toggleChat} className="fixed bottom-[80px] right-5 bg-[#5bbccd] text-white p-[18px] rounded-full cursor-pointer shadow-lg z-50">💬</div>
 
       {isOpen && (
@@ -341,7 +355,7 @@ const data = text ? JSON.parse(text) : null;
                           ? String(Math.max(...cart.map((c) => parseFloat(c.product.delivery || "0"))))
                           : "0";
 
-                     
+
 
                       const order = {
                         inputs: { ...userInfo, deliveryType },
@@ -366,7 +380,7 @@ const data = text ? JSON.parse(text) : null;
                         const productPoints = c.product.points || 0; // Handle case where product might not have points
                         return points + (productPoints * c.quantity);
                       }, 0);
-                      
+
                       // Update user points in localStorage
                       const currentPoints = parseInt(localStorage.getItem("userPoints") || "0");
                       const newTotalPoints = currentPoints + totalPoints;
@@ -384,7 +398,7 @@ const data = text ? JSON.parse(text) : null;
                         { from: "bot", text: "✅ Order placed! Thank you." },
                       ]);
                       setStep("");
-                      setCart([]); 
+                      setCart([]);
                     }}
                     className="p-2 border rounded cursor-pointer hover:bg-gray-100"
                   >

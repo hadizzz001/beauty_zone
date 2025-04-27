@@ -102,14 +102,14 @@ const YourComponent = () => {
 
 
                                     ) : (
-                                        <p>No products available in {category}</p>
+                                        <p> in {category}</p>
                                     )}
                                 </div>
                             </>
                         
                     ) : (
                         <div className="home___error-container">
-                            <h2 className="text-black text-xl font-bold">No products available</h2>
+                            <h2 className="text-black text-xl font-bold"></h2>
                         </div>
                     )}
                 </div>

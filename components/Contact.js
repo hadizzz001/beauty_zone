@@ -3,30 +3,50 @@ import Link from "next/link";
 export default function Features() {
   return (
     <>  
-<div className="sywPaymentOptions">
-  
- 
-  
+      <div className="sywPaymentOptions text-center p-6">
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              .border-gray-400 {
+                --tw-border-opacity: 1;
+                border-color: rgb(156 163 175 / var(--tw-border-opacity)) !important;
+              }
+            `
+          }}
+        />
 
-  <style
-  dangerouslySetInnerHTML={{
-    __html:
-      "\n    .border-gray-400 {\n    --tw-border-opacity: 1;\n    border-color: rgb(156 163 175 / var(--tw-border-opacity)) !important;\n}\n"
-  }}
-/>
+        {/* Title */}
+        <div className="relative flex flex-col items-center py-5">
+          <h2 className="text-2xl md:text-3xl font-serif mb-6">
+            Looking For a Special Product?
+          </h2>
 
-  <div className="relative flex py-5 items-center">
-  <div className="flex-grow border-t border-gray-400" />
-  <span className="flex-shrink mx-4  "><h2 className="br_text-2xl-serif md:br_text-3xl-serif">Looking for a special product?</h2></span>
-  <div className="flex-grow border-t border-gray-400" />
-</div>
+          {/* Big Image under Title */}
+          <img 
+            src="https://res.cloudinary.com/dqzzfskhw/image/upload/v1745694052/001_csu4hy.png"  
+            className="w-28 h-28 object-contain"
+            alt="Special Product"
+          />
 
- 
- <a href="quiz">
- <button type="submit" class="klaviyo_submit_button" style={{padding: "1em",minWidth: "10%",  marginBottom: "3em"}}>Take a quiz now!</button>
- </a>
-</div>
+          {/* Optional divider line */}
+     
+        </div>
 
+        {/* Button */}
+        <Link href="/quiz">
+          <button 
+            type="button" 
+            className="klaviyo_submit_button"
+            style={{
+              padding: "1em",
+              minWidth: "10%",
+              marginBottom: "3em",
+            }}
+          >
+            Pickup a Product!
+          </button>
+        </Link>
+      </div>
     </>
-  )
+  );
 }

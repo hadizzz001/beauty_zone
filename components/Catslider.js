@@ -39,7 +39,13 @@ const YourComponent = () => {
     setActiveRowIndex(rowIndex);
     const filtered = subcategories.filter((sub) => sub.category === catName);
     setFilteredSubs(filtered);
+  
+    if (filtered.length === 0) {
+      // Redirect if no subcategories
+      window.location.href = `/search?cat=${encodeURIComponent(catName)}`;
+    }
   };
+  
 
   // Chunk categories into rows of 2
   const chunkedCategories = [];
@@ -110,7 +116,7 @@ const YourComponent = () => {
         </>
       ) : (
         <div className="text-center mt-10">
-          <h2 className="text-black text-xl font-bold">No Products Found</h2>
+          <h2 className="text-black text-xl font-bold"></h2>
         </div>
       )}
     </div>

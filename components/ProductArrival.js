@@ -81,7 +81,7 @@ const YourComponent = () => {
 
                                     {allTemps?.length > 0 ? (
                                         <section className=' mb-5' style={{ maxWidth: "100%" }}>
-                                            <Swiper spaceBetween={5} loop breakpoints={{
+                                            <Swiper spaceBetween={20} loop breakpoints={{
                                                 150: {
                                                     slidesPerView: 2,
                                                 },
@@ -109,7 +109,7 @@ const YourComponent = () => {
                         
                     ) : (
                         <div className="home___error-container">
-                            <h2 className="text-black text-xl font-bold">No products available</h2>
+                            <h2 className="text-black text-xl font-bold"></h2>
                         </div>
                     )}
                 </div>

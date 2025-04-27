@@ -121,6 +121,7 @@ const createWhatsAppURL = (inputs, items, total, delivery) => {
       - Price: $${item.discount}
       - Size: ${item.selectedSize}
       - Color: ${item.selectedColor}
+      - Name: ${item.selectedName}
       - Image: ${item.img[0]} 
     `).join('\n')}
 

@@ -60,7 +60,7 @@ const CartProvider = ({ children }) => {
     setSubtotal(newSubtotal);
   }, [quantities, cart]);
 
-  const addToCart = (item, quantity = {}, selectedColor = '', selectedSize = '') => {
+  const addToCart = (item, quantity = {}, selectedColor = '', selectedSize = '', selectedName = '') => {
     const existingCartItemIndex = cart.findIndex(
       (cartItem) => String(cartItem._id) === String(item._id)
     );
@@ -84,6 +84,7 @@ const CartProvider = ({ children }) => {
                 quantity,
                 selectedColor,
                 selectedSize,
+                selectedName,
               }
             : cartItem
         ),
@@ -98,6 +99,7 @@ const CartProvider = ({ children }) => {
             quantity,
             selectedColor,
             selectedSize,
+            selectedName,
           },
         ],
       });

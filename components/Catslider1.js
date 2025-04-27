@@ -44,12 +44,11 @@ const CatSlider1 = ({ subcategories }) => {
 
             .subcategory-overlay {
               position: absolute;
-              top: 0;
+              top: 10em;
               left: 0;
               width: 100%;
-              padding: 10px;
-              background: linear-gradient(to bottom, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.0));
-              color: white;
+              padding: 10px; 
+              color: gray;
               text-align: center;
             }
 

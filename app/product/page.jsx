@@ -27,6 +27,7 @@ const Page = () => {
   const [allTemp2, setAllTemps2] = useState();
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [selectedName, setSelectedName] = useState('');
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const isFavorite = favorites.some((fav) => fav._id === search);
   const [zoomedImg, setZoomedImg] = useState(null);
@@ -130,14 +131,9 @@ const Page = () => {
     e.preventDefault();
 
 
-    if (!stock) {
-      if (selectedColor?.length === 0) {
-        alert("Please select at least one color.");
-        return;
-      }
-    }
+ 
 
-    addToCart(allTemp1, quantity, selectedColor, selectedSize);
+    addToCart(allTemp1, quantity, selectedColor, selectedSize, selectedName);
     handleClickc();
   };
 
@@ -365,9 +361,10 @@ const Page = () => {
                                         type="button"
                                         onClick={() => setSelectedSize(sz)}
                                         className={`px-4 py-2 border rounded-md ${selectedSize === sz
-                                          ? 'bg-black text-white'
+                                          ? 'bg-black text-grey'
                                           : 'bg-white text-black border-gray-300'
                                           }`}
+                                          id='button111'
                                       >
                                         {sz}
                                       </button>
@@ -375,6 +372,37 @@ const Page = () => {
                                   </div>
                                 </div>
                               )}
+
+
+{allTemp1?.names &&
+  allTemp1.names?.length > 0 &&
+  !(allTemp1.names?.length === 1 && allTemp1.names[0] === "") && (
+    <div style={{ margin: '1rem 0' }}>
+      <h2 style={{ fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Select name:</h2>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+        {allTemp1.names.map((sz, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => setSelectedName(sz)}
+            style={{
+              padding: '0.5rem 1rem',
+              border: '1px solid',
+              borderRadius: '0.375rem',
+              backgroundColor: selectedName === sz ? 'black' : 'white',
+              color: selectedName === sz ? 'white' : 'black',
+              borderColor: selectedName === sz ? 'black' : '#d1d5db', // gray-300
+              cursor: 'pointer'
+            }}
+            id='button111'
+          >
+            {sz}
+          </button>
+        ))}
+      </div>
+    </div>
+)}
+
 
 
 
