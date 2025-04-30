@@ -12,6 +12,8 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useFavorites } from '../context/FavContext';
 import { Heart, HeartFilled } from 'lucide-react';
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 
 const Page = () => {
@@ -212,7 +214,9 @@ const Page = () => {
                                   <div key={index} onClick={() => setZoomedImg(item)} style={{ cursor: "zoom-in" }}>
                                     <div className="HtmlProductInfiniteGallery__Slides_Slide">
                                       <div className="Slide Slide--image">
+                                      <Zoom overlayBgColorEnd="rgba(0, 0, 0, 0.85)" zoomMargin={20}>
                                         <img src={item} style={{ maxWidth: "100%", height: "auto" }} />
+                                        </Zoom>
                                       </div>
                                     </div>
                                   </div>
@@ -224,34 +228,7 @@ const Page = () => {
                               )}
                             </div>
 
-                            {zoomedImg && (
-                              <div
-                                onClick={() => setZoomedImg(null)}
-                                className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-                                style={{
-                                  touchAction: 'none', // disable default gestures like double-tap zoom
-                                  overflow: 'hidden',  // optional, to prevent scroll bounce
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    touchAction: 'pinch-zoom', // enable pinch-to-zoom
-                                    overflow: 'auto',
-                                    WebkitOverflowScrolling: 'touch',
-                                  }}
-                                >
-                                  <img
-                                    src={zoomedImg}
-                                    className="object-contain"
-                                    style={{
-                                      maxWidth: '100%',
-                                      maxHeight: '100%',
-                                      touchAction: 'auto',
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            )}
+ 
 
                           </div>
                         </div>

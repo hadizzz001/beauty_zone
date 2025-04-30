@@ -1024,11 +1024,8 @@ h1,h2,h3,h4,h5,h6, .br_text-base-sans-stretched{
   white-space: nowrap;
 }
 .subcategory-overlay {
-  color: gray !important;
-  top: 8.5em !important;
+  color: gray !important; 
 }
 
 
-#emblaid{
-height: 250px !important;
-}
+ 
