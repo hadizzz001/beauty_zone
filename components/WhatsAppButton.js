@@ -12,25 +12,7 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
     
             for (const item of items) {
                 const quantityToDecrease = parseInt(item.quantity, 10);
-                earnedPoints += parseInt(item.points || 0) * quantityToDecrease;
-    
-                let response;
-                if (item.stock === undefined) {
-                    response = await fetch(`/api/stock1/${item.selectedColor}`, {
-                        method: "PATCH",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            productId: item._id,
-                            qty: quantityToDecrease,
-                        }),
-                    });
-                } else {
-                    response = await fetch(`/api/stock/${item._id}`, {
-                        method: "PATCH",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ qty: quantityToDecrease }),
-                    });
-                }
+                earnedPoints += parseInt(item.points || 0) * quantityToDecrease; 
             }
     
             const orderResponse = await fetch("/api/sendOrder", {
@@ -48,7 +30,7 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
     
             console.log("Order created successfully!");
     
-            // === Handle Points & VIP status ===
+ 
             const currentPoints = parseInt(localStorage.getItem("userPoints") || "0");
             const newTotalPoints = currentPoints + earnedPoints;
             localStorage.setItem("userPoints", newTotalPoints); 
@@ -70,7 +52,7 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
             return;
         }
 
-        const url = createWhatsAppURL(inputs, items , total, delivery);
+        const url = createWhatsAppURL(inputs, items , total, delivery, subtotal);
         window.open(url, '_blank');
         createOrder();
         clearCart();
@@ -96,42 +78,40 @@ const WhatsAppButton = ({ inputs, items, total, delivery }) => {
 
 export default WhatsAppButton;
 
-const createWhatsAppURL = (inputs, items, total, delivery) => { 
-    const { address, fname, lname, phone , email, note, deliveryType} = inputs;
-
-    // Calculate the total amount
-    const totalAmount = items.reduce((sum, item) => sum + item.discount * item.quantity, 0);
+const createWhatsAppURL = (inputs, items, total, delivery, subtotal) => { 
+    const { address, fname, lname, phone, email, note, deliveryType } = inputs;
+  
  
-    
-
+  
     // Formatting the message
     const message = `
-    *Customer Information:*
-    Email: ${email}
-    Name: ${fname} ${lname} 
-    Phone: ${phone}
-    Address: ${address}
-    Note: ${note}
-
-    *Order Details:*
-    ${items.map((item, index) => `
-      Item ${index + 1}:
-      - Name: ${item.title} 
-      - Quantity: ${item.quantity}
-      - Price: $${item.discount}
-      - Size: ${item.selectedSize}
-      - Color: ${item.selectedColor}
-      - Name: ${item.selectedName}
-      - Image: ${item.img[0]} 
-    `).join('\n')}
-
-    Subtotal: $${totalAmount.toFixed(2)}
-    Delivery Type: ${deliveryType}
-    Delivery fee: $${delivery}
-    *Total Amount:* $${total}
+  *Customer Information:*
+  Email: ${email}
+  Name: ${fname} ${lname}
+  Phone: ${phone}
+  Address: ${address}
+  Note: ${note}
+  
+  *Order Details:*
+  ${items.map((item, index) => `
+  Item ${index + 1}:
+  - Name: ${item.title}
+  - Quantity: ${item.quantity} 
+  - Sizes:
+  ${item.selectedSizes?.map(size => `   - Size: ${size.size}, Qty: ${size.qty}, Price: $${size.price}`).join('\n') || '   - N/A'}
+  - Names:
+  ${item.selectedNames?.map(name => `   - Name: ${name.name}, Qty: ${name.qty}`).join('\n') || '   - N/A'}
+  - Image: ${item.img?.[0] || 'N/A'}
+  `).join('\n')}
+  
+  Subtotal: $${subtotal}
+  Delivery Type: ${deliveryType}
+  Delivery fee: $${delivery}
+  *Total Amount:* $${total}
   `;
-
+  
     const encodedMessage = encodeURIComponent(message);
-    const phoneNumber = '96178850249';  
+    const phoneNumber = '96178850249';
     return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-};
+  };
+  

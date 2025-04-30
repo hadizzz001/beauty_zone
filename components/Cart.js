@@ -9,8 +9,7 @@ import CarCard5 from '../components/CarCard5';
 const Cart = () => {
     const { cart, removeFromCart, quantities, subtotal, addToCart } = useCart();
     const [localQuantities, setLocalQuantities] = useState(quantities);
-    const { isBooleanValue, setBooleanValue } = useBooleanValue();
-    const [errors, setErrors] = useState({});
+    const { isBooleanValue, setBooleanValue } = useBooleanValue(); 
     const [allTemp2, setAllTemps2] = useState();
     const [maxStock, setMaxStock] = useState({}); // Store max stock for each item
 
@@ -106,6 +105,9 @@ const Cart = () => {
     };
 
 
+    console.log("cart: ", cart);
+
+
 
 
     return (
@@ -158,39 +160,42 @@ const Cart = () => {
                                                         <span className="myNewC">{obj.category}</span>
                                                     </div>
                                                     <div className="Checkout_Cart_LineItems_LineItem_Details_Quantity">
-                                                        <span className="myNewC">Qty:</span>
+                                                        {obj.selectedNames && obj.selectedNames.length > 0 ? (
+                                                            <div>
+                                                                {obj.selectedNames.map((item, index) => (
+                                                                    <div key={index} className="myNewC">
+                                                                        {item.name}: {item.qty}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        ) : (
+                                                            <>
+                                                                <span className="myNewC">Qty:</span>
+                                                                <input
+                                                                    type="number"
+                                                                    className="myNewC"
+                                                                    value={localQuantities[obj._id] || 1}
+                                                                    onChange={(e) => handleQuantityChange(obj._id, e.target.value)}
+                                                                    min="1"
+                                                                    readOnly
+                                                                />
+                                                            </>
+                                                        )}
 
-                                                        <input
-                                                            type="number"
-                                                            className="myNewC"
-                                                            value={localQuantities[obj._id] || 1}
-                                                            onChange={(e) => handleQuantityChange(obj._id, e.target.value)}
-                                                            min="1"
-                                                            max={maxStock[obj._id] || 1} 
-                                                            readOnly
-                                                        />
 
 
 
                                                     </div>
-                                                    {errors[obj._id] && (
-                                                        <p style={{ color: 'red' }}>
-                                                            {errors[obj._id]}
-                                                            <a
-                                                                style={{ color: "#4acb4a", display: "inline" }}
-                                                                href={`/product?id=${obj._id}&&custom=1&&imgg=${obj.img[0]}`}
-                                                            >
-                                                                add now
-                                                            </a>
-                                                        </p>
-                                                    )}
                                                     <div className="Checkout_Cart_LineItems_LineItem_Price">
-                                                        <span className="Currency">
-                                                            <span className="Currency_Monetary myNewC">
-                                                                ${obj.discount * (localQuantities[obj._id] || 1)}
-                                                            </span>
-                                                            <span className="Currency_Code myNewC">USD</span>
-                                                        </span>
+                                                    {(!obj.selectedSizes || obj.selectedSizes.length === 0) && (
+  <span className="Currency"> 
+    <span className="Currency_Monetary myNewC">
+      ${obj.discount * (localQuantities[obj._id] || 1)}
+    </span>
+    <span className="Currency_Code myNewC">USD</span>
+  </span>
+)}
+
                                                     </div>
                                                 </div>
                                                 <button className="Checkout_Cart_LineItems_LineItem_Remove" onClick={() => handleRemoveFromCart(obj._id)}>

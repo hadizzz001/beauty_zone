@@ -278,10 +278,24 @@ const page = () => {
                               <td className="product-total" style={{ color: "#82838e" }}>
                                 <div className="wfacp_order_summary_item_total">
                                   <span className="woocommerce-Price-amount amount" style={{ color: "#82838e" }}>
-                                    <bdi>
-                                      <span className="woocommerce-Price-currencySymbol" style={{ color: "#82838e" }}>$</span>
-                                      {(obj.discount * localQuantities[obj._id] || obj.discount).toFixed(2)}
-                                    </bdi>
+                                  {!(
+  Array.isArray(obj.selectedSizes) &&
+  obj.selectedSizes.length > 0 &&
+  obj.selectedSizes.some(
+    (item) => item.size && item.price && item.qty
+  )
+) && (
+  <bdi>
+    <span
+      className="woocommerce-Price-currencySymbol"
+      style={{ color: "#82838e" }}
+    >
+      $
+    </span>
+    {(obj.discount * localQuantities[obj._id] || obj.discount).toFixed(2)}
+  </bdi>
+)}
+
                                   </span>
                                 </div>
 
@@ -824,12 +838,24 @@ const page = () => {
                                                         <td className="product-total">
                                                           <div className="wfacp_order_summary_item_total">
                                                             <span className="woocommerce-Price-amount amount">
-                                                              <bdi>
-                                                                <span className="woocommerce-Price-currencySymbol">
-                                                                  $
-                                                                </span>
-                                                                {(obj.discount * localQuantities[obj._id] || obj.discount).toFixed(2)}
-                                                              </bdi>
+                                                            {!(
+  Array.isArray(obj.selectedSizes) &&
+  obj.selectedSizes.length > 0 &&
+  obj.selectedSizes.some(
+    (item) => item.size && item.price && item.qty
+  )
+) && (
+  <bdi>
+    <span
+      className="woocommerce-Price-currencySymbol"
+      style={{ color: "#82838e" }}
+    >
+      $
+    </span>
+    {(obj.discount * localQuantities[obj._id] || obj.discount).toFixed(2)}
+  </bdi>
+)}
+
                                                             </span>{" "}
                                                           </div>
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { Test, CarCard } from '../../components'
-import { useState, useEffect, useRef,useCallback } from 'react';
+import { CarCard } from '../../components'
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useCart } from '../context/CartContext';
@@ -11,37 +11,43 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useFavorites } from '../context/FavContext';
-import { Heart, HeartFilled } from 'lucide-react'; 
-import useEmblaCarousel from 'embla-carousel-react';
- 
+import { Heart, HeartFilled } from 'lucide-react';
+
 
 const Page = () => {
   const [translateXValue, setTranslateXValue] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
-  let imgs, title, price, desc, cat, sub, discount, id, stock
+  let imgs, title, price, desc, cat, sub, discount, id
   const { cart, addToCart } = useCart();
   const { isBooleanValue, setBooleanValue } = useBooleanValue();
   const isInCart = cart?.some((item) => item._id === search);
   const router = useRouter();
   const [allTemp1, setAllTemps1] = useState();
   const [allTemp2, setAllTemps2] = useState();
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedName, setSelectedName] = useState('');
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const isFavorite = favorites.some((fav) => fav._id === search);
   const [zoomedImg, setZoomedImg] = useState(null);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false })
+  const [selectedSizes, setSelectedSizes] = useState([]); // [{ size, price, qty }]
+  const [selectedNames, setSelectedNames] = useState([]);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev()
-  }, [emblaApi])
+  const toggleSizeSelection = (sz) => {
+    const exists = selectedSizes.find(s => s.size === sz.size);
+    if (exists) {
+      setSelectedSizes(prev => prev.filter(s => s.size !== sz.size));
+    } else {
+      setSelectedSizes(prev => [...prev, { ...sz, qty: 1 }]);
+    }
+  };
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext()
-  }, [emblaApi])
+  const updateQty = (size, qty) => {
+    setSelectedSizes(prev =>
+      prev.map(s =>
+        s.size === size ? { ...s, qty: Number(qty) } : s
+      )
+    );
+  };
 
 
   const toggleFavorite = () => {
@@ -81,7 +87,6 @@ const Page = () => {
     price = allTemp1.price;
     discount = allTemp1.discount;
     desc = allTemp1.description;
-    stock = allTemp1.stock;
     sub = allTemp1.subcategory;
   }
 
@@ -101,6 +106,12 @@ const Page = () => {
       fetchData();
     }
   }, [cat]);
+
+
+  useEffect(() => {
+    console.log("selectedNames: ", selectedNames);
+
+  }, [selectedNames]);
 
 
 
@@ -142,9 +153,9 @@ const Page = () => {
     e.preventDefault();
 
 
- 
 
-    addToCart(allTemp1, quantity, selectedColor, selectedSize, selectedName);
+
+    addToCart(allTemp1, quantity, selectedSizes, selectedNames);
     handleClickc();
   };
 
@@ -159,10 +170,6 @@ const Page = () => {
 
 
 
-  useEffect(() => {
-    setQuantity(1);
-
-  }, [selectedColor]);
 
 
 
@@ -221,10 +228,31 @@ const Page = () => {
                               <div
                                 onClick={() => setZoomedImg(null)}
                                 className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+                                style={{
+                                  touchAction: 'none', // disable default gestures like double-tap zoom
+                                  overflow: 'hidden',  // optional, to prevent scroll bounce
+                                }}
                               >
-                                <img src={zoomedImg} className="max-w-full max-h-full object-contain" />
+                                <div
+                                  style={{
+                                    touchAction: 'pinch-zoom', // enable pinch-to-zoom
+                                    overflow: 'auto',
+                                    WebkitOverflowScrolling: 'touch',
+                                  }}
+                                >
+                                  <img
+                                    src={zoomedImg}
+                                    className="object-contain"
+                                    style={{
+                                      maxWidth: '100%',
+                                      maxHeight: '100%',
+                                      touchAction: 'auto',
+                                    }}
+                                  />
+                                </div>
                               </div>
                             )}
+
                           </div>
                         </div>
                       </div>
@@ -275,10 +303,14 @@ const Page = () => {
                         dangerouslySetInnerHTML={{ __html: desc }}
                       /><br />
                     </span>
+
                     <div className="flex items-center space-x-2">
-                      <h1 className="mb-2 myNewC br_line-through font-bold text-lg">${price}</h1>
+                      {price && (
+                        <h1 className="mb-2 myNewC br_line-through font-bold text-lg">${price}</h1>
+                      )}
                       <h1 className="mb-2 myNewC font-bold text-lg">${discount}</h1>
                     </div>
+
 
                   </div>
                   <div className="bagsFeaturesGrid__gridWrapper">
@@ -307,147 +339,143 @@ const Page = () => {
 
 
 
-                            <QuantitySelector
-                              colorCode={selectedColor}
-                              initialQty={quantity}
-                              onChange={setQuantity}
-                              productId={id}
-                            />
+                            {!(
+                              allTemp1?.sizes &&
+                              allTemp1.sizes.length === 1 &&
+                              allTemp1.sizes[0].size === "" &&
+                              allTemp1.sizes[0].price === ""
+                            ) &&
+                              !(allTemp1?.sizes && allTemp1.sizes.length > 0) &&
+                              !(allTemp1?.names && allTemp1.names.length > 0) && (
+                                <QuantitySelector
+                                  initialQty={quantity}
+                                  onChange={setQuantity}
+                                  productId={id}
+                                />
+                              )}
+
 
 
 
                             <div className=""></div>
 
-
-
-
-
-
-                            {allTemp1?.colors && allTemp1.colors?.length > 0 && (
-                              <div className="my-4">
-                                <h2 className="font-semibold text-md mb-2">Select Colors:</h2>
-                                <div className="flex space-x-4 flex-wrap">
-                                  {allTemp1.colors
-                                    .filter((col) => parseInt(col.qty) > 0)
-                                    .map((col, idx) => {
-                                      const isSelected = selectedColor === col.code;
-                                      return (
-                                        <button
-                                          key={idx}
-                                          type="button"
-                                          className="relative rounded-full w-12 h-12 overflow-hidden border-2 border-gray-300"
-                                          onClick={() => setSelectedColor(col.code)}
-                                        >
-                                          <img
-                                            src={col.img[0]}
-                                            alt={`Color ${col.code}`}
-                                            className="w-full h-full object-cover"
-                                          />
-                                          {isSelected && (
-                                            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                              <span className="text-white text-xl font-bold">✓</span>
-                                            </div>
-                                          )}
-                                        </button>
-                                      );
-                                    })}
-                                </div>
-                              </div>
-                            )}
-
-
-
-
-
-
                             {allTemp1?.sizes &&
-                              allTemp1.sizes?.length > 0 &&
-                              !(allTemp1.sizes?.length === 1 && allTemp1.sizes[0] === "") && (
+                              allTemp1.sizes.length > 0 &&
+                              !(allTemp1.sizes.length === 1 && allTemp1.sizes[0].size === "" && allTemp1.sizes[0].price === "") && (
                                 <div className="my-4">
                                   <h2 className="font-semibold text-md mb-2">Select Sizes:</h2>
-                                  <div className="flex flex-wrap gap-2">
+                                  <div className="flex flex-wrap gap-2 mb-4">
                                     {allTemp1.sizes.map((sz, idx) => (
                                       <button
                                         key={idx}
                                         type="button"
-                                        onClick={() => setSelectedSize(sz)}
-                                        className={`px-4 py-2 border rounded-md ${selectedSize === sz
-                                          ? 'bg-black text-grey'
+                                        onClick={() => toggleSizeSelection(sz)}
+                                        className={`px-4 py-2 border rounded-md ${selectedSizes.some((s) => s.size === sz.size)
+                                          ? 'bg-black text-white'
                                           : 'bg-white text-black border-gray-300'
                                           }`}
-                                          id='button111'
+                                        id="button111"
                                       >
-                                        {sz}
+                                        {sz.size} (${sz.price})
                                       </button>
                                     ))}
                                   </div>
+
+                                  {selectedSizes.length > 0 && (
+                                    <div className="space-y-2">
+                                      {selectedSizes.map((sz, idx) => (
+                                        <div key={idx} className="flex items-center gap-4">
+                                          <span className="font-medium" id="button111">{sz.size} (${sz.price})</span>
+                                          <input
+                                            type="number"
+                                            min="1"
+                                            value={sz.qty}
+                                            onChange={(e) => updateQty(sz.size, e.target.value)}
+                                            className="w-20 p-1 border border-gray-300 rounded-md"
+                                            placeholder="Qty"
+                                          />
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                               )}
 
 
-{allTemp1?.names &&
-        allTemp1.names.length > 0 &&
-        !(allTemp1.names.length === 1 && allTemp1.names[0] === "") && (
-          <div style={{ margin: '1rem 0' }}>
-            <h2 style={{ fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>
-              Select name:
-            </h2>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}> 
 
-              <div className="embla" ref={emblaRef} style={{ overflow: 'hidden', width: '80%' }}>
-                <div className="embla__container" style={{ display: 'flex', gap: '0.5rem' }}>
-                  {allTemp1.names.map((sz, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => setSelectedName(sz)}
-                      style={{
-                        flex: '0 0 auto',
-                        padding: '0.5rem 1rem',
-                        border: '1px solid',
-                        borderRadius: '0.375rem',
-                        backgroundColor: selectedName === sz ? 'black' : 'white',
-                        color: selectedName === sz ? 'white' : 'black',
-                        borderColor: selectedName === sz ? 'black' : '#d1d5db',
-                        cursor: 'pointer'
-                      }}
-                      id="button111"
-                    >
-                      {sz}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
-              <span style={{ position: "absolute", right: "2em" }}><svg
-                                            fill="#999"
-                                            viewBox="0 0 24 24"
-                                            id="right-arrow"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="icon line"
-                                            width={42}
-                                        >
-                                            <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-                                            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                    id="primary"
-                                                    d="M3,12H21m-3,3,3-3L18,9"
-                                                    style={{
-                                                        fill: "none",
-                                                        stroke: "#999",
-                                                        strokeLinecap: "round",
-                                                        strokeLinejoin: "round",
-                                                        strokeWidth: "1.5"
-                                                    }}
-                                                />
-                                            </g>
-                                        </svg>
-                                        </span>
-            </div>
-          </div>
-        )}
+
+                            {allTemp1?.names &&
+                              allTemp1.names.length > 0 &&
+                              !(allTemp1.names.length === 1 && allTemp1.names[0] === "") && (
+                                <div style={{ margin: '1rem 0' }}>
+                                  <h2 style={{ fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>
+                                    Select names:
+                                  </h2>
+
+                                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                    {allTemp1.names.map((sz, idx) => {
+                                      const isSelected = selectedNames?.some((item) => item.name === sz);
+                                      const qty = selectedNames?.find((item) => item.name === sz)?.qty || '';
+
+                                      const toggleSelection = () => {
+                                        if (isSelected) {
+                                          setSelectedNames((prev) => prev.filter((item) => item.name !== sz));
+                                        } else {
+                                          setSelectedNames((prev) => [...prev, { name: sz, qty: '1' }]);
+                                        }
+                                      };
+
+                                      const handleQtyChange = (e) => {
+                                        const value = e.target.value;
+                                        setSelectedNames((prev) =>
+                                          prev.map((item) =>
+                                            item.name === sz ? { ...item, qty: value } : item
+                                          )
+                                        );
+                                      };
+
+                                      return (
+                                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                          <button
+                                            type="button"
+                                            onClick={toggleSelection}
+                                            style={{
+                                              padding: '0.5rem 1rem',
+                                              border: '1px solid',
+                                              borderRadius: '0.375rem',
+                                              backgroundColor: isSelected ? 'black' : 'white',
+                                              color: isSelected ? 'white' : 'black',
+                                              borderColor: isSelected ? 'black' : '#d1d5db',
+                                              cursor: 'pointer',
+                                            }}
+                                            id='button111'
+                                          >
+                                            {sz}
+                                          </button>
+                                          {isSelected && (
+                                            <input
+                                              type="number"
+                                              min="0"
+                                              value={qty}
+                                              onChange={handleQtyChange}
+                                              placeholder="Qty"
+                                              style={{
+                                                padding: '0.25rem 0.5rem',
+                                                borderRadius: '0.25rem',
+                                                border: '1px solid #d1d5db',
+                                                width: '60px',
+                                              }}
+                                            />
+                                          )}
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+
 
 
 
@@ -462,60 +490,22 @@ const Page = () => {
 
                             <div className="">
                               <span className="ProvidersSingleProduct--selected">
-                                {!stock ? (
-                                  allTemp1 && allTemp1.colors && allTemp1.colors?.length > 0 ? (
-                                    allTemp1.colors.every(color => parseInt(color.qty) === 0) ? (
-                                      <p className="mt-10" style={{ color: "#222", fontSize: "24px" }}>
-                                        Out of Stock
-                                      </p>
-                                    ) : (
-                                      <div className='flex'>
-                                        <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
-                                          <span>ADD TO CART</span>
-                                        </button>
-                                        <a
-                                          onClick={toggleFavorite}
-                                          className="AddToCart m-4   "
-                                          aria-label="Toggle Favorite"
-                                        >
-                                          <Heart
-                                            size={24}
-                                            className={`transition-all duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
-                                              }`}
-                                          />
-                                        </a>
-                                      </div>
-                                    )
-                                  ) : (
-                                    // fallback or loading button if alltemp1 is not yet loaded
-                                    <button disabled className="AddToCart HtmlProductAddToCart bg-gray-300 text-gray-600" style={{ borderRadius: "0" }}>
-                                      <span>Loading...</span>
-                                    </button>
-                                  )
-
-                                ) : stock > 0 ? (
-                                  <div className='flex'>
-                                    <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
-                                      <span>ADD TO CART</span>
-                                    </button>
-                                    <a
-                                      onClick={toggleFavorite}
-                                      className="AddToCart m-4   "
-                                      aria-label="Toggle Favorite"
-                                    >
-                                      <Heart
-                                        size={24}
-                                        className={`transition-all duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
-                                          }`}
-                                      />
-                                    </a>
-                                  </div>
-                                ) : (
-                                  <p className="mt-10" style={{ color: "#222", fontSize: "24px" }}>
-                                    Out of Stock
-                                  </p>
-                                )}
-
+                                <div className='flex'>
+                                  <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
+                                    <span>ADD TO CART</span>
+                                  </button>
+                                  <a
+                                    onClick={toggleFavorite}
+                                    className="AddToCart m-4   "
+                                    aria-label="Toggle Favorite"
+                                  >
+                                    <Heart
+                                      size={24}
+                                      className={`transition-all duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
+                                        }`}
+                                    />
+                                  </a>
+                                </div>
                               </span>
                             </div>
                             <div className=""></div>
@@ -545,19 +535,19 @@ const Page = () => {
                   }} />
                   <div className="ProductTile-SliderContainer ProductTile-SliderContainer--YMAL" data-product-list-category="ymal-slider">
 
-                   
-                      <section style={{ maxWidth: "100%" }}>
-                          {allTemp1?.video && allTemp1?.video[0] ? (
-                            <>
-                            <div className="ProductTile-SliderContainer-Title br_text-3xl-serif br_text-gray myNewC">Product Video</div>
-                            <video src={allTemp1.video[0]} controls />
-                            </>
-                          ) : (
-                            <p></p>
-                          )}
-                        </section>
-                      
-                   
+
+                    <section style={{ maxWidth: "100%" }}>
+                      {allTemp1?.video && allTemp1?.video[0] ? (
+                        <>
+                          <div className="ProductTile-SliderContainer-Title br_text-3xl-serif br_text-gray myNewC">Product Video</div>
+                          <video src={allTemp1.video[0]} controls />
+                        </>
+                      ) : (
+                        <p></p>
+                      )}
+                    </section>
+
+
                   </div>
                 </content-block>
               </span>
