@@ -54,7 +54,7 @@ const CarCard = ({ temp }: CarCardProps) => {
                                         >
                                             <h2 className="text-sm font-bold myBB  py-1">{title}</h2> 
                                             <div className="price-container br_inline-flex br_flex-wrap br_gap-x-2 br_items-baseline apex:br_text-white group-[.centered]/tile:br_justify-center">
-                                                <span className="old-price text-left text-sm   py-1   br_line-through myBB">${price} USD</span>
+                                                {price && (<span className="old-price text-left text-sm   py-1   br_line-through myBB">${price} USD</span>)}
                                                 <span className="old-price text-left text-sm bg-gray-500 py-1 rounded br_text-gray-500 p-[4px]">${discount} USD</span>
                                             </div>
 

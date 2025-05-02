@@ -12,8 +12,9 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useFavorites } from '../context/FavContext';
 import { Heart, HeartFilled } from 'lucide-react';
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+
+
 
 
 const Page = () => {
@@ -30,7 +31,6 @@ const Page = () => {
   const [allTemp2, setAllTemps2] = useState();
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const isFavorite = favorites.some((fav) => fav._id === search);
-  const [zoomedImg, setZoomedImg] = useState(null);
   const [selectedSizes, setSelectedSizes] = useState([]); // [{ size, price, qty }]
   const [selectedNames, setSelectedNames] = useState([]);
 
@@ -211,12 +211,30 @@ const Page = () => {
                             <div className="HtmlProductInfiniteGallery__Slides" style={{ transform: `translateX(${translateXValue}%)` }}>
                               {imgs && imgs?.length > 0 ? (
                                 imgs.map((item, index) => (
-                                  <div key={index} onClick={() => setZoomedImg(item)} style={{ cursor: "zoom-in" }}>
+                                  <div key={index} >
                                     <div className="HtmlProductInfiniteGallery__Slides_Slide">
                                       <div className="Slide Slide--image">
-                                      <Zoom overlayBgColorEnd="rgba(0, 0, 0, 0.85)" zoomMargin={20}>
-                                        <img src={item} style={{ maxWidth: "100%", height: "auto" }} />
-                                        </Zoom>
+
+
+
+                                        <TransformWrapper
+                                          initialScale={1}
+                                          minScale={1}
+                                          maxScale={4}
+                                          doubleClick={{ disabled: true }}
+                                          wheel={{ step: 0.1 }}
+                                          pinch={{ disabled: false }}
+                                          panning={{ disabled: false }}
+                                        >
+                                          <TransformComponent>
+                                            <img
+                                              src={item}
+                                              alt="Zoomable"
+                                              style={{ width: '100%', height: 'auto', touchAction: 'none' }}
+                                            />
+                                          </TransformComponent>
+                                        </TransformWrapper>
+
                                       </div>
                                     </div>
                                   </div>
@@ -228,7 +246,7 @@ const Page = () => {
                               )}
                             </div>
 
- 
+
 
                           </div>
                         </div>
