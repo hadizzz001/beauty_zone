@@ -153,7 +153,7 @@ const Footer = () => {
                             <li>
                                 <a
                                     target="_blank"
-                                    href="https://www.tiktok.com/@shoeslebanon?_t=ZS-8tjEjflHn31&_r=1"
+                                    href="https://www.tiktok.com/@beauty.zone.0"
                                     data-auto-id="true"
                                     id="page-footer-http-www-instagram-com-bellroy-1"
                                 >
@@ -179,7 +179,7 @@ const Footer = () => {
                             <li>
                                 <a
                                     target="_blank"
-                                    href="https://www.instagram.com/beautyzoneglow"
+                                    href="https://www.instagram.com/beautyzonelb"
                                     data-auto-id="true"
                                     id="page-footer-http-www-instagram-com-bellroy-1"
                                 >
@@ -209,7 +209,7 @@ const Footer = () => {
                             <li>
                                 <a
                                     target="_blank"
-                                    href="https://www.facebook.com/share/18xSqQqfxr/"
+                                    href="https://www.facebook.com/share/16Qsq5Kemx/"
                                     data-auto-id="true"
                                     id="page-footer-https-www-facebook-com-bellroy-official-1"
                                 >
