@@ -1,11 +1,11 @@
 
-"use client"; 
+"use client";
 import { useState, useRef, useEffect } from "react";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { from: "bot", text: "Hi! Ask me about products or place an order." },
+    { from: "bot", text: "Hi! Ask me anything or to place order type 'product = xxx'" },
   ]);
   const [input, setInput] = useState("");
   const [products, setProducts] = useState([]);
@@ -32,7 +32,7 @@ export default function ChatWidget() {
 
     return () => clearTimeout(timer); // clean up the timer if the component unmounts
   }, []);
- 
+
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,66 +58,46 @@ export default function ChatWidget() {
   };
 
   const handleMessage = async (userText) => {
+    if (step === "chooseName") {
+      const nameChosen = currentProduct?.product?.names?.find((n) => n.toLowerCase() === userText.toLowerCase());
+
+      if (!nameChosen) {
+        return setMessages((m) => [...m, { from: "bot", text: "❌ Invalid choice. Please select one of the listed names." }]);
+      }
+
+      setCurrentProduct((prev) => ({ ...prev, selectedName: nameChosen }));
+      setStep("quantity");
+      return setMessages((m) => [...m, { from: "bot", text: "How many do you want?" }]);
+    }
+
+    if (step === "chooseSize") {
+      const sizeChosen = currentProduct?.product?.sizes?.find(
+        (s) => s.size.toLowerCase() === userText.toLowerCase()
+      );
+
+      if (!sizeChosen) {
+        return setMessages((m) => [
+          ...m,
+          { from: "bot", text: "❌ Invalid size. Please select one of the listed sizes." },
+        ]);
+      }
+
+      setCurrentProduct((prev) => ({
+        ...prev,
+        selectedSize: sizeChosen.size,
+        selectedPrice: sizeChosen.price,
+      }));
+
+      setStep("quantity");
+      return setMessages((m) => [...m, { from: "bot", text: "How many do you want?" }]);
+    }
+
     if (step === "quantity") {
       const quantity = parseInt(userText) || 1;
       const updatedProduct = { ...currentProduct, quantity };
 
-      setCurrentProduct(updatedProduct); // still keep it updated
-      const colors = updatedProduct?.product?.colors ?? [];
-      const hasValidColors = colors.some(c => c && c.code?.trim());
-      const validSizes = updatedProduct.product.sizes?.filter(
-        (s) => s && s.trim() !== ""
-      );
-
-      if (hasValidColors) {
-        setStep("color");
-        return setMessages((m) => [...m, { from: "bot", text: "🎨 Choose a color:" }]);
-      } else if (validSizes?.length > 0) {
-        setStep("size");
-        return setMessages((m) => [...m, { from: "bot", text: "📏 Choose a size:" }]);
-      } else {
-        const completed = { ...updatedProduct, selectedSize: null };
-        setCart((c) => [...c, completed]);
-        setCurrentProduct(null);
-        setStep("confirmAnotherProduct");
-        return setMessages((m) => [
-          ...m,
-          { from: "bot", text: "✅ Added! Do you want to add another product?" },
-        ]);
-      }
-    }
-
-
-
-    if (step === "color") {
-      const color = currentProduct?.product?.colors?.find((c) => c.code === userText);
-      if (!color) return setMessages((m) => [...m, { from: "bot", text: "❌ Invalid color. Try again." }]);
-      setCurrentProduct((p) => ({ ...p, selectedColor: color }));
-      const validSizes = currentProduct.product.sizes?.filter(
-        (s) => s && s.trim() !== ""
-      );
-
-      if (validSizes?.length > 0) {
-        setStep("size");
-        setMessages((m) => [...m, { from: "bot", text: "📏 Choose a size:" }]);
-      } else {
-
-        const completed = { ...currentProduct, selectedSize: null };
-        setCart((c) => [...c, completed]);
-        setCurrentProduct(null);
-        setStep("confirmAnotherProduct");
-        return setMessages((m) => [
-          ...m,
-          { from: "bot", text: "✅ Added! Do you want to add another product?" },
-        ]);
-      }
-
-    }
-
-    if (step === "size") {
-      const size = currentProduct?.product?.sizes?.find((s) => s === userText);
-      if (!size) return setMessages((m) => [...m, { from: "bot", text: "❌ Invalid size. Try again." }]);
-      const completed = { ...currentProduct, selectedSize: size };
+      setCurrentProduct(updatedProduct); 
+      const completed = { ...updatedProduct };
       setCart((c) => [...c, completed]);
       setCurrentProduct(null);
       setStep("confirmAnotherProduct");
@@ -126,6 +106,10 @@ export default function ChatWidget() {
         { from: "bot", text: "✅ Added! Do you want to add another product?" },
       ]);
     }
+
+
+
+
 
     if (step === "confirmAnotherProduct") {
       if (userText.toLowerCase() === "yes") {
@@ -172,7 +156,7 @@ export default function ChatWidget() {
       const res = await fetch("/api/products");
       const data = await res.json();
       const filtered = data.filter(p => p.title.toLowerCase().includes(searchTerm));
-    
+
       if (filtered.length > 0) {
         setProducts(filtered);
         setMessages((m) => [...m, { from: "bot", text: `🔍 Found products matching "${searchTerm}". Choose a product:` }]);
@@ -181,7 +165,7 @@ export default function ChatWidget() {
       }
       return;
     }
-    
+
 
 
 
@@ -232,12 +216,31 @@ export default function ChatWidget() {
 
   const selectProduct = (p) => {
     setCurrentProduct({ product: p });
-    setStep("quantity");
     setProducts([]);
-    setMessages((m) => [
-      ...m,
-      { from: "bot", text: `🛒 ${p.title} - $${p.discount}\nHow many do you want?` },
-    ]);
+
+    if (p.names && p.names.some(name => name.trim() !== "")) {
+      const nameOptions = p.names.map((n, i) => `• ${n}`).join("\n");
+      setMessages((m) => [
+        ...m,
+        { from: "bot", text: `🛒 ${p.title} - $${p.discount}\nChoose one:\n${nameOptions}` },
+      ]);
+      setStep("chooseName");
+    } else if (Array.isArray(p.sizes) && p.sizes.length > 0) {
+      const sizeOptions = p.sizes.map((s, i) => `• ${s.size} - $${s.price}`).join("\n");
+      setMessages((m) => [
+        ...m,
+        { from: "bot", text: `🛒 ${p.title}\nAvailable sizes:\n${sizeOptions}\nPlease choose a size:` },
+      ]);
+      setStep("chooseSize");
+    } else {
+      setMessages((m) => [
+        ...m,
+        { from: "bot", text: `🛒 ${p.title} - $${p.discount}\nHow many do you want?` },
+      ]);
+      setStep("quantity");
+    }
+
+
   };
 
   return (
@@ -261,34 +264,8 @@ export default function ChatWidget() {
               </div>
             ))}
             <div ref={messagesEndRef} />
-            
 
-            {step === "size" &&
-              currentProduct?.product?.sizes?.some(s => s.trim()) && (
-                <>
-                  <div className="text-sm text-gray-600 mb-2">📏 Choose a size:</div>
-                  {currentProduct.product.sizes
-                    .filter((s) => s.trim())
-                    .map((s, i) => (
-                      <div
-                        key={i}
-                        onClick={() => {
-                          const completed = { ...currentProduct, selectedSize: s };
-                          setCart((c) => [...c, completed]);
-                          setCurrentProduct(null);
-                          setStep("confirmAnotherProduct");
-                          setMessages((m) => [
-                            ...m,
-                            { from: "bot", text: "✅ Added! Do you want to add another product?" },
-                          ]);
-                        }}
-                        className="p-2 border rounded mb-2 cursor-pointer"
-                      >
-                        {s}
-                      </div>
-                    ))}
-                </>
-              )}
+
 
 
 
@@ -312,10 +289,11 @@ export default function ChatWidget() {
 
             {step === "delivery" && (
               <div className="space-y-2">
-                <div className="text-sm text-gray-600">🚚 Choose delivery type:</div>
+                <div className="text-sm text-gray-600" id="button111">🚚 Choose delivery type:</div>
                 {["delivery", "onstore"].map((option) => (
                   <div
                     key={option}
+                     id="button111"
                     onClick={async () => {
                       const deliveryType = option;
                       setUserInfo((u) => ({ ...u, deliveryType }));
@@ -337,9 +315,14 @@ export default function ChatWidget() {
                           category: c.product.category,
                           subcategory: c.product.subcategory,
                           brand: c.product.brand,
-                          selectedColor: c.selectedColor?.code,
-                          selectedSize: c.selectedSize,
+                          selectedSizes: c.selectedSize
+                          ? [{ size: c.selectedSize, price: c.selectedPrice, qty: c.quantity }]
+                          : null,
+                          selectedNames: c.selectedName
+                            ? [{ name: c.selectedName, qty: c.quantity }]
+                            : null,
                         })),
+
                         total: String(
                           cart.reduce((sum, p) => sum + p.quantity * parseFloat(p.product.discount), 0) + parseFloat(highestDelivery)
                         ),

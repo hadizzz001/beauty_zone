@@ -20,7 +20,7 @@ import Script from "next/script";
 import { GoogleAnalytics } from '@next/third-parties/google'
 import PointsWatcher from "../components/PointsWatcher";
 import SpinGame  from "../components/SpinGame";
-import ChatWidget from "../components/ChatWidget";
+import ChatBot from "../components/ChatBot";
  
 
  
@@ -98,7 +98,7 @@ export default function RootLayout({
 </>
 
       <body>
-      <ChatWidget />
+      <ChatBot />
       <SpinGame />
       <PointsWatcher />
       <GifLoader />
