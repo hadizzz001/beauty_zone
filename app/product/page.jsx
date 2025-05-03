@@ -22,7 +22,7 @@ const Page = () => {
   const [quantity, setQuantity] = useState(1);
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
-  let imgs, title, price, desc, cat, sub, discount, id
+  let imgs, title, price, desc, cat, sub, discount, id, isOut
   const { cart, addToCart } = useCart();
   const { isBooleanValue, setBooleanValue } = useBooleanValue();
   const isInCart = cart?.some((item) => item._id === search);
@@ -90,6 +90,7 @@ const Page = () => {
     discount = allTemp1.discount;
     desc = allTemp1.description;
     sub = allTemp1.subcategory;
+    isOut = allTemp1.isOut;
   }
 
 
@@ -486,9 +487,22 @@ const Page = () => {
                             <div className="">
                               <span className="ProvidersSingleProduct--selected">
                                 <div className='flex'>
-                                  <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
-                                    <span>ADD TO CART</span>
-                                  </button>
+
+                                  {isOut == "yes" ? (
+                                    <p className='mt-10' style={{ color: "#222", fontSize: "24px" }}>Out of Stock</p>
+                                  ) : (
+                                    <button type="submit" className="AddToCart HtmlProductAddToCart" style={{ borderRadius: "0" }}>
+                                      <span>ADD TO CART</span>
+                                    </button>
+
+                                  )}
+
+
+
+
+
+
+
                                   <a
                                     onClick={toggleFavorite}
                                     className="AddToCart m-4   "

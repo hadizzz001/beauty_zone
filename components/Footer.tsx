@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { sendEmail } from '../app/api/sendEmail/sendEmail'
-import { TempProps1 } from "../types"; 
+import { TempProps1 } from "../types";
 
 interface CarCardProps {
     temp: TempProps1;
@@ -9,7 +9,7 @@ interface CarCardProps {
 
 
 const Footer = () => {
-    
+
     const [isFoot1, setIsFoot1] = useState(true);
     const [isFoot2, setIsFoot2] = useState(true);
     const [isFoot3, setIsFoot3] = useState(true);
@@ -336,7 +336,7 @@ const Footer = () => {
 
                         <ul>
                             {allTemp && allTemp?.length > 0 ? (
-                                allTemp.map((category , index) => (
+                                allTemp.map((category, index) => (
                                     <li key={index}>
                                         <a
                                             href={`/search?cat=${encodeURIComponent(category.name)}`}
