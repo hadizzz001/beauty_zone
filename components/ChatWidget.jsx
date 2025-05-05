@@ -4,9 +4,13 @@ import { useState, useRef, useEffect } from "react";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { from: "bot", text: "Hi! Ask me about products or place an order." },
+  const [messages, setMessages] = useState([ 
+    {
+      from: "bot",
+      text: `Hi! Ask me about products or place an order.\nor type category\nor type subcategory\nor type brand`,
+    },
   ]);
+  
   const [input, setInput] = useState("");
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -185,7 +189,7 @@ export default function ChatWidget() {
 
 
 
-    if (lowerText === "category") {
+    if (lowerText === "category" || lowerText === "categories") {
       const res = await fetch("/api/category");
       const data = await res.json();
       const categories = data?.map((c) => `• ${c.name}`).join("\n") || "No categories found.";
@@ -195,7 +199,7 @@ export default function ChatWidget() {
       ]);
     }
 
-    if (lowerText === "brand") {
+    if (lowerText === "brand" || lowerText === "brands") {
       const res = await fetch("/api/brand");
       const data = await res.json();
       const brands = data?.map((b) => `• ${b.name}`).join("\n") || "No brands found.";

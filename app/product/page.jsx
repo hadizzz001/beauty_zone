@@ -22,7 +22,7 @@ const Page = () => {
   const [quantity, setQuantity] = useState(1);
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
-  let imgs, title, price, desc, cat, sub, discount, id, isOut
+  let imgs, title, price, desc, cat, sub, discount, id, isOut, points
   const { cart, addToCart } = useCart();
   const { isBooleanValue, setBooleanValue } = useBooleanValue();
   const isInCart = cart?.some((item) => item._id === search);
@@ -91,6 +91,7 @@ const Page = () => {
     desc = allTemp1.description;
     sub = allTemp1.subcategory;
     isOut = allTemp1.isOut;
+    points = allTemp1.points;
   }
 
 
@@ -111,10 +112,7 @@ const Page = () => {
   }, [cat]);
 
 
-  useEffect(() => {
-    console.log("selectedNames: ", selectedNames);
-
-  }, [selectedNames]);
+ 
 
 
 
@@ -218,23 +216,78 @@ const Page = () => {
 
 
 
-                                        <TransformWrapper
-                                          initialScale={1}
-                                          minScale={1}
-                                          maxScale={4}
-                                          doubleClick={{ disabled: true }}
-                                          wheel={{ step: 0.1 }}
-                                          pinch={{ disabled: false }}
-                                          panning={{ disabled: false }}
-                                        >
-                                          <TransformComponent>
-                                            <img
-                                              src={item}
-                                              alt="Zoomable"
-                                              style={{ width: '100%', height: 'auto', touchAction: 'none' }}
-                                            />
-                                          </TransformComponent>
-                                        </TransformWrapper>
+                                      <div style={{ position: "relative", display: "inline-block" }}>
+      {/* Zoom Icon (SVG) */}
+      <div
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 10,
+          zIndex: 10,
+          background: "rgba(255, 255, 255, 0.8)",
+          padding: "6px",
+          borderRadius: "8px",
+        }}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+        >
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17Z"
+              stroke="#222"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M20.9992 21L14.9492 14.95"
+              stroke="#222"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6 10H14"
+              stroke="#222"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 6V14"
+              stroke="#222"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
+        </svg>
+      </div>
+
+      {/* Image with zoom/pan */}
+      <TransformWrapper
+        initialScale={1}
+        minScale={1}
+        maxScale={4}
+        doubleClick={{ disabled: true }}
+        wheel={{ step: 0.1 }}
+        pinch={{ disabled: false }}
+        panning={{ disabled: false }}
+      >
+        <TransformComponent>
+          <img
+            src={item}
+            alt="Zoomable"
+            style={{ width: "100%", height: "auto", touchAction: "none" }}
+          />
+        </TransformComponent>
+      </TransformWrapper>
+    </div>
 
                                       </div>
                                     </div>
@@ -282,7 +335,9 @@ const Page = () => {
                         Subcategory: {sub}
                       </p>
                     )}
-
+                    <p className='mb-2 myNewC'>
+                      Points: {points}
+                    </p>
 
                   </span>
                   <div className="ApexPriceAndFreeShippingWrapper">
@@ -407,7 +462,7 @@ const Page = () => {
                               !(allTemp1.names.length === 1 && allTemp1.names[0] === "") && (
                                 <div style={{ margin: '1rem 0' }}>
                                   <h2 style={{ fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>
-                                    Select names:
+                                    Select options:
                                   </h2>
 
                                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>

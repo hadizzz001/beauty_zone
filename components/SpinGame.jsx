@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { X, CheckCircle2 } from "lucide-react";
 
-const prizes = [
-  { text: "5% Discount", code: "xyz123" },
-  { text: "10% Discount", code: "abcd12345" },
-  { text: "Free Delivery", code: "uuu2025" },
-  { text: "Oops !! Try Again Later", code: null },
+const weightedPrizes = [
+  { text: "Oops !! Try Again Later", code: null }, // 80%
+  { text: "5% Discount", code: "xyz123" },         // 7%
+  { text: "10% Discount", code: "abcd12345" },     // 7%
+  { text: "Free Delivery", code: "uuu2025" },      // 6%
 ];
+
+const probabilities = [0.8, 0.07, 0.07, 0.06];
 
 const imageURL = "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745690616/images-removebg-preview_2_tqi5jm.png";
 
@@ -40,15 +42,28 @@ export default function SpinGame() {
     if (hasPlayed || isSpinning) return;
 
     setIsSpinning(true);
-    const segmentAngle = 360 / prizes?.length;
-    const randomIndex = Math.floor(Math.random() * prizes?.length);
+
+    // Choose prize based on weighted probability
+    const random = Math.random();
+    let cumulative = 0;
+    let selectedIndex = 0;
+
+    for (let i = 0; i < probabilities.length; i++) {
+      cumulative += probabilities[i];
+      if (random < cumulative) {
+        selectedIndex = i;
+        break;
+      }
+    }
+
+    const result = weightedPrizes[selectedIndex];
+    const segmentAngle = 360 / weightedPrizes.length;
     const fullRotations = 5;
-    const newRotation = fullRotations * 360 + randomIndex * segmentAngle + (Math.random() * segmentAngle);
+    const newRotation = fullRotations * 360 + selectedIndex * segmentAngle + (Math.random() * segmentAngle);
 
     setRotation(newRotation);
 
     setTimeout(() => {
-      const result = prizes[randomIndex];
       setPrize(result);
       setHasPlayed(true);
       localStorage.setItem("spinGamePlayed", "true");
@@ -73,7 +88,7 @@ export default function SpinGame() {
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
       <div className="bg-white p-6 rounded-xl relative shadow-lg text-center max-w-lg w-full">
-        {/* Close */}
+        {/* Close Button */}
         <button
           className="absolute top-2 right-2 text-gray-600 hover:text-red-500"
           onClick={closeGame}
@@ -89,7 +104,7 @@ export default function SpinGame() {
               {/* Pointer */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 text-4xl z-10">🔻</div>
 
-              {/* Wheel image */}
+              {/* Wheel Image */}
               <img
                 src={imageURL}
                 alt="Spin Wheel"
@@ -110,35 +125,35 @@ export default function SpinGame() {
           </>
         ) : (
           <>
-{prize.code ? (
-  <h2 className="text-2xl font-bold mb-2">🎉 You won: {prize.text}!</h2>
-) : (
-  <h2 className="text-2xl font-bold mb-2 text-red-500">{prize.text}</h2>
-)}
+            {prize.code ? (
+              <h2 className="text-2xl font-bold mb-2">🎉 You won: {prize.text}!</h2>
+            ) : (
+              <h2 className="text-2xl font-bold mb-2 text-red-500">{prize.text}</h2>
+            )}
 
-
-{prize.code ? (
-  <>
-    <p className="text-lg mb-3">Use this code:</p>
-    <div className="flex items-center justify-center gap-2 relative">
-      <span className="bg-gray-100 px-4 py-2 border rounded text-xl font-mono" id="button111">{prize.code}</span>
-      <button
-        onClick={copyCode}
-        className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition"
-      >
-        Copy
-      </button>
-      {copied && (
-        <span className="absolute -bottom-6 flex items-center gap-1 text-green-600 text-sm">
-          <CheckCircle2 size={16} /> Copied!
-        </span>
-      )}
-    </div>
-  </>
-) : (
-  <p className="text-lg mb-3 text-red-500">Better luck next time!</p>
-)}
-
+            {prize.code ? (
+              <>
+                <p className="text-lg mb-3">Use this code:</p>
+                <div className="flex items-center justify-center gap-2 relative">
+                  <span className="bg-gray-100 px-4 py-2 border rounded text-xl font-mono" id="button111">
+                    {prize.code}
+                  </span>
+                  <button
+                    onClick={copyCode}
+                    className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition"
+                  >
+                    Copy
+                  </button>
+                  {copied && (
+                    <span className="absolute -bottom-6 flex items-center gap-1 text-green-600 text-sm">
+                      <CheckCircle2 size={16} /> Copied!
+                    </span>
+                  )}
+                </div>
+              </>
+            ) : (
+              <p className="text-lg mb-3 text-red-500">Better luck next time!</p>
+            )}
           </>
         )}
       </div>

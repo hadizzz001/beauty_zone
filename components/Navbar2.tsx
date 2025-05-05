@@ -29,6 +29,7 @@ function NavBar() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
 
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -126,7 +127,7 @@ function NavBar() {
 
 
 
-
+  const points = parseInt(localStorage.getItem("userPoints") || "0");
 
 
 
@@ -386,7 +387,16 @@ function NavBar() {
 
 
 
+            <li className="br_group/item">
+                <a
+                  className="br_flex br_items-center br_justify-between br_px-8 br_py-4  br_border-solid br_border-0 br_border-b  br_text-white br_text-lg-sans-bold-stretched br_no-underline xl:pointer-fine: xl:pointer-fine:br_text-base-sans-bold-stretched xl:pointer-fine:group-hover/item: xl:pointer-fine:focus:"
+                  href="/"
+                  id="4_travel_all-travel"
+                >
+                  <div className="br_flex br_items-center br_gap-2 navtext" >Home</div>
+                </a>
 
+              </li>
 
 
 
@@ -414,7 +424,7 @@ function NavBar() {
                       className="br_flex br_items-center br_justify-between br_px-8 br_py-4 br_border-b br_text-grey-600 br_text-lg-sans-bold-stretched br_no-underline"
                       style={{ cursor: hasSubcategories ? "default" : "pointer" }}
                     >
-                      <div style={{ fontSize: "13px" }} className="br_flex br_items-center br_gap-2">
+                      <div  className="br_flex br_items-center br_gap-2 navtext">
                         {category.name}
                       </div>
                     </a>
@@ -495,7 +505,7 @@ function NavBar() {
                   href="/shop"
                   id="4_travel_all-travel"
                 >
-                  <div className="br_flex br_items-center br_gap-2">Shop All</div>
+                  <div className="br_flex br_items-center br_gap-2 navtext" >Shop All</div>
                 </a>
 
               </li>
@@ -505,7 +515,7 @@ function NavBar() {
                   href="/about"
                   id="4_travel_all-travel"
                 >
-                  <div className="br_flex br_items-center br_gap-2">About Us</div>
+                  <div className="br_flex br_items-center br_gap-2 navtext" >About Us</div>
                 </a>
 
               </li>
@@ -515,7 +525,16 @@ function NavBar() {
                   href="/contact"
                   id="about-us_about-us"
                 >
-                  <div className="br_flex br_items-center br_gap-2">Contact Us</div>
+                  <div className="br_flex br_items-center br_gap-2 navtext" >Contact Us</div>
+                </a>
+              </li>
+              <li className="br_group/item">
+                <a
+                  className="br_flex br_items-center br_justify-between br_px-8 br_py-4  br_border-solid br_border-0 br_border-b  br_text-white br_text-lg-sans-bold-stretched br_no-underline xl:pointer-fine: xl:pointer-fine:br_text-base-sans-bold-stretched xl:pointer-fine:group-hover/item: xl:pointer-fine:focus:"
+                 
+                  id="about-us_about-us"
+                >
+                  <div className="br_flex br_items-center br_gap-2 navtext mt-5" >You earned {points} points</div>
                 </a>
               </li>
             </ul>

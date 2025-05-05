@@ -4,9 +4,13 @@ import { useState, useRef, useEffect } from "react";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { from: "bot", text: "Hi! Ask me anything or to place order type 'product = xxx'" },
+  const [messages, setMessages] = useState([ 
+    {
+      from: "bot",
+      text: `Hi! Ask me about products or place an order.\nor type category\nor type subcategory\nor type brand`,
+    },
   ]);
+  
   const [input, setInput] = useState("");
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -62,7 +66,7 @@ export default function ChatWidget() {
       const nameChosen = currentProduct?.product?.names?.find((n) => n.toLowerCase() === userText.toLowerCase());
 
       if (!nameChosen) {
-        return setMessages((m) => [...m, { from: "bot", text: "❌ Invalid choice. Please select one of the listed names." }]);
+        return setMessages((m) => [...m, { from: "bot", text: "❌ Invalid choice. Please select one of the listed options." }]);
       }
 
       setCurrentProduct((prev) => ({ ...prev, selectedName: nameChosen }));

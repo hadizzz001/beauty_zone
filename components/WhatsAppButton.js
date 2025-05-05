@@ -99,7 +99,7 @@ const createWhatsAppURL = (inputs, items, total, delivery, subtotal) => {
   - Quantity: ${item.quantity} 
   - Sizes:
   ${item.selectedSizes?.map(size => `   - Size: ${size.size}, Qty: ${size.qty}, Price: $${size.price}`).join('\n') || '   - N/A'}
-  - Names:
+  - Options:
   ${item.selectedNames?.map(name => `   - Name: ${name.name}, Qty: ${name.qty}`).join('\n') || '   - N/A'}
   - Image: ${item.img?.[0] || 'N/A'}
   `).join('\n')}

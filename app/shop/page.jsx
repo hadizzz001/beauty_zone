@@ -363,14 +363,7 @@ const handleCheckboxChange2 = (brandId) => {
                               <div className="br_aspect-[4/5] sm:br_aspect-square">
                                 <div className="br_w-full br_h-full br_relative br_flex br_items-center br_justify-center">
                                   <div className="relative br_w-full br_h-full br_flex br_justify-center br_items-center">
-                                    {item.category === "Hot Sale" && (
-                                      <img
-                                        src="https://res.cloudinary.com/drupytlml/image/upload/v1740521061/m5fzgzf1a4p6xn3bj1mn.png"
-                                        alt="Hot Sale Badge"
-                                        className="absolute   left-5 w-30 h-40 sm:w-40 sm:h-40"
-                                        style={{ top: "-15px" }}
-                                      />
-                                    )}
+                                   
                                     <img
                                       className="br_w-full br_h-full br_object-center br_object-contain br_mx-auto br_max-h-64 sm:br_max-h-72 sm:br_px-4"
                                       loading="lazy"
