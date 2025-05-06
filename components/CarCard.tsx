@@ -22,25 +22,12 @@ const CarCard = ({ temp }: CarCardProps) => {
                                         <div className="br_w-full br_h-full br_relative br_flex br_items-center br_justify-center">
                                             <div className="w-[300px] h-[350px] relative rounded-[20px] overflow-hidden">
                                                 {/* Default Image */}
-                                                <motion.img
+                                                <img
                                                     src={img[0]}
                                                     className="absolute w-full h-full object-cover"
-                                                    style={{ borderRadius: "20px" }}
-                                                    initial={{ opacity: 1 }}
-                                                    whileHover={{ opacity: 0 }}
-                                                    whileTap={{ opacity: 0 }}
-                                                    transition={{ duration: 0.5 }}
+                                                    style={{ borderRadius: "20px" }} 
                                                 />
-                                                {/* Hover Image */}
-                                                <motion.img
-                                                    src={img[1]}
-                                                    className="absolute w-full h-full object-cover"
-                                                    style={{ borderRadius: "20px" }}
-                                                    initial={{ opacity: 0 }}
-                                                    whileHover={{ opacity: 1 }}
-                                                    whileTap={{ opacity: 1 }}
-                                                    transition={{ duration: 0.5 }}
-                                                />
+                                               
                                             </div>
                                         </div>
 

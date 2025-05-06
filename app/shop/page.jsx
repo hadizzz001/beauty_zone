@@ -403,7 +403,7 @@ const handleCheckboxChange2 = (brandId) => {
 
                               <div className="price-container br_inline-flex br_flex-wrap br_gap-x-2 br_items-baseline apex:br_text-white group-[.centered]/tile:br_justify-center">
                                 <span className="old-price br_text-gray-500 br_line-through myBB">
-                                  ${item.price}
+                                {item.price && ('$'+item.price)}
                                 </span>
                                 <span className="new-price myBB">${item.discount}</span>
                               </div>

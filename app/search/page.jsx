@@ -140,21 +140,13 @@ const Body = () => {
                       key={item._id}
                       className="br_grid br_grid-cols-1 supports-subgrid:br_row-span-4 supports-subgrid:br_grid-rows-[subgrid]"
                     >
-                      <div
-                        className={`image-container ${touchedIndex === index ? "touch-active" : ""
-                          }`}
-                        onTouchStart={() => handleTouchStart(index)}
-                        onTouchEnd={handleTouchEnd}
-                      >
+                       
                         {/* Default Image */}
                         <img className="default-img" src={item.img[0]} alt="Default" />
 
+ 
 
-                        {item.img && item.img[1] && (
-  <img className="hover-img" src={item.img[1]} alt="Hover" />
-)}
-
-                      </div>
+                     
 
                       <div className="Layout br_contents">
                         <span className="br_contents br_edition-">
@@ -180,7 +172,8 @@ const Body = () => {
                               </h3>
                               <div className="price-container br_inline-flex br_flex-wrap br_gap-x-2 br_items-baseline apex:br_text-white group-[.centered]/tile:br_justify-center">
                                 <span className="old-price br_text-gray-500 br_line-through myBB">
-                                  ${item.price}
+                                   
+                                  {item.price && ('$'+item.price)}
                                 </span>
                                 <span className="new-price myBB">${item.discount}</span>
                               </div>

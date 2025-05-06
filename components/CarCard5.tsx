@@ -9,15 +9,7 @@ interface CarCardProps {
 
 const CarCard5 = ({ temp }: CarCardProps) => {
     const { _id, title, price, discount, img, category } = temp;
-    const [isTouched, setIsTouched] = useState(false);
-
-    const handleTouchStart = () => {
-        setIsTouched(true);
-    };
-
-    const handleTouchEnd = () => {
-        setTimeout(() => setIsTouched(false), 2000); // Reset after 2s
-    };
+ 
 
     return (
         <a href={`/product?id=${_id}`}>
@@ -28,12 +20,8 @@ const CarCard5 = ({ temp }: CarCardProps) => {
                             <div className="">
                                 <div className="initial:br_row-span-1 br_col-start-1 br_row-start-1 br_relative">
                                     <div className="br_aspect-[1/1] sm:br_aspect-square">
-                                        <div 
-                                            className={`br_w-full br_h-full br_relative br_flex br_items-center br_justify-center image-container ${isTouched ? "touch-active" : ""}`} 
-                                            onTouchStart={handleTouchStart} 
-                                            onTouchEnd={handleTouchEnd}
-                                        >
-                                            {/* Default Image */}
+                                        
+                                            
                                             <img
                                                 src={img[0]}
                                                 alt="Default"
@@ -45,8 +33,7 @@ const CarCard5 = ({ temp }: CarCardProps) => {
                                                 }}
                                             />
 
-                                       
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div className="ml-2 text-left initial:br_row-span-1 br_col-start-1 br_row-start-2 br_px-3 group-[.centered]/tile:br_justify-center group-[.centered]/tile:br_text-center">
