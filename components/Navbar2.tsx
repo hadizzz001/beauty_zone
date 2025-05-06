@@ -121,14 +121,14 @@ function NavBar() {
     }
   };
 
+ 
 
 
+let points
 
-
-
-
-  const points = parseInt(localStorage.getItem("userPoints") || "0");
-
+  if (typeof window !== "undefined"){
+   points = parseInt(localStorage.getItem("userPoints") || "0");
+  }
 
 
   return (

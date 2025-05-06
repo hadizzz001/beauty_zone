@@ -339,9 +339,11 @@ export default function ChatWidget() {
                       }, 0);
 
                       // Update user points in localStorage
+                      if (typeof window !== "undefined"){
                       const currentPoints = parseInt(localStorage.getItem("userPoints") || "0");
                       const newTotalPoints = currentPoints + totalPoints;
                       localStorage.setItem("userPoints", newTotalPoints);
+                      }
 
                       await fetch("/api/sendOrder", {
                         method: "POST",

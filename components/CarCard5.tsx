@@ -22,8 +22,8 @@ const CarCard5 = ({ temp }: CarCardProps) => {
                                     <div className="br_aspect-[1/1] sm:br_aspect-square">
                                         
                                             
-                                            <img
-                                                src={img[0]}
+                                            <img 
+                                                src={img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || ''}
                                                 alt="Default"
                                                 className="default-img"
                                                 style={{

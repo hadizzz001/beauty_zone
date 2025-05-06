@@ -140,9 +140,9 @@ const Body = () => {
                       key={item._id}
                       className="br_grid br_grid-cols-1 supports-subgrid:br_row-span-4 supports-subgrid:br_grid-rows-[subgrid]"
                     >
-                       
-                        {/* Default Image */}
-                        <img className="default-img" src={item.img[0]} alt="Default" />
+                        
+                        <img className="default-img" src={item.img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || ''} alt="Default" />
+                        
 
  
 

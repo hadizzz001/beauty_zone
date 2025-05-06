@@ -12,21 +12,24 @@ const PointsWatcher = () => {
   const [showVIP, setShowVIP] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const current = parseInt(localStorage.getItem("userPoints") || "0");
+    if (typeof window !== "undefined") {
+      const interval = setInterval(() => {
+        const current = parseInt(localStorage.getItem("userPoints") || "0");
 
-      if (current !== points) {
-        console.log("userPoints updated:", current);
-        setPoints(current);
+        if (current !== points) {
+          console.log("userPoints updated:", current);
+          setPoints(current);
 
-        if (current > 100) {
-          setShowVIP(true);
-          localStorage.setItem("userPoints", "0");
+          if (current > 100) {
+            setShowVIP(true);
+            localStorage.setItem("userPoints", "0");
+          }
         }
-      }
-    }, 500); // Poll every 0.5s
 
-    return () => clearInterval(interval);
+      }, 500); // Poll every 0.5s
+
+      return () => clearInterval(interval);
+    }
   }, [points]);
 
   const handleClose = () => {

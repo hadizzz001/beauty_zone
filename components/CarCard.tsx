@@ -23,7 +23,8 @@ const CarCard = ({ temp }: CarCardProps) => {
                                             <div className="w-[300px] h-[350px] relative rounded-[20px] overflow-hidden">
                                                 {/* Default Image */}
                                                 <img
-                                                    src={img[0]}
+                                                    src={img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || ''}
+                                                    
                                                     className="absolute w-full h-full object-cover"
                                                     style={{ borderRadius: "20px" }} 
                                                 />

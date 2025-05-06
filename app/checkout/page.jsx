@@ -99,12 +99,13 @@ const page = () => {
       alert("Promo code already applied.");
       return;
     }
-  
+    if (typeof window !== "undefined"){
     const usedPromos = JSON.parse(localStorage.getItem("usedPromos") || "[]");
     if (usedPromos.includes(promoCode)) {
       alert("You’ve already used this promo code.");
       return;
     }
+  }
   
     let newTotal = subtotal + deliveryFee;
     let discount = 0;
@@ -130,7 +131,7 @@ const page = () => {
       return;
     }
   
-    // Save promo as used in localStorage
+    if (typeof window !== "undefined")
     localStorage.setItem("usedPromos", JSON.stringify([...usedPromos, promoCode]));
   
     setTotal(newTotal.toFixed(2));

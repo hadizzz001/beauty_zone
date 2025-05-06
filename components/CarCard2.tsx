@@ -19,10 +19,13 @@ const CarCard = ({ temp }: CarCardProps) => {
 
       useEffect(() => {
         // Check localStorage for the code
+        if (typeof window !== "undefined"){
         const storedCode = localStorage.getItem("accessCode");
+        
         if (storedCode === "abcd12345") {
           setIsCodeValid(true);
         }
+    }
       }, []);
 
 

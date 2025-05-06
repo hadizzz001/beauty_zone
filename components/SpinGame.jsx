@@ -23,18 +23,20 @@ export default function SpinGame() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const played = localStorage.getItem("spinGamePlayed");
-    const closed = localStorage.getItem("spinGameClosed");
+    if (typeof window !== "undefined") {
+      const played = localStorage.getItem("spinGamePlayed");
+      const closed = localStorage.getItem("spinGameClosed");
 
-    if (closed) {
-      setShowGame(false);
-      return;
-    }
+      if (closed) {
+        setShowGame(false);
+        return;
+      }
 
-    if (played) {
-      const storedPrize = JSON.parse(localStorage.getItem("spinGamePrize"));
-      setPrize(storedPrize);
-      setHasPlayed(true);
+      if (played) {
+        const storedPrize = JSON.parse(localStorage.getItem("spinGamePrize"));
+        setPrize(storedPrize);
+        setHasPlayed(true);
+      }
     }
   }, []);
 
@@ -64,12 +66,15 @@ export default function SpinGame() {
     setRotation(newRotation);
 
     setTimeout(() => {
-      setPrize(result);
-      setHasPlayed(true);
-      localStorage.setItem("spinGamePlayed", "true");
-      localStorage.setItem("spinGamePrize", JSON.stringify(result));
-      setIsSpinning(false);
+      if (typeof window !== "undefined") {
+        setPrize(result);
+        setHasPlayed(true);
+        localStorage.setItem("spinGamePlayed", "true");
+        localStorage.setItem("spinGamePrize", JSON.stringify(result));
+        setIsSpinning(false);
+      }
     }, 4000);
+
   };
 
   const copyCode = () => {
@@ -79,8 +84,10 @@ export default function SpinGame() {
   };
 
   const closeGame = () => {
+    if (typeof window !== "undefined") {
     localStorage.setItem("spinGameClosed", "true");
     setShowGame(false);
+    }
   };
 
   if (!showGame) return null;
@@ -116,9 +123,8 @@ export default function SpinGame() {
             <button
               onClick={handleSpin}
               disabled={isSpinning}
-              className={`mt-6 px-6 py-3 rounded-lg font-bold text-white ${
-                isSpinning ? "bg-gray-400" : "bg-green-500 hover:bg-green-600"
-              }`}
+              className={`mt-6 px-6 py-3 rounded-lg font-bold text-white ${isSpinning ? "bg-gray-400" : "bg-green-500 hover:bg-green-600"
+                }`}
             >
               {isSpinning ? "Spinning..." : "Spin Now"}
             </button>
