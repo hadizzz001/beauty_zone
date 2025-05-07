@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import CarCard from './CarCard';
+import { Autoplay } from 'swiper/modules';
 
 const YourComponent = () => {
   const [groupedProducts, setGroupedProducts] = useState({});
@@ -90,7 +91,11 @@ const YourComponent = () => {
           <section className="mb-5" style={{ maxWidth: "100%" }}>
             <Swiper
               spaceBetween={5}
-              loop
+              loop modules={[Autoplay]} autoplay={{
+                delay: 2000,
+                stopOnLastSlide: false,
+                reverseDirection: true
+              }}
               breakpoints={{
                 150: { slidesPerView: 2 },
                 768: { slidesPerView: 6 },
