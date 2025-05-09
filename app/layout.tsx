@@ -99,7 +99,7 @@ export default function RootLayout({
 
       <body>
       <ChatBot />
-      <SpinGame />
+      {/* <SpinGame /> */}
       <PointsWatcher />
       <GifLoader />
 
