@@ -22,28 +22,35 @@ const YourComponent = () => {
     fetchProducts();
   }, []);
 
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch('/api/products', { cache: 'no-store' });
-      if (response.ok) {
-        const data = await response.json();
+const fetchProducts = async () => {
+  try {
+    const response = await fetch('/api/products', { cache: 'no-store' });
+    if (response.ok) {
+      const data = await response.json();
 
-        const groups = data.reduce((acc, product) => {
-          const { category } = product;
-          if (category === 'Hot Sale') return acc;
-          if (!acc[category]) acc[category] = [];
+      const groups = data.reduce((acc, product) => {
+        const { category } = product;
+        if (category === 'Hot Sale') return acc;
+
+        if (!acc[category]) acc[category] = [];
+
+        // Only add product if less than 5 in that category
+        if (acc[category].length < 5) {
           acc[category].push(product);
-          return acc;
-        }, {});
+        }
 
-        setGroupedProducts(groups);
-      } else {
-        console.error('Failed to fetch products');
-      }
-    } catch (error) {
-      console.error('Error fetching products:', error);
+        return acc;
+      }, {});
+
+      setGroupedProducts(groups);
+    } else {
+      console.error('Failed to fetch products');
     }
-  };
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+
 
   const renderCategory = (category) => (
     groupedProducts[category]?.length > 0 && (
