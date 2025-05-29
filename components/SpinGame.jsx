@@ -12,7 +12,7 @@ const weightedPrizes = [
 
 const probabilities = [0.8, 0.07, 0.07, 0.06];
 
-const imageURL = "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745690616/images-removebg-preview_2_tqi5jm.png";
+const imageURL = "https://res.cloudinary.com/dmj4o6pc1/image/upload/v1748515610/images-removebg-preview_2.png";
 
 export default function SpinGame() {
   const [hasPlayed, setHasPlayed] = useState(false);

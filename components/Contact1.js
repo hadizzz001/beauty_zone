@@ -25,7 +25,7 @@ export default function Features() {
 
           {/* Big Image under Title */}
           <img 
-            src="https://res.cloudinary.com/dqzzfskhw/image/upload/v1745694052/002_zj9iqm.png"  
+            src="https://res.cloudinary.com/dmj4o6pc1/image/upload/v1748515610/002.png"  
             className="w-28 h-28 object-contain"
             alt="Special Product"
           />

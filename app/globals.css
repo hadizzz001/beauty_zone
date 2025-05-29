@@ -641,7 +641,7 @@ header {
   }
 
   #logotoedits {
-    width: 150px;
+    width: 100px;
   }
 }
 
@@ -805,6 +805,10 @@ input {
   color: #222 !important;
 }
 
+.myGray1 {
+  color: #999 !important;
+}
+
 
 .pageHeaderMenuOverlay.open {
   position: fixed;
@@ -901,7 +905,7 @@ input {
   }
 
   #page-header-search-1 {
-    top: 5em !important;
+    top: 5em !important; 
   }
 }
 

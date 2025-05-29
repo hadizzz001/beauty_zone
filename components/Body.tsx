@@ -157,7 +157,7 @@ const Body = () => {
         
         <ProductArrival />
         <ProductList />
-        <ProductList1 />
+        {/* <ProductList1 /> */}
         <Design />
  
 

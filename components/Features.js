@@ -1,15 +1,15 @@
 export default function Features() {
     const features = [
       {
-        img: "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745166552/Cash_On_Delivery_qw9mcu.png", // delivery person with package
+        img: "https://res.cloudinary.com/dmj4o6pc1/image/upload/v1748515609/Cash_On_Delivery.png", // delivery person with package
         text: "Cash on Delivery",
       },
       {
-        img: "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745166552/Quality_Guarantee_fbwdxr.png", // badge or medal image
+        img: "https://res.cloudinary.com/dmj4o6pc1/image/upload/v1748515610/Quality_Guarantee.png", // badge or medal image
         text: "High Quality",
       },
       {
-        img: "https://res.cloudinary.com/dqzzfskhw/image/upload/v1745166552/Authorized_Seller_hfotys.png", // handshake image
+        img: "https://res.cloudinary.com/dmj4o6pc1/image/upload/v1748515611/Authorized_Seller.png", // handshake image
         text: "Authorized Seller",
       },
     ];

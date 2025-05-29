@@ -41,21 +41,20 @@ const Cart = () => {
     };
 
 
-    useEffect(() => {
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`api/products`);
+      const data = await response.json();
+      setAllTemps2(data.slice(0, 4)); // Only take the first 4 items
+    } catch (error) {
+      console.error("Error fetching the description:", error);
+    }
+  };
 
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`api/products`);
-                const data = await response.json();
-                setAllTemps2(data);
-            } catch (error) {
-                console.error("Error fetching the description:", error);
-            }
-        };
-
-        fetchData();
-
-    }, []); // Runs only when `cat` changes and is defined
+  fetchData();
+}, []);
+ 
 
 
 

@@ -109,7 +109,7 @@ export default function Quiz() {
       </button>
 
       {matchedProduct && (
-        <a href={`/product?id=${matchedProduct._id}&&imgg=${encodeURIComponent(matchedProduct.img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || '')}`}>
+        <a href={`/product?id=${matchedProduct._id}`}>
         <div className="mt-6 p-4 border rounded bg-green-50">
           <h3 className="text-lg font-semibold mb-2" id='button111'>Recommended Product</h3>
           <p id='button111'><strong>{matchedProduct.title}</strong></p>

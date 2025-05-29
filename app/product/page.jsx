@@ -94,22 +94,22 @@ const Page = () => {
     points = allTemp1.points;
   }
 
+useEffect(() => {
+  if (cat) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`api/products1/${cat}`);
+        const data = await response.json();
+        setAllTemps2(data.slice(0, 4)); // Get only the first 4 items
+      } catch (error) {
+        console.error("Error fetching the description:", error);
+      }
+    };
 
-  useEffect(() => {
-    if (cat) { // Ensures `cat` is defined before running the effect
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`api/products1/${cat}`);
-          const data = await response.json();
-          setAllTemps2(data);
-        } catch (error) {
-          console.error("Error fetching the description:", error);
-        }
-      };
+    fetchData();
+  }
+}, [cat]);
 
-      fetchData();
-    }
-  }, [cat]);
 
 
  

@@ -16,7 +16,7 @@ const fetchCategories = async () => {
     const response = await fetch('/api/products', { cache: 'no-store' });
     if (response.ok) {
       const data = await response.json(); 
-      const limitedData = data.slice(0, 5); // Take only first 5 items
+      const limitedData = data.slice(0, 4); // Take only first 5 items
       setAllTemps(limitedData);
     } else {
       console.error('Failed to fetch categories');

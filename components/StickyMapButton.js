@@ -9,7 +9,7 @@ export default function StickyMapButton() {
         className="fixed bottom-[20px] left-3 z-50  p-2  "
       >
         <img
-          src="https://res.cloudinary.com/dqzzfskhw/image/upload/v1744565634/images-removebg-preview_nybdle.png"
+          src="https://res.cloudinary.com/dmj4o6pc1/image/upload/v1748535852/images-removebg-preview.png"
           alt="Google Maps"
           className="w-16 h-16 object-contain"
         />

@@ -33,7 +33,7 @@ const CarCard = ({ temp }: CarCardProps) => {
                                                 alt="Slim Sleeve - Cocoa-Java"
                                                 loading="lazy"
                                                 sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 50vw" 
-                                                src={img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || ''}
+                                                src={img?.[0]?.replace('/upload/', '/upload/w_500/q_10/f_auto/') || ''}
                                             />
                                         </a>
                                     </div>

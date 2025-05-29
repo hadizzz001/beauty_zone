@@ -73,7 +73,7 @@ const Cart = () => {
                                     favorites.map((obj) => (
                                         <div key={obj._id}>
                                             <div className="Checkout_Cart_LineItems_LineItem">
-                                                <a style={{display: "contents"}} href={`/product?id=${obj._id}&&imgg=${obj.img[0]}`}>
+                                                <a style={{display: "contents"}} href={`/product?id=${obj._id}`}>
                                                     <div className="Checkout_Cart_LineItems_LineItem_Thumb">
                                                         <img src={obj.img[0]} alt={obj.title} />
                                                     </div>

@@ -3,130 +3,156 @@ import { useState, useEffect } from "react";
 
 const Body = () => {
   const [allTemp, setTemp] = useState();
-const [isActive1, setIsActive1] = useState(true);
-const [checkboxesData, setCheckboxesData] = useState([]);
-const [checkedCategories, setCheckedCategories] = useState([]);
+  const [isActive1, setIsActive1] = useState(true);
+  const [checkboxesData, setCheckboxesData] = useState([]);
+  const [checkedCategories, setCheckedCategories] = useState([]);
 
-const [checkboxesData1, setCheckboxesData1] = useState([]);
-const [checkedCategories1, setCheckedCategories1] = useState([]);
+  const [checkboxesData1, setCheckboxesData1] = useState([]);
+  const [checkedCategories1, setCheckedCategories1] = useState([]);
 
-const [checkboxesData2, setCheckboxesData2] = useState([]);
-const [checkedCategories2, setCheckedCategories2] = useState([]);
+  const [checkboxesData2, setCheckboxesData2] = useState([]);
+  const [checkedCategories2, setCheckedCategories2] = useState([]);
+ 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+const fetchProducts = async (pageNum = 1) => {
+  const params = new URLSearchParams();
+
+  params.append('page', pageNum);
+  params.append('limit', 10);
+
+  checkedCategories.forEach(cat => params.append('category', cat));
+  checkedCategories1.forEach(sub => params.append('subcategory', sub));
+  checkedCategories2.forEach(brand => params.append('brand', brand));
+
+  const res = await fetch(`/api/productsz?${params.toString()}`);
+  const data = await res.json();
+
+  setTemp(data.products);
+  setTotalPages(data.totalPages);
+};
+
+
+
+ 
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/category");
+        const data = await response.json();
+        setCheckboxesData(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    const fetchCategories1 = async () => {
+      try {
+        const response = await fetch("/api/sub");
+        const data = await response.json();
+        setCheckboxesData1(data);
+      } catch (error) {
+        console.error("Error fetching subcategories:", error);
+      }
+    };
+    const fetchCategories2 = async () => {
+      try {
+        const response = await fetch("/api/brand");
+        const data = await response.json();
+        setCheckboxesData2(data);
+      } catch (error) {
+        console.error("Error fetching brands:", error);
+      }
+    };
+
+    fetchCategories();
+    fetchCategories1();
+    fetchCategories2();
+  }, []);
+
+  const handleClick1 = () => {
+    var d2 = document.getElementById("filterId1");
+    setIsActive1(!isActive1);
+    if (d2) {
+      if (isActive1) {
+        d2.className += " br_-translate-y-full br_opacity-100";
+        d2.classList.remove("br_translate-y-0");
+        d2.classList.remove("br_opacity-0");
+      }
+    }
+  };
+
+  const handleClick2 = () => {
+    var d3 = document.getElementById("filterId1");
+    setIsActive1(!isActive1);
+    if (d3) {
+      if (!isActive1) {
+        d3.className += " br_translate-y-0 br_opacity-0";
+        d3.classList.remove("br_-translate-y-full");
+        d3.classList.remove("br_opacity-100");
+      }
+    }
+  };
 
 useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("/api/category");
-      const data = await response.json();
-      setCheckboxesData(data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
+  fetchProducts(page);
+}, [checkedCategories, checkedCategories1, checkedCategories2, page]);
+
+
+  // const fetchProducts = async () => {
+  //   let url = "/api/products"; // Default: fetch all products
+
+  //   try {
+  //     const response = await fetch(url);
+  //     if (response.ok) {
+  //       const data = await response.json();
+
+  //       // Apply filtering based on checked categories, subcategories, and brands
+  //       const filteredData = data.filter(product => {
+  //         const categoryMatch = checkedCategories?.length > 0 ? checkedCategories.includes(product.category) : true;
+  //         const subcategoryMatch = checkedCategories1?.length > 0 ? checkedCategories1.includes(product.subcategory) : true;
+  //         const brandMatch = checkedCategories2?.length > 0 ? checkedCategories2.includes(product.brand) : true;
+
+  //         return categoryMatch && subcategoryMatch && brandMatch;
+  //       });
+
+  //       setTemp(filteredData); // Set the filtered data to state
+  //     } else {
+  //       console.error("Failed to fetch products");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   }
+  // };
+
+  // Handle category checkbox change
+  const handleCheckboxChange = (categoryId) => {
+    setCheckedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId) // Uncheck
+        : [...prev, categoryId] // Check
+    );
   };
-  const fetchCategories1 = async () => {
-    try {
-      const response = await fetch("/api/sub");
-      const data = await response.json();
-      setCheckboxesData1(data);
-    } catch (error) {
-      console.error("Error fetching subcategories:", error);
-    }
-  };
-  const fetchCategories2 = async () => {
-    try {
-      const response = await fetch("/api/brand");
-      const data = await response.json();
-      setCheckboxesData2(data);
-    } catch (error) {
-      console.error("Error fetching brands:", error);
-    }
+
+  // Handle subcategory checkbox change
+  const handleCheckboxChange1 = (subcategoryId) => {
+    setCheckedCategories1((prev) =>
+      prev.includes(subcategoryId)
+        ? prev.filter((id) => id !== subcategoryId) // Uncheck
+        : [...prev, subcategoryId] // Check
+    );
   };
 
-  fetchCategories();
-  fetchCategories1();
-  fetchCategories2();
-}, []);
-
-const handleClick1 = () => {
-  var d2 = document.getElementById("filterId1");
-  setIsActive1(!isActive1);
-  if (d2) {
-    if (isActive1) {
-      d2.className += " br_-translate-y-full br_opacity-100";
-      d2.classList.remove("br_translate-y-0");
-      d2.classList.remove("br_opacity-0");
-    }
-  }
-};
-
-const handleClick2 = () => {
-  var d3 = document.getElementById("filterId1");
-  setIsActive1(!isActive1);
-  if (d3) {
-    if (!isActive1) {
-      d3.className += " br_translate-y-0 br_opacity-0";
-      d3.classList.remove("br_-translate-y-full");
-      d3.classList.remove("br_opacity-100");
-    }
-  }
-};
-
-useEffect(() => {
-  fetchProducts();
-}, [checkedCategories, checkedCategories1, checkedCategories2]); // Now dependent on all three checked categories
-
-const fetchProducts = async () => {
-  let url = "/api/products"; // Default: fetch all products
-
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      const data = await response.json();
-
-      // Apply filtering based on checked categories, subcategories, and brands
-      const filteredData = data.filter(product => {
-        const categoryMatch = checkedCategories?.length > 0 ? checkedCategories.includes(product.category) : true;
-        const subcategoryMatch = checkedCategories1?.length > 0 ? checkedCategories1.includes(product.subcategory) : true;
-        const brandMatch = checkedCategories2?.length > 0 ? checkedCategories2.includes(product.brand) : true;
-
-        return categoryMatch && subcategoryMatch && brandMatch;
-      });
-
-      setTemp(filteredData); // Set the filtered data to state
-    } else {
-      console.error("Failed to fetch products");
-    }
-  } catch (error) {
-    console.error("Error fetching products:", error);
-  }
-};
-
-// Handle category checkbox change
-const handleCheckboxChange = (categoryId) => {
-  setCheckedCategories((prev) =>
-    prev.includes(categoryId)
-      ? prev.filter((id) => id !== categoryId) // Uncheck
-      : [...prev, categoryId] // Check
-  );
-};
-
-// Handle subcategory checkbox change
-const handleCheckboxChange1 = (subcategoryId) => {
-  setCheckedCategories1((prev) =>
-    prev.includes(subcategoryId)
-      ? prev.filter((id) => id !== subcategoryId) // Uncheck
-      : [...prev, subcategoryId] // Check
-  );
-};
-
-// Handle brand checkbox change
-const handleCheckboxChange2 = (brandId) => {
-  setCheckedCategories2((prev) =>
-    prev.includes(brandId)
-      ? prev.filter((id) => id !== brandId) // Uncheck
-      : [...prev, brandId] // Check
-  );
-};
+  // Handle brand checkbox change
+  const handleCheckboxChange2 = (brandId) => {
+    setCheckedCategories2((prev) =>
+      prev.includes(brandId)
+        ? prev.filter((id) => id !== brandId) // Uncheck
+        : [...prev, brandId] // Check
+    );
+  };
 
   return (
     <>
@@ -368,7 +394,7 @@ const handleCheckboxChange2 = (brandId) => {
                                       className="br_w-full br_h-full br_object-center br_object-contain br_mx-auto br_max-h-64 sm:br_max-h-72 sm:br_px-4"
                                       loading="lazy"
                                       sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 50vw"
-                                      src={item.img[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/')}
+                                      src={item.img[0]?.replace('/upload/', '/upload/w_500/q_10/f_auto/')}
                                       alt={item.title}
                                     />
                                   </div>
@@ -382,7 +408,7 @@ const handleCheckboxChange2 = (brandId) => {
                             <div style={{ textAlign: "center" }} className="initial:br_row-span-1 br_col-start-1 br_row-start-2 br_px-3 group-[.centered]/tile:br_justify-center group-[.centered]/tile:br_text-center">
                               <h3 className="br_text-base-sans-spaced br_line-clamp-2 sm:br_line-clamp-none edition:br_text-grey-500 edition:br_hidden first:edition:br_inline edition:before:br_content-['_–_'] apex:edition:br_text-grey-300">
                                 <a
-                                  href={`/product?id=${item._id}&&imgg=${encodeURIComponent(item.img?.[0]?.replace('/upload/', '/upload/w_500/q_auto/f_auto/') || '')}`}
+                                  href={`/product?id=${item._id}`}
 
                                   className="br_text-current br_no-underline"
                                   id='anchorNew'
@@ -428,9 +454,43 @@ const handleCheckboxChange2 = (brandId) => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-      </div>
+      </div> 
+
+<div className="mt-4 mb-4 flex justify-center items-center space-x-4">
+  <button
+    onClick={() => setPage(p => Math.max(p - 1, 1))}
+    disabled={page === 1}
+    className="px-4 py-2 rounded disabled:opacity-50 myGray1 text-3xl"
+    style={{ color: '#999' }}
+  >
+    &#8592;
+  </button>
+
+  <span
+    className="flex items-center justify-center text-white text-[11px]"
+    style={{
+      width: '30px',
+      height: '30px',
+      backgroundColor: '#5bbccd',
+      borderRadius: '50%',
+    }}
+  >
+    {page}
+  </span>
+
+  <button
+    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+    disabled={page === totalPages}
+    className="px-4 py-2 rounded disabled:opacity-50 myGray1 text-3xl"
+    style={{ color: '#999' }}
+  >
+    &#8594;
+  </button>
+</div>
+
+
+
+
     </>
   )
 }

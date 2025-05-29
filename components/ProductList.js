@@ -11,46 +11,39 @@ const YourComponent = () => {
     "Beauty & Skin care machine",
     "Skin care products",
     "Nails",
-    "Spa products",
-    "Tattoo",
-    "Perma x Tina",
-    "Piercing",
-    "Lashes",
   ];
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-const fetchProducts = async () => {
-  try {
-    const response = await fetch('/api/products', { cache: 'no-store' });
-    if (response.ok) {
-      const data = await response.json();
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('/api/products', { cache: 'no-store' });
+      if (response.ok) {
+        const data = await response.json();
 
-      const groups = data.reduce((acc, product) => {
-        const { category } = product;
-        if (category === 'Hot Sale') return acc;
+        const groups = data.reduce((acc, product) => {
+          const { category } = product;
 
-        if (!acc[category]) acc[category] = [];
+          if (categoryOrder.includes(category)) {
+            if (!acc[category]) acc[category] = [];
+            if (acc[category].length < 4) {
+              acc[category].push(product);
+            }
+          }
 
-        // Only add product if less than 5 in that category
-        if (acc[category].length < 5) {
-          acc[category].push(product);
-        }
+          return acc;
+        }, {});
 
-        return acc;
-      }, {});
-
-      setGroupedProducts(groups);
-    } else {
-      console.error('Failed to fetch products');
+        setGroupedProducts(groups);
+      } else {
+        console.error('Failed to fetch products');
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
     }
-  } catch (error) {
-    console.error('Error fetching products:', error);
-  }
-};
-
+  };
 
   const renderCategory = (category) => (
     groupedProducts[category]?.length > 0 && (
@@ -98,10 +91,12 @@ const fetchProducts = async () => {
           <section className="mb-5" style={{ maxWidth: "100%" }}>
             <Swiper
               spaceBetween={5}
-              loop modules={[Autoplay]} autoplay={{
+              loop
+              modules={[Autoplay]}
+              autoplay={{
                 delay: 2000,
                 stopOnLastSlide: false,
-                reverseDirection: true
+                reverseDirection: true,
               }}
               breakpoints={{
                 150: { slidesPerView: 2 },
@@ -124,13 +119,7 @@ const fetchProducts = async () => {
 
   return (
     <div className="ProvidersIfSelectedProductMatchesFilter mt-4">
-      {/* First: show your custom order categories */}
       {categoryOrder.map((category) => renderCategory(category))}
-
-      {/* Then: show all other remaining categories */}
-      {Object.keys(groupedProducts)
-        .filter((cat) => !categoryOrder.includes(cat))
-        .map((category) => renderCategory(category))}
     </div>
   );
 };
