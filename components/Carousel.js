@@ -1,23 +1,15 @@
-"use client";
+'use client';
 
 import React from "react";
 
 const MyComponent = () => {
   return (
     <div className="relative w-full h-screen">
-      <video
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source
-          src="vid.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+      <img
+        src="https://res.cloudinary.com/dmj4o6pc1/image/upload/v1751642673/wallpaper.webp" // Replace with your actual image path
+        alt="Background"
+        className="absolute top-0 left-0 w-full h-full object-cover object-right z-0"
+      />
 
       <div className="absolute bottom-20 w-full flex justify-center z-10">
         <a
