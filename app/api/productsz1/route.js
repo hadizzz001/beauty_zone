@@ -44,7 +44,12 @@ export async function GET(req) {
     }
 
     const total = await collection.countDocuments(query);
-    const data = await collection.find(query).skip(skip).limit(limit).toArray();
+
+    const data = await collection.find(query)
+      .sort({ sort: 1 })  // Sort by 'sort' ascending
+      .skip(skip)
+      .limit(limit)
+      .toArray();
 
     return NextResponse.json({
       currentPage: page,

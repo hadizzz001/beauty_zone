@@ -9,7 +9,8 @@ export async function GET() {
     const db = client.db('test'); // Replace with your database name
     const collection = db.collection('Product'); // Replace with your collection name
 
-    const data = await collection.find({}).toArray(); // Fetch all documents
+    // Fetch all documents, sorted by the "sort" field in ascending order
+    const data = await collection.find({}).sort({ sort: 1 }).toArray();
 
     return NextResponse.json(data); // Return data as JSON
   } catch (error) {

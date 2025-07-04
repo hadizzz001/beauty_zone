@@ -4,15 +4,19 @@ import { NextResponse } from 'next/server';
 export const revalidate = 10;
 
 export async function GET(request, { params }) {
-  const { category } = params; 
-  const categories = category.split(',');  
+  const { category } = params;
+  const categories = category.split(',');
 
   try {
     const client = await clientPromise;  
     const db = client.db('test');  
     const collection = db.collection('Product');  
 
-    const data = await collection.find({ category: { $in: categories } }).toArray(); 
+    // Find documents where category is in the list and sort by "sort" field
+    const data = await collection
+      .find({ category: { $in: categories } })
+      .sort({ sort: 1 })
+      .toArray(); 
 
     return NextResponse.json(data);  
   } catch (error) {

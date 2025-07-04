@@ -20,26 +20,30 @@ const Body = () => {
 
 
 
-  const fetchProducts = async (pageNum = 1) => {
-    try {
-      const params = new URLSearchParams();
-      params.append('page', pageNum);
-      params.append('limit', 10); // or any number you want
+const fetchProducts = async (pageNum = 1) => {
+  try {
+    const params = new URLSearchParams();
+    params.append('page', pageNum);
+    params.append('limit', 10); // or any number you want
 
-      if (search) params.append('q', search);
-      if (search2) params.append('cat', search2);
-      if (search3) params.append('sub', search3);
-      if (search4) params.append('brnd', search4);
+    if (search) params.append('q', search);
+    if (search2) params.append('cat', search2);
+    if (search3) params.append('sub', search3);
+    if (search4) params.append('brnd', search4);
 
-      const res = await fetch(`/api/productsz1?${params.toString()}`);
-      const data = await res.json();
+    const res = await fetch(`/api/productsz1?${params.toString()}`);
+    const data = await res.json();
 
-      setTemp(data.products || []);
-      setTotalPages(data.totalPages || 1);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
+    // Sort products by the "sort" attribute
+    const sortedProducts = (data.products || []).sort((a, b) => a.sort - b.sort);
+
+    setTemp(sortedProducts);
+    setTotalPages(data.totalPages || 1);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+};
+
 
 
   useEffect(() => {

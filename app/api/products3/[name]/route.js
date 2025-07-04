@@ -4,16 +4,17 @@ import { NextResponse } from 'next/server';
 export const revalidate = 10;
 
 export async function GET(request, { params }) {
-  const { name } = params;    
-  
+  const { name } = params;
+
   try {
     const client = await clientPromise;  
     const db = client.db('test'); 
     const collection = db.collection('Product');  
 
+    // Perform case-insensitive search and sort by "sort" field
     const data = await collection.find({ 
       title: { $regex: name, $options: 'i' }
-    }).toArray();  
+    }).sort({ sort: 1 }).toArray();  
  
     return NextResponse.json(data);  
   } catch (error) {
