@@ -23,7 +23,7 @@ const CarCard5 = ({ temp }: CarCardProps) => {
                                         
                                             
                                             <img 
-                                                src={img?.[0]?.replace('/upload/', '/upload/w_500/q_10/f_auto/') || ''}
+                                                src={img?.[0]?.replace('/upload/', '/upload/w_500/q_70/f_auto/') || ''}
 
                                                 alt="Default"
                                                 className="default-img"

@@ -90,7 +90,7 @@ const fetchProducts = async (pageNum = 1) => {
                       key={item._id}
                       className="br_grid br_grid-cols-1 supports-subgrid:br_row-span-4 supports-subgrid:br_grid-rows-[subgrid]"
                     >
-                      <img className="default-img" src={item.img?.[0]?.replace('/upload/', '/upload/w_500/q_10/f_auto/') || ''} alt="Default" />
+                      <img className="default-img" src={item.img?.[0]?.replace('/upload/', '/upload/w_500/q_70/f_auto/') || ''} alt="Default" />
 
                       <div className="Layout br_contents">
                         <span className="br_contents br_edition-">
