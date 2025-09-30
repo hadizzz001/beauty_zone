@@ -16,8 +16,7 @@ import GifLoader from '../components/GifLoader'
 import WhatsAppIcon from '../components/WhatsAppIcon';
 import Offer from '../components/Offer';
 import StickyMapButton from '../components/StickyMapButton';
-import Script from "next/script";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import Script from "next/script"; 
 import PointsWatcher from "../components/PointsWatcher";
 import SpinGame  from "../components/SpinGame";
 import ChatBot from "../components/ChatBot";
@@ -110,8 +109,7 @@ export default function RootLayout({
           <Navbar2 />
           <WhatsAppIcon />
           <StickyMapButton />
-          {children}
-          {/* <GoogleAnalytics gaId="G-GKVJEXB18C" /> */}
+          {children} 
           
           <Footer />
           </FavoriteProvider>
