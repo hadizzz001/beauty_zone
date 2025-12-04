@@ -13,38 +13,36 @@ export async function GET(req) {
     const page = parseInt(searchParams.get('page')) || 1;
     const limit = parseInt(searchParams.get('limit')) || 10;
 
-    const skip = (page - 1) * limit;
-
     // Get filters from query string
     const category = searchParams.getAll('category');
     const subcategory = searchParams.getAll('subcategory');
     const brand = searchParams.getAll('brand');
 
-    // Build MongoDB query based on filters
-    const query = {};
+    // Step 1: Fetch all data (or you can sort by createdAt)
+    let allData = await collection.find({}).sort({ sort: 1 }).toArray();
+
+    // Step 2: Apply filters in memory
     if (category.length > 0) {
-      query.category = { $in: category };
+      allData = allData.filter(item => category.includes(item.category));
     }
     if (subcategory.length > 0) {
-      query.subcategory = { $in: subcategory };
+      allData = allData.filter(item => subcategory.includes(item.subcategory));
     }
     if (brand.length > 0) {
-      query.brand = { $in: brand };
+      allData = allData.filter(item => brand.includes(item.brand));
     }
 
-    const total = await collection.countDocuments(query);
+    const total = allData.length;
 
-    const data = await collection.find(query)
-      .sort({ sort: 1 })   // Sort ascending by "sort" field
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    // Step 3: Apply pagination
+    const skip = (page - 1) * limit;
+    const paginatedData = allData.slice(skip, skip + limit);
 
     return NextResponse.json({
       currentPage: page,
       totalPages: Math.ceil(total / limit),
       totalItems: total,
-      products: data,
+      products: paginatedData,
     });
 
   } catch (error) {

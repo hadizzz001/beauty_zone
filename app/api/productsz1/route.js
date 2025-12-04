@@ -46,7 +46,7 @@ export async function GET(req) {
     const total = await collection.countDocuments(query);
 
     const data = await collection.find(query)
-      .sort({ sort: 1 })  // Sort by 'sort' ascending
+      .sort({ sort: 1, _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray();

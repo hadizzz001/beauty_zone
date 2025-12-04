@@ -60,7 +60,9 @@ const fetchProducts = async (pageNum = 1) => {
   };
 
 
-
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}, [page]);
 
   return (
 

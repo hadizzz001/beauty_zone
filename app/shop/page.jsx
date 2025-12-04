@@ -154,6 +154,11 @@ useEffect(() => {
     );
   };
 
+
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}, [page]);
+
   return (
     <>
 
@@ -458,7 +463,10 @@ useEffect(() => {
 
 <div className="mt-4 mb-4 flex justify-center items-center space-x-4">
   <button
-    onClick={() => setPage(p => Math.max(p - 1, 1))}
+    onClick={() => {
+      setPage(p => Math.max(p - 1, 1));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }}
     disabled={page === 1}
     className="px-4 py-2 rounded disabled:opacity-50 myGray1 text-3xl"
     style={{ color: '#999' }}
@@ -479,7 +487,10 @@ useEffect(() => {
   </span>
 
   <button
-    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+    onClick={() => {
+      setPage(p => Math.min(p + 1, totalPages));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }}
     disabled={page === totalPages}
     className="px-4 py-2 rounded disabled:opacity-50 myGray1 text-3xl"
     style={{ color: '#999' }}
@@ -487,6 +498,7 @@ useEffect(() => {
     &#8594;
   </button>
 </div>
+
 
 
 
